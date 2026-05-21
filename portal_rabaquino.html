@@ -294,6 +294,59 @@
 
   /* ── PEDIDOS LIST ── */
   .pedidos-list { display: flex; flex-direction: column; gap: 16px; }
+  .pedidos-year {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .year-header {
+    position: sticky;
+    top: 76px;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background:
+      linear-gradient(135deg, rgba(59,130,246,.12), rgba(19,26,39,.92)),
+      var(--card);
+    box-shadow: 0 12px 30px rgba(0,0,0,.18);
+  }
+  .year-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -.02em;
+  }
+  .year-subtitle {
+    font-size: 12px;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .year-count {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(59,130,246,.12);
+    border: 1px solid rgba(96,165,250,.24);
+    color: var(--accent2);
+    font-size: 12px;
+    font-family: var(--mono);
+  }
+  .day-group {
+    margin-top: 4px;
+  }
+  .day-header {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin: 16px 0 8px;
+    padding-left: 4px;
+  }
 
   .pedido-card {
     background: var(--card);
@@ -357,6 +410,17 @@
     font-size: 12px;
     color: var(--text2);
     font-family: var(--mono);
+  }
+  .pedido-fecha-exacta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(59,130,246,.1);
+    border: 1px solid rgba(59,130,246,.18);
+    color: var(--accent2) !important;
+    font-size: 11px !important;
   }
 
   .pedido-tipo {
@@ -539,6 +603,7 @@
     color: var(--green);
     margin-left: auto;
   }
+  .print-only { display: none; }
 
   /* ── EMPTY ── */
   .empty {
@@ -594,13 +659,117 @@
 
   /* ── PRINT ── */
   @media print {
+    @page { size: auto; margin: 14mm; }
     body { background: #fff; color: #000; }
     body::before { display: none; }
     .topbar, .filters-row, .stats-bar, .det-actions,
-    .pedido-header .pedido-arrow, #toast, #login-screen { display: none !important; }
-    .pedido-card { border: 1px solid #ccc !important; break-inside: avoid; }
-    .pedido-detalle { display: block !important; }
-    .det-section { background: #f9f9f9 !important; border: 1px solid #ddd !important; }
+    .pedido-header .pedido-arrow, #toast, #login-screen,
+    #notif-banner, .buscador-wrap, .nav-btn { display: none !important; }
+    #app, .main, #vista-pedidos, .pedidos-list, .pedidos-year, .day-group {
+      display: block !important;
+      max-width: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    body.printing-pedido .pedido-card:not(.print-target),
+    body.printing-pedido .year-header,
+    body.printing-pedido .day-header {
+      display: none !important;
+    }
+    .pedido-card {
+      border: 1px solid #d5dbe5 !important;
+      border-radius: 18px !important;
+      background: #fff !important;
+      box-shadow: none !important;
+      break-inside: avoid;
+      margin-bottom: 12mm;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .pedido-header {
+      display: flex !important;
+      align-items: flex-start !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border-bottom: 1px solid #dfe6ee;
+      background: linear-gradient(180deg, #f7fafc, #ffffff) !important;
+      cursor: default !important;
+    }
+    .pedido-info {
+      padding: 18px 22px 16px;
+    }
+    .pedido-sucursal {
+      margin: 18px 0 0 18px;
+      background: #eef4ff !important;
+      color: #1d4ed8 !important;
+      border: 1px solid #bfdbfe;
+    }
+    .pedido-meta {
+      row-gap: 8px;
+    }
+    .pedido-fecha-exacta {
+      background: #eff6ff !important;
+      border-color: #bfdbfe !important;
+      color: #1d4ed8 !important;
+    }
+    .pedido-estado {
+      margin: 18px 18px 0 0;
+    }
+    .pedido-detalle {
+      display: block !important;
+      padding: 18px 22px 22px !important;
+    }
+    .print-only {
+      display: block !important;
+    }
+    .print-headline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #111827;
+    }
+    .print-brand {
+      font-size: 22px;
+      font-weight: 700;
+      color: #111827;
+    }
+    .print-caption {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: #64748b;
+    }
+    .print-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .print-summary-card {
+      border: 1px solid #dbe3ef;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #f8fafc;
+    }
+    .print-summary-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .print-summary-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+    .det-grid {
+      gap: 14px !important;
+    }
+    .det-section { background: #f9fbfd !important; border: 1px solid #d9e1ea !important; }
     .det-key, .det-val, .grad-table th, .grad-table td { color: #000 !important; }
   }
 
@@ -621,6 +790,12 @@
     .pedido-detalle { padding: 16px; }
     .det-actions { flex-direction: column; }
     .btn-procesar, .btn-imprimir { width: 100%; justify-content: center; }
+    .year-header {
+      position: static;
+      padding: 12px 14px;
+      border-radius: 14px;
+    }
+    .year-title { font-size: 18px; }
     .conn-badge  { font-size: 11px; padding: 4px 8px; }
     .btn-logout  { padding: 5px 10px; font-size: 12px; }
     .topbar-title { font-size: 14px; }
@@ -898,6 +1073,136 @@ let PEDIDOS = [];
 let FILTRO  = 'todos';
 let ULTIMO_ID = 0;
 let POLL_INTERVAL = null;
+let PRINTING_ID = null;
+let NOTIFIED_PENDING_IDS = new Set(loadNotifiedPendingIds());
+let ACTIVE_BROWSER_NOTIFS = new Map();
+
+function loadNotifiedPendingIds() {
+  try {
+    const raw = localStorage.getItem('portal_rabaquino_notified_pending_ids');
+    const parsed = JSON.parse(raw || '[]');
+    return Array.isArray(parsed) ? parsed.map(String) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveNotifiedPendingIds() {
+  try {
+    localStorage.setItem('portal_rabaquino_notified_pending_ids', JSON.stringify(Array.from(NOTIFIED_PENDING_IDS)));
+  } catch (e) {}
+}
+
+function pad2(n) {
+  return String(n).padStart(2, '0');
+}
+
+function parseFecha(value) {
+  if (!value) return null;
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d;
+}
+
+function getDateKey(value) {
+  const d = parseFecha(value);
+  if (!d) return 'sin-fecha';
+  return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`;
+}
+
+function getYearKey(value) {
+  const d = parseFecha(value);
+  return d ? String(d.getFullYear()) : 'Sin fecha';
+}
+
+function formatFechaHoraExacta(value) {
+  const d = parseFecha(value);
+  if (!d) return 'Sin fecha';
+  return `${d.toLocaleDateString('es-UY')} ${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+}
+
+function formatHora(value) {
+  const d = parseFecha(value);
+  return d ? `${pad2(d.getHours())}:${pad2(d.getMinutes())}` : '--:--';
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function updateNotifBanner() {
+  const banner = document.getElementById('notif-banner');
+  const text = document.getElementById('notif-text');
+  const pendientes = PEDIDOS.filter(p => p.estado === 'pendiente');
+  if (!pendientes.length) {
+    banner.style.display = 'none';
+    return;
+  }
+  banner.style.display = 'flex';
+  text.textContent = `🔔 ${pendientes.length} pedido${pendientes.length > 1 ? 's' : ''} pendiente${pendientes.length > 1 ? 's' : ''} por procesar`;
+}
+
+function closeBrowserNotification(id) {
+  const key = String(id);
+  const notif = ACTIVE_BROWSER_NOTIFS.get(key);
+  if (notif) {
+    notif.close();
+    ACTIVE_BROWSER_NOTIFS.delete(key);
+  }
+}
+
+function syncNotificationState() {
+  const pendientes = new Set(PEDIDOS.filter(p => p.estado === 'pendiente').map(p => String(p.id)));
+  Array.from(NOTIFIED_PENDING_IDS).forEach(id => {
+    if (!pendientes.has(id)) {
+      NOTIFIED_PENDING_IDS.delete(id);
+      closeBrowserNotification(id);
+    }
+  });
+  saveNotifiedPendingIds();
+  updateNotifBanner();
+}
+
+function showBrowserNotification(pedido) {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  const key = String(pedido.id);
+  closeBrowserNotification(key);
+  const notif = new Notification('Nuevo pedido recibido', {
+    body: `${pedido.cliente || 'Cliente sin nombre'} • ${pedido.sucursal || 'Sucursal'} • ${formatFechaHoraExacta(pedido.fecha_subida)}`,
+    tag: `pedido-${key}`,
+    requireInteraction: true
+  });
+  notif.onclick = () => {
+    window.focus();
+    const card = document.getElementById('card-' + pedido.id);
+    if (card) card.classList.add('open');
+  };
+  ACTIVE_BROWSER_NOTIFS.set(key, notif);
+}
+
+async function ensureNotificationPermission() {
+  if (!('Notification' in window) || Notification.permission !== 'default') return;
+  try {
+    await Notification.requestPermission();
+  } catch (e) {}
+}
+
+function notifyNewPedidos(nuevos) {
+  if (!nuevos.length) return;
+  playNotif();
+  showToast(`🔔 ${nuevos.length} pedido${nuevos.length > 1 ? 's' : ''} nuevo${nuevos.length > 1 ? 's' : ''}`, 'nuevo');
+  nuevos.forEach(p => {
+    const key = String(p.id);
+    NOTIFIED_PENDING_IDS.add(key);
+    showBrowserNotification(p);
+  });
+  saveNotifiedPendingIds();
+  updateNotifBanner();
+}
 
 // ══ SHA256 (login) ══
 async function sha256(msg) {
@@ -952,6 +1257,7 @@ async function doLogin() {
     SESSION = rows[0];
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app').style.display = 'block';
+    ensureNotificationPermission();
     cargarPedidos();
     startPolling();
   } catch(e) {
@@ -966,6 +1272,8 @@ document.getElementById('inp-user').addEventListener('keydown', e => { if(e.key 
 function doLogout() {
   SESSION = null;
   clearInterval(POLL_INTERVAL);
+  ACTIVE_BROWSER_NOTIFS.forEach(notif => notif.close());
+  ACTIVE_BROWSER_NOTIFS.clear();
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('app').style.display = 'none';
   document.getElementById('inp-pass').value = '';
@@ -983,18 +1291,14 @@ async function cargarPedidos() {
     const data = await apiGet('pedidos', params);
     PEDIDOS = data;
     actualizarStats();
+    syncNotificationState();
     renderPedidos();
 
     // Detectar nuevos
     const maxId = data.length ? Math.max(...data.map(p => p.id)) : 0;
     if (ULTIMO_ID > 0 && maxId > ULTIMO_ID) {
-      const nuevos = data.filter(p => p.id > ULTIMO_ID && p.estado === 'pendiente');
-      if (nuevos.length > 0) {
-        playNotif();
-        showToast(`🔔 ${nuevos.length} pedido${nuevos.length>1?'s':''} nuevo${nuevos.length>1?'s':''}`, 'nuevo');
-        document.getElementById('notif-banner').style.display = 'flex';
-        document.getElementById('notif-text').textContent = `🔔 ${nuevos.length} pedido${nuevos.length>1?'s':''} nuevo${nuevos.length>1?'s':''} — ${nuevos.map(p=>p.cliente).join(', ')}`;
-      }
+      const nuevos = data.filter(p => p.id > ULTIMO_ID && p.estado === 'pendiente' && !NOTIFIED_PENDING_IDS.has(String(p.id)));
+      notifyNewPedidos(nuevos);
     }
     if (data.length) ULTIMO_ID = maxId;
 
@@ -1011,10 +1315,10 @@ function startPolling() {
 
 // ══ STATS ══
 function actualizarStats() {
-  const hoy = new Date().toISOString().slice(0,10);
+  const hoy = getDateKey(new Date().toISOString());
   document.getElementById('st-total').textContent = PEDIDOS.length;
   document.getElementById('st-pendientes').textContent = PEDIDOS.filter(p => p.estado === 'pendiente').length;
-  document.getElementById('st-procesados').textContent = PEDIDOS.filter(p => p.estado === 'procesado' && (p.fecha_procesado||'').startsWith(hoy)).length;
+  document.getElementById('st-procesados').textContent = PEDIDOS.filter(p => p.estado === 'procesado' && getDateKey(p.fecha_procesado) === hoy).length;
   const sucursales = [...new Set(PEDIDOS.map(p => p.sucursal))];
   document.getElementById('st-sucursales').textContent = sucursales.length || '—';
 }
@@ -1061,35 +1365,51 @@ function renderPedidos() {
   // Agrupar por día
   const grupos = {};
   filtered.forEach(p => {
-    const dia = (p.fecha_subida||'').slice(0,10);
-    if (!grupos[dia]) grupos[dia] = [];
-    grupos[dia].push(p);
+    const year = getYearKey(p.fecha_subida);
+    const dia = getDateKey(p.fecha_subida);
+    if (!grupos[year]) grupos[year] = {};
+    if (!grupos[year][dia]) grupos[year][dia] = [];
+    grupos[year][dia].push(p);
   });
 
   let html = '';
-  Object.keys(grupos).sort((a,b) => b.localeCompare(a)).forEach(dia => {
-    const label = formatDia(dia);
-    html += `<div style="font-size:12px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 8px;padding-left:4px">${label}</div>`;
-    grupos[dia].forEach(p => { html += renderCard(p); });
+  Object.keys(grupos).sort((a,b) => b.localeCompare(a)).forEach(year => {
+    const dias = grupos[year];
+    const totalAnio = Object.values(dias).reduce((acc, items) => acc + items.length, 0);
+    html += `<section class="pedidos-year">
+      <div class="year-header">
+        <div>
+          <div class="year-title">${year}</div>
+          <div class="year-subtitle">Archivo de pedidos</div>
+        </div>
+        <div class="year-count">${totalAnio} pedido${totalAnio !== 1 ? 's' : ''}</div>
+      </div>`;
+    Object.keys(dias).sort((a,b) => b.localeCompare(a)).forEach(dia => {
+      html += `<div class="day-group"><div class="day-header">${formatDia(dia)}</div>`;
+      dias[dia].forEach(p => { html += renderCard(p); });
+      html += `</div>`;
+    });
+    html += `</section>`;
   });
 
   list.innerHTML = html;
 }
 
 function formatDia(iso) {
-  if (!iso) return '';
+  if (!iso || iso === 'sin-fecha') return 'Sin fecha';
   const d = new Date(iso + 'T00:00:00');
   const hoy = new Date(); hoy.setHours(0,0,0,0);
   const ayer = new Date(hoy); ayer.setDate(hoy.getDate()-1);
   if (d.getTime() === hoy.getTime()) return '📅 Hoy';
   if (d.getTime() === ayer.getTime()) return 'Ayer';
-  return d.toLocaleDateString('es-UY', { weekday:'long', day:'numeric', month:'long' });
+  return d.toLocaleDateString('es-UY', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
 }
 
 function renderCard(p) {
   const esNuevo    = p.estado === 'pendiente';
-  const hora       = (p.fecha_subida||'').slice(11,16);
-  const horaProc   = p.fecha_procesado ? (p.fecha_procesado||'').slice(11,16) : '';
+  const fechaExacta = formatFechaHoraExacta(p.fecha_subida);
+  const fechaProc   = p.fecha_procesado ? formatFechaHoraExacta(p.fecha_procesado) : '';
+  const horaProc    = fechaProc;
   const sucLabel   = (p.sucursal||'roma').toUpperCase();
   const tipo       = p.tipo_pedido || '';
 
@@ -1114,13 +1434,36 @@ function renderCard(p) {
           <span>${p.telefono||'—'}</span>
           ${tipo ? `<span class="pedido-tipo">${tipo}</span>` : ''}
           ${p.numero_trabajo ? `<span style="color:var(--accent2);font-size:12px;font-family:var(--mono)">N° ${p.numero_trabajo}</span>` : ''}
-          <span style="font-size:11px;color:var(--text3)">${hora}</span>
+          <span class="pedido-fecha-exacta">Pedido ${fechaExacta}</span>
         </div>
       </div>
       <span class="pedido-estado ${esNuevo?'estado-pendiente':'estado-procesado'}">${esNuevo?'⏳ Pendiente':'✅ Procesado'}</span>
       <svg class="pedido-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
     </div>
     <div class="pedido-detalle">
+      <div class="print-only">
+        <div class="print-headline">
+          <div>
+            <div class="print-brand">Portal Rabaquino</div>
+            <div class="print-caption">Resumen profesional de reposiciÃ³n</div>
+          </div>
+          <div class="print-caption">${escapeHtml(sucLabel)}</div>
+        </div>
+        <div class="print-summary">
+          <div class="print-summary-card">
+            <div class="print-summary-label">Cliente</div>
+            <div class="print-summary-value">${escapeHtml(p.cliente||'Sin nombre')}</div>
+          </div>
+          <div class="print-summary-card">
+            <div class="print-summary-label">Fecha del pedido</div>
+            <div class="print-summary-value">${escapeHtml(fechaExacta)}</div>
+          </div>
+          <div class="print-summary-card">
+            <div class="print-summary-label">Estado</div>
+            <div class="print-summary-value">${esNuevo ? 'Pendiente' : `Procesado ${escapeHtml(fechaProc)}`}</div>
+          </div>
+        </div>
+      </div>
       <div class="det-grid">
 
         <!-- Cliente -->
@@ -1182,7 +1525,7 @@ function renderCard(p) {
           <button class="btn-procesar" onclick="procesar(${p.id}, this)">
             ✅ Marcar como procesado
           </button>` : `
-          <div class="fecha-procesado">✅ Procesado a las ${horaProc}</div>`
+          <div class="fecha-procesado">✅ Procesado ${horaProc}</div>`
         }
         <button class="btn-imprimir" onclick="imprimirPedido(${p.id})">
           🖨️ Imprimir
@@ -1204,6 +1547,9 @@ async function procesar(id, btn) {
   btn.textContent = 'Procesando...';
   try {
     await apiPatch('pedidos', id, { estado: 'procesado', fecha_procesado: new Date().toISOString() });
+    NOTIFIED_PENDING_IDS.delete(String(id));
+    saveNotifiedPendingIds();
+    closeBrowserNotification(id);
     showToast('✅ Pedido marcado como procesado', 'ok');
     await cargarPedidos();
   } catch(e) {
@@ -1215,11 +1561,21 @@ async function procesar(id, btn) {
 
 // ══ IMPRIMIR ══
 function imprimirPedido(id) {
-  // Abrir solo esa card y luego imprimir
+  limpiarModoImpresion();
   document.querySelectorAll('.pedido-card').forEach(c => c.classList.remove('open'));
   const card = document.getElementById('card-' + id);
+  if (!card) return;
+  PRINTING_ID = id;
+  document.body.classList.add('printing-pedido');
+  card.classList.add('print-target');
   card.classList.add('open');
   setTimeout(() => window.print(), 300);
+}
+
+function limpiarModoImpresion() {
+  PRINTING_ID = null;
+  document.body.classList.remove('printing-pedido');
+  document.querySelectorAll('.print-target').forEach(c => c.classList.remove('print-target'));
 }
 
 // ══ NOTIF SOUND ══
@@ -1250,6 +1606,8 @@ function showToast(msg, type = '') {
   clearTimeout(toastTimeout);
   toastTimeout = setTimeout(() => t.className = '', 4000);
 }
+
+window.addEventListener('afterprint', limpiarModoImpresion);
 
 // ══ ESTADO ADICIONAL ══
 let BUSQUEDA = '';
