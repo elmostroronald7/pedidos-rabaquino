@@ -662,6 +662,114 @@
   }
 
   /* ── PRINT ── */
+
+  /* ── IMAGEN ARMAZÓN EN CARD ── */
+  .arm-img-wrap {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: var(--surface);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border);
+  }
+  .arm-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: zoom-in;
+    transition: transform .2s;
+  }
+  .arm-img-wrap img:hover { transform: scale(1.03); }
+  .arm-img-placeholder {
+    font-size: 40px;
+    opacity: .2;
+  }
+
+  /* ── MODAL FOTO ── */
+  #foto-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    cursor: zoom-out;
+    backdrop-filter: blur(4px);
+  }
+  #foto-modal img {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 12px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.6);
+  }
+  #foto-modal-close {
+    position: absolute;
+    top: 20px; right: 24px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 50%;
+    width: 36px; height: 36px;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  /* ── CRISTALES PESTAÑAS ── */
+  .cris-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .cris-tab {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .cris-tab:hover { border-color: var(--accent); color: var(--text); }
+  .cris-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .cris-tab .cris-tab-count {
+    background: rgba(255,255,255,.2);
+    border-radius: 10px;
+    padding: 1px 6px;
+    font-size: 11px;
+  }
+  .cris-tab-content { display: none; }
+  .cris-tab-content.active { display: block; }
+
+  /* Foto miniatura en detalle pedido */
+  .arm-foto-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    color: var(--accent2);
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background .2s;
+  }
+  .arm-foto-btn:hover { background: rgba(59,130,246,.1); }
+
   @media print {
     @page { size: A4 portrait; margin: 8mm; }
     body { background: #fff; color: #000; }
@@ -1254,6 +1362,12 @@
     </div>
 
   </div>
+</div>
+
+<!-- Modal Foto -->
+<div id="foto-modal" style="display:none" onclick="cerrarFoto()">
+  <button id="foto-modal-close" onclick="cerrarFoto()">✕</button>
+  <img id="foto-modal-img" src="" alt="Armazón">
 </div>
 
 <!-- Toast -->
@@ -1999,6 +2113,23 @@ function filtrarArmazones(texto) {
   renderArmazones(texto.toLowerCase());
 }
 
+function imgUrl(nombre) {
+  if (!nombre) return '';
+  return `${SUPABASE_URL}/storage/v1/object/public/imagenes-armazones/${encodeURIComponent(nombre)}`;
+}
+
+function abrirFoto(url) {
+  const modal = document.getElementById('foto-modal');
+  const img   = document.getElementById('foto-modal-img');
+  img.src = url;
+  modal.style.display = 'flex';
+}
+
+function cerrarFoto() {
+  document.getElementById('foto-modal').style.display = 'none';
+  document.getElementById('foto-modal-img').src = '';
+}
+
 function renderArmazones(filtro) {
   const list = document.getElementById('arm-list');
   let items = ARMAZONES;
@@ -2006,7 +2137,8 @@ function renderArmazones(filtro) {
     items = items.filter(a =>
       (a.marca||'').toLowerCase().includes(filtro) ||
       (a.codigo||'').toLowerCase().includes(filtro) ||
-      (a.color||'').toLowerCase().includes(filtro)
+      (a.color||'').toLowerCase().includes(filtro) ||
+      (a.material||'').toLowerCase().includes(filtro)
     );
   }
   if (!items.length) {
@@ -2014,8 +2146,13 @@ function renderArmazones(filtro) {
     return;
   }
   list.innerHTML = items.map(a => {
-    const st = parseInt(a.stock||'0');
+    const st    = parseInt(a.stock||'0');
+    const foto  = a.imagen ? imgUrl(a.imagen) : '';
+    const imgHtml = foto
+      ? `<div class="arm-img-wrap"><img src="${foto}" alt="${a.codigo||''}" loading="lazy" onclick="event.stopPropagation();abrirFoto('${foto}')"></div>`
+      : `<div class="arm-img-wrap"><span class="arm-img-placeholder">👓</span></div>`;
     return `<div class="stock-card">
+      ${imgHtml}
       <div class="stock-card-header">
         <span class="stock-marca">${a.marca||'—'}</span>
         <span class="stock-badge ${st > 0 ? 'stock-ok' : 'stock-no'}">${st > 0 ? 'Stock: '+st : 'AGOTADO'}</span>
@@ -2041,33 +2178,61 @@ async function cargarCristalesStock() {
   }
 }
 
+let CRIS_TAB_ACTIVO = null;
+
 function renderCristalesStock() {
   const list = document.getElementById('cris-list');
   if (!CRISTALES_STOCK.length) {
     list.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><h3>Sin datos</h3></div>';
     return;
   }
-  // Agrupar por tipo
+
+  // Agrupar por subtipo o tipo
   const grupos = {};
   CRISTALES_STOCK.forEach(c => {
     const key = c.subtipo || c.tipo || 'SIN TIPO';
     if (!grupos[key]) grupos[key] = [];
     grupos[key].push(c);
   });
-  list.innerHTML = Object.keys(grupos).map(tipo => {
-    const items = grupos[tipo];
-    const disp = items.filter(c => c.disponible).length;
-    return `<div class="cris-tipo-header">
-      <span class="cris-tipo-nombre">${tipo}</span>
-      <span class="cris-tipo-stats">${disp}/${items.length} disponibles</span>
-    </div>
-    <div class="cris-items">
-      ${items.map(c => {
-        const label = [c.esf, c.cil, c.add_val ? '+'+c.add_val : '', c.ojo].filter(Boolean).join(' ');
-        return `<span class="cris-item ${c.disponible ? 'ok' : 'no'}">${label || '—'}</span>`;
-      }).join('')}
-    </div>`;
+
+  const keys = Object.keys(grupos).sort();
+  if (!CRIS_TAB_ACTIVO || !grupos[CRIS_TAB_ACTIVO]) {
+    CRIS_TAB_ACTIVO = keys[0];
+  }
+
+  // Pestañas
+  const tabsHtml = keys.map(key => {
+    const items = grupos[key];
+    const disp  = items.filter(c => c.disponible).length;
+    const activo = key === CRIS_TAB_ACTIVO ? 'active' : '';
+    return `<button class="cris-tab ${activo}" onclick="setCrisTab('${key.replace(/'/g,"\\'")}')">
+      ${key}
+      <span class="cris-tab-count">${disp}/${items.length}</span>
+    </button>`;
   }).join('');
+
+  // Contenido de la pestaña activa
+  const items = grupos[CRIS_TAB_ACTIVO] || [];
+  const disp  = items.filter(c => c.disponible).length;
+
+  const itemsHtml = items.map(c => {
+    const label = [c.esf, c.cil, c.add_val ? '+'+c.add_val : '', c.ojo].filter(v => v && v !== 'None').join(' ');
+    return `<span class="cris-item ${c.disponible ? 'ok' : 'no'}" title="${label}">${label || '—'}</span>`;
+  }).join('');
+
+  list.innerHTML = `
+    <div class="cris-tabs">${tabsHtml}</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <span style="font-size:13px;font-weight:700;color:var(--text)">${CRIS_TAB_ACTIVO}</span>
+      <span style="font-size:12px;color:var(--text2)">${disp} disponibles · ${items.length - disp} agotados</span>
+    </div>
+    <div class="cris-items">${itemsHtml}</div>
+  `;
+}
+
+function setCrisTab(key) {
+  CRIS_TAB_ACTIVO = key;
+  renderCristalesStock();
 }
 
 </script>
