@@ -770,7 +770,10 @@ async function apiGet(table, params = '') {
     headers: {
       'apikey': SUPABASE_ANON_KEY,
       'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Range-Unit': 'items',
+      'Range': '0-9999',
+      'Prefer': 'count=none'
     }
   });
   if (!res.ok) throw new Error(await res.text());
