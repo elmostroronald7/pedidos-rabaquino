@@ -404,9 +404,8 @@
   .print-header { display:none; }
 
   @media print {
-    @page { size:A4; margin:8mm 8mm 8mm 8mm; }
     * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-    html, body { margin:0 !important; padding:0 !important; background:#fff !important; color:#111 !important; font-family:Arial,sans-serif; }
+    body { background:#fff !important; color:#111 !important; font-family:Arial,sans-serif; }
     body::before { display:none; }
 
     #login-screen, .topbar, .stats-bar, .filters-row, .det-actions,
@@ -414,74 +413,70 @@
     #notif-banner, #notif-perm-bar { display:none !important; }
 
     #app { display:block !important; }
-    .main { padding:6px !important; max-width:100% !important; margin:0 !important; }
+    .main { padding:16px !important; max-width:100% !important; }
 
     .print-header {
       display:flex !important; align-items:flex-start; justify-content:space-between;
-      border-bottom:2px solid #1E3A5F; padding-bottom:6px; margin-bottom:8px;
+      border-bottom:3px solid #1E3A5F; padding-bottom:14px; margin-bottom:18px;
     }
-    .print-header-brand { display:flex; align-items:center; gap:6px; }
+    .print-header-brand { display:flex; align-items:center; gap:10px; }
     .print-header-logo {
-      width:32px; height:32px; background:#1E3A5F; border-radius:6px;
-      display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;
+      width:44px; height:44px; background:#1E3A5F; border-radius:10px;
+      display:flex; align-items:center; justify-content:center; font-size:22px;
     }
-    .print-header-name h1 { font-size:14px; font-weight:700; color:#1E3A5F; margin:0; line-height:1.1; }
-    .print-header-name p  { font-size:9px; color:#666; margin:1px 0 0; }
-    .print-header-right { text-align:right; font-size:9px; color:#555; line-height:1.3; }
+    .print-header-name h1 { font-size:20px; font-weight:700; color:#1E3A5F; margin:0; }
+    .print-header-name p  { font-size:11px; color:#666; margin:2px 0 0; }
+    .print-header-right { text-align:right; font-size:11px; color:#555; line-height:1.6; }
 
+    /* Solo mostrar la card abierta */
     .pedido-card:not(.open) { display:none !important; }
     .pedido-card.open {
-      border:1px solid #999 !important; border-radius:4px !important;
+      border:1.5px solid #CBD5E1 !important; border-radius:8px !important;
       box-shadow:none !important; margin-bottom:0 !important; opacity:1 !important;
-      break-inside:avoid; page-break-inside:avoid;
+      break-inside:avoid;
     }
     .pedido-header {
-      background:#F1F5F9 !important; padding:6px 8px !important; border-bottom:1px solid #CBD5E1 !important;
-      display:flex !important; flex-wrap:wrap !important; gap:4px !important; align-items:center !important;
+      background:#F1F5F9 !important; padding:10px 14px !important; border-bottom:1px solid #CBD5E1 !important;
     }
-    .pedido-sucursal { background:#1E3A5F !important; color:#fff !important; font-size:8px !important; padding:2px 6px !important; }
-    .pedido-cliente { color:#111 !important; font-size:13px !important; font-weight:700 !important; flex:1; }
-    .pedido-meta { display:flex !important; flex-wrap:wrap !important; gap:3px !important; margin:0 !important; }
-    .pedido-meta span { color:#555 !important; font-size:9px !important; }
-    .pedido-fecha-completa { background:#EFF6FF !important; border-color:#BFDBFE !important; color:#1D4ED8 !important; font-size:8px !important; padding:2px 4px !important; }
-    .pedido-tipo { font-size:8px !important; padding:2px 5px !important; }
-    .pedido-estado { font-size:10px !important; padding:2px 6px !important; }
+    .pedido-sucursal { background:#1E3A5F !important; color:#fff !important; -webkit-print-color-adjust:exact !important; }
+    .pedido-cliente { color:#111 !important; font-size:15px !important; font-weight:700 !important; }
+    .pedido-meta span { color:#555 !important; }
+    .pedido-fecha-completa { background:#EFF6FF !important; border-color:#BFDBFE !important; color:#1D4ED8 !important; }
     .estado-pendiente { background:#FEF3C7 !important; color:#92400E !important; border-color:#F59E0B !important; }
     .estado-procesado { background:#D1FAE5 !important; color:#065F46 !important; border-color:#10B981 !important; }
 
-    .pedido-detalle { display:block !important; padding:6px !important; }
+    .pedido-detalle { display:block !important; padding:14px !important; }
 
     .det-grid {
-      display:grid !important; grid-template-columns:1fr 1fr !important;
-      gap:4px !important; margin-bottom:6px !important;
+      display:grid !important; grid-template-columns:repeat(3,1fr) !important;
+      gap:10px !important; margin-bottom:12px !important;
     }
     .det-section {
       background:#F8FAFC !important; border:1px solid #CBD5E1 !important;
-      border-radius:3px !important; padding:4px 6px !important;
+      border-radius:6px !important; padding:10px 12px !important;
     }
-    .det-section-title { color:#1D4ED8 !important; font-size:8px !important; margin-bottom:2px !important; font-weight:700 !important; }
-    .det-row { margin-bottom:2px !important; }
-    .det-key   { color:#555 !important; font-size:9px !important; }
-    .det-val   { color:#111 !important; font-size:10px !important; }
-    .det-val.highlight { color:#1D4ED8 !important; font-weight:600 !important; }
+    .det-section-title { color:#1D4ED8 !important; font-size:10px !important; margin-bottom:8px !important; }
+    .det-key   { color:#555 !important; font-size:11px !important; }
+    .det-val   { color:#111 !important; font-size:12px !important; }
+    .det-val.highlight { color:#1D4ED8 !important; }
     .det-val.green     { color:#059669 !important; }
     .det-val.amber     { color:#B45309 !important; }
-    .grad-table { font-size:9px !important; }
-    .grad-table th   { color:#888 !important; border-color:#CBD5E1 !important; font-size:7px !important; padding:1px 2px !important; }
-    .grad-table td   { color:#111 !important; font-size:9px !important; padding:1px 2px !important; }
+    .grad-table th   { color:#888 !important; border-color:#CBD5E1 !important; font-size:9px !important; }
+    .grad-table td   { color:#111 !important; font-size:12px !important; }
     .grad-table .od td { color:#1D4ED8 !important; }
     .grad-table .oi td { color:#555 !important; }
-    .grad-table .lbl td { color:#888 !important; font-size:7px !important; }
-    .cristal-row { margin:3px 0 !important; }
-    .cristal-badge      { background:#F1F5F9 !important; border-color:#CBD5E1 !important; color:#555 !important; font-size:8px !important; padding:1px 4px !important; }
-    .cristal-badge.main { color:#111 !important; border-color:#1D4ED8 !important; font-weight:600 !important; }
+    .grad-table .lbl td { color:#888 !important; font-size:9px !important; }
+    .cristal-badge      { background:#F1F5F9 !important; border-color:#CBD5E1 !important; color:#555 !important; font-size:11px !important; }
+    .cristal-badge.main { color:#111 !important; border-color:#1D4ED8 !important; }
 
+    /* Vista armazones / cristales → ocultar al imprimir pedido */
     #vista-armazones, #vista-cristales, #vista-nueva-venta { display:none !important; }
     #vista-pedidos { display:block !important; }
 
+    /* Footer de impresión */
     .print-footer {
-      display:block !important; margin-top:6px; padding-top:4px;
-      border-top:1px solid #CBD5E1; text-align:center; font-size:8px; color:#888;
+      display:block !important; margin-top:16px; padding-top:10px;
+      border-top:1px solid #CBD5E1; text-align:center; font-size:10px; color:#888;
     }
   }
 
@@ -522,6 +517,7 @@
 </head>
 <body>
 
+<!-- ══ LOGIN ══ -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">
@@ -546,6 +542,7 @@
   </div>
 </div>
 
+<!-- ══ APP ══ -->
 <div id="app">
   <div class="topbar">
     <div class="topbar-left">
@@ -562,6 +559,8 @@
   </div>
 
   <div class="main">
+
+    <!-- Print Header (solo al imprimir) -->
     <div class="print-header">
       <div class="print-header-brand">
         <div class="print-header-logo">👓</div>
@@ -573,6 +572,7 @@
       <div class="print-header-right" id="print-date-info"></div>
     </div>
 
+    <!-- Stats -->
     <div class="stats-bar" id="stats-bar">
       <div class="stat-card">
         <div class="stat-icon" style="background:rgba(59,130,246,.15)">📦</div>
@@ -588,1020 +588,1252 @@
       </div>
       <div class="stat-card">
         <div class="stat-icon" style="background:rgba(59,130,246,.15)">🏪</div>
-        <div><div class="stat-num" id="st-sucursales">—</div><div class="stat-label">Sucursales activas</div></div>
+        <div><div class="stat-num" id="st-sucursales">—</div><div class="stat-label">Sucursales</div></div>
       </div>
     </div>
 
+    <!-- Banner permiso notificaciones -->
+    <div id="notif-perm-bar" class="notif-perm-bar" style="display:none">
+      <span>🔔 Activá las notificaciones de escritorio para recibir alertas cuando lleguen pedidos nuevos.</span>
+      <button class="btn-allow-notif" onclick="pedirPermisoNotif()">Activar</button>
+      <button class="notif-close" onclick="document.getElementById('notif-perm-bar').style.display='none'">✕</button>
+    </div>
+
+    <!-- Banner pedidos nuevos -->
+    <div id="notif-banner" class="notif-banner" style="display:none">
+      <span id="notif-text">🔔 Hay pedidos nuevos sin procesar</span>
+      <button class="notif-close" onclick="document.getElementById('notif-banner').style.display='none'">✕</button>
+    </div>
+
+    <!-- Nav -->
     <div class="nav-btns-row">
-      <button class="nav-btn active" id="nav-pedidos" onclick="switchTab('pedidos')">📋 Panel de Pedidos</button>
-      <button class="nav-btn" id="nav-armazones" onclick="switchTab('armazones')">👓 Stock Armazones</button>
-      <button class="nav-btn" id="nav-cristales" onclick="switchTab('cristales')">🔮 Catálogo Cristales</button>
-      <button class="nav-btn nueva" id="nav-nueva-venta" onclick="switchTab('nueva-venta')">➕ Nueva Venta</button>
+      <button class="nav-btn active" id="nav-pedidos"   onclick="setVista('pedidos',this)">📦 Pedidos</button>
+      <button class="nav-btn"        id="nav-armazones" onclick="setVista('armazones',this)">👓 Armazones</button>
+      <button class="nav-btn"        id="nav-cristales" onclick="setVista('cristales',this)">🔍 Cristales</button>
+      <button class="nav-btn nueva"  id="nav-nueva"     onclick="setVista('nueva',this)" style="display:none">➕ Nueva Venta</button>
     </div>
 
-    <div class="notif-banner" id="notif-banner" style="display:none;">
-      <span>🔔 ¡Atención! Se recibieron nuevos pedidos desde las sucursales.</span>
-      <button class="notif-close" onclick="closeNotifBanner()">×</button>
-    </div>
-
-    <div class="notif-perm-bar" id="notif-perm-bar" style="display:none;">
-      <span>Para recibir avisos sonoros y alertas visuales en tiempo real de nuevos pedidos, activa las notificaciones del navegador.</span>
-      <button class="btn-allow-notif" onclick="requestNotificationPermission()">Habilitar Alertas</button>
-    </div>
-
-    <div id="vista-pedidos" class="tab-content">
+    <!-- Vista Pedidos -->
+    <div id="vista-pedidos">
       <div class="buscador-wrap">
-        <span class="buscador-icon">🔍</span>
-        <input type="text" class="buscador-input" id="buscador-pedidos" placeholder="Buscar por cliente, sucursal, número, armazón o tipo de cristal..." oninput="handleSearchInput()">
-        <button class="buscador-clear" id="buscador-clear" onclick="clearSearch()">×</button>
+        <svg class="buscador-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="buscador" class="buscador-input" placeholder="Buscar por nombre, cristal, armazón, N° trabajo..." oninput="buscarPedidos(this.value)">
+        <button class="buscador-clear" id="buscador-clear" onclick="limpiarBusqueda()">✕</button>
       </div>
-
       <div class="filters-row">
-        <h2 id="pedidos-title">Pedidos Cargados</h2>
-        <button class="filter-btn active" id="flt-todos" onclick="filterPedidos('todos')">Todos</button>
-        <button class="filter-btn" id="flt-pendientes" onclick="filterPedidos('pendientes')">Pendientes</button>
-        <button class="filter-btn" id="flt-procesados" onclick="filterPedidos('procesados')">Procesados</button>
-        <button class="btn-refresh" id="btn-refresh" onclick="refreshDataReal()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-          Sincronizar
+        <h2 id="titulo-lista">Pedidos</h2>
+        <button class="filter-btn active" onclick="setFiltro('todos',this)">Todos</button>
+        <button class="filter-btn" onclick="setFiltro('pendiente',this)">Pendientes</button>
+        <button class="filter-btn" onclick="setFiltro('procesado',this)">Procesados</button>
+        <button class="btn-refresh" id="btn-refresh" onclick="cargarPedidos()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M1 4v6h6M23 20v-6h-6"/><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
+          </svg>Actualizar
         </button>
       </div>
-
-      <div id="contenedor-pedidos"></div>
+      <div class="pedidos-list" id="pedidos-list">
+        <div class="empty"><div class="empty-icon">📭</div><h3>Cargando pedidos...</h3></div>
+      </div>
     </div>
 
-    <div id="vista-armazones" class="tab-content" style="display:none;">
+    <!-- Vista Armazones -->
+    <div id="vista-armazones" style="display:none">
       <div class="buscador-wrap">
-        <span class="buscador-icon">🔍</span>
-        <input type="text" class="buscador-input" id="buscador-armazones" placeholder="Buscar por marca, código o sucursal..." oninput="renderArmazones()">
+        <svg class="buscador-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input type="text" id="buscador-arm" class="buscador-input" placeholder="Buscar por marca, código o color..." oninput="filtrarArmazones(this.value)">
       </div>
-      <div class="filters-row">
-        <h2>Stock Físico de Armazones</h2>
-        <button class="filter-btn active" id="flt-arm-todos" onclick="filterArmazones('todos')">Todos</button>
-        <button class="filter-btn" id="flt-arm-disponibles" onclick="filterArmazones('disponibles')">En Stock</button>
-        <button class="filter-btn" id="flt-arm-sin" onclick="filterArmazones('sin')">Sin Stock</button>
+      <div id="arm-list" class="stock-grid">
+        <div class="empty"><div class="empty-icon">👓</div><h3>Cargando armazones...</h3></div>
       </div>
-      <div class="stock-grid" id="contenedor-armazones"></div>
     </div>
 
-    <div id="vista-cristales" class="tab-content" style="display:none;">
-      <div class="buscador-wrap">
-        <span class="buscador-icon">🔍</span>
-        <input type="text" class="buscador-input" id="buscador-cristales" placeholder="Filtrar cristales por tipo o descripción..." oninput="renderCristales()">
+    <!-- Vista Cristales -->
+    <div id="vista-cristales" style="display:none">
+      <div id="cris-list">
+        <div class="empty"><div class="empty-icon">🔍</div><h3>Cargando cristales...</h3></div>
       </div>
-      <div class="filters-row">
-        <h2>Stock de Cristales de Laboratorio</h2>
-      </div>
-      <div id="contenedor-cristales"></div>
     </div>
 
-    <div id="vista-nueva-venta" class="tab-content" style="display:none;">
+    <!-- Vista Nueva Venta (solo Canelones) -->
+    <div id="vista-nueva-venta" style="display:none">
       <div class="form-venta">
-        <div class="form-venta-title">➕ Formulario de Registro de Nueva Venta / Pedido</div>
-        
-        <div class="form-section">
-          <div class="form-section-title">👤 Datos del Cliente y Sucursal</div>
-          <div class="form-grid-3">
-            <div class="field-sm">
-              <label>Cliente / Nombre Completo</label>
-              <input type="text" id="f-cliente" placeholder="Ej: Juan Pérez">
-            </div>
-            <div class="field-sm">
-              <label>Sucursal Origen</label>
-              <select id="f-sucursal">
-                <option value="Melo">Melo</option>
-                <option value="Canelones">Canelones</option>
-              </select>
-            </div>
-            <div class="field-sm">
-              <label>Tipo de Trabajo</label>
-              <select id="f-tipo-trabajo">
-                <option value="Laboratorio">Laboratorio (Completo)</option>
-                <option value="Solo Cristal">Solo Cristal</option>
-                <option value="Solo Armazón">Solo Armazón</option>
-              </select>
-            </div>
-          </div>
+        <div class="form-venta-title">
+          ➕ Nueva Venta &nbsp;<span style="color:var(--purple);font-size:15px">ROMACANELONES</span>
         </div>
 
+        <!-- Cliente -->
         <div class="form-section">
-          <div class="form-section-title">🩺 Receta e Información Médica</div>
-          <div class="form-grid-3">
-            <div class="field-sm">
-              <label>Médico Oftalmólogo</label>
-              <input type="text" id="f-medico" placeholder="Dr. Nombre">
-            </div>
-            <div class="field-sm">
-              <label>Fecha de la Receta</label>
-              <input type="date" id="f-fecha-receta">
-            </div>
-            <div class="field-sm">
-              <label>Uso Médico Final</label>
-              <input type="text" id="f-medico-final" placeholder="Ej: Lectura continuada">
-            </div>
-          </div>
-        </div>
-
-        <div class="form-section">
-          <div class="form-section-title">📊 Graduaciones (Ojo Derecho / Ojo Izquierdo)</div>
-          
-          <div class="cristal-group">
-            <div class="cristal-group-title">Lejos</div>
-            <div class="form-grid-3">
-              <div class="field-sm"><label>OD Esférico</label><input type="text" id="f-lej-od-esf" placeholder="0.00"></div>
-              <div class="field-sm"><label>OD Cilíndrico</label><input type="text" id="f-lej-od-cil" placeholder="0.00"></div>
-              <div class="field-sm"><label>OD Eje (°)</label><input type="text" id="f-lej-od-eje" placeholder="0"></div>
-            </div>
-            <div class="form-grid-3" style="margin-top: 10px;">
-              <div class="field-sm"><label>OI Esférico</label><input type="text" id="f-lej-oi-esf" placeholder="0.00"></div>
-              <div class="field-sm"><label>OI Cilíndrico</label><input type="text" id="f-lej-oi-cil" placeholder="0.00"></div>
-              <div class="field-sm"><label>OI Eje (°)</label><input type="text" id="f-lej-oi-eje" placeholder="0"></div>
-            </div>
-          </div>
-
-          <div class="cristal-group">
-            <div class="cristal-group-title">Cerca</div>
-            <div class="form-grid-3">
-              <div class="field-sm"><label>OD Esférico</label><input type="text" id="f-cer-od-esf" placeholder="0.00"></div>
-              <div class="field-sm"><label>OD Cilíndrico</label><input type="text" id="f-cer-od-cil" placeholder="0.00"></div>
-              <div class="field-sm"><label>OD Eje (°)</label><input type="text" id="f-cer-od-eje" placeholder="0"></div>
-            </div>
-            <div class="form-grid-3" style="margin-top: 10px;">
-              <div class="field-sm"><label>OI Esférico</label><input type="text" id="f-cer-oi-esf" placeholder="0.00"></div>
-              <div class="field-sm"><label>OI Cilíndrico</label><input type="text" id="f-cer-oi-cil" placeholder="0.00"></div>
-              <div class="field-sm"><label>OI Eje (°)</label><input type="text" id="f-cer-oi-eje" placeholder="0"></div>
-            </div>
-          </div>
-
-          <div class="form-grid-4" style="margin-top: 10px;">
-            <div class="field-sm"><label>Adición (ADD)</label><input type="text" id="f-add" placeholder="0.00"></div>
-            <div class="field-sm"><label>D.P. Ojo Derecho (mm)</label><input type="text" id="f-dist-od" placeholder="0"></div>
-            <div class="field-sm"><label>D.P. Ojo Izquierdo (mm)</label><input type="text" id="f-dist-oi" placeholder="0"></div>
-            <div class="field-sm"><label>Altura (mm)</label><input type="text" id="f-alt-od" placeholder="OD / OI"></div>
-          </div>
-        </div>
-
-        <div class="form-section">
-          <div class="form-section-title">🛠️ Componentes Ópticos (Armazón y Cristales)</div>
+          <div class="form-section-title">👤 Datos del Cliente</div>
           <div class="form-grid-2">
-            <div class="field-sm">
-              <label>Marca Armazón</label>
-              <input type="text" id="f-arm-marca" placeholder="Ej: Ray-Ban">
-            </div>
-            <div class="field-sm">
-              <label>Código / Modelo Armazón</label>
-              <input type="text" id="f-arm-codigo" placeholder="Ej: RB3016">
-            </div>
-          </div>
-          <div class="form-grid-2" style="margin-top: 10px;">
-            <div class="field-sm">
-              <label>Tipo de Cristal Seleccionado</label>
-              <input type="text" id="f-cristal-tipo" placeholder="Ej: Monofocal / Bifocal / Multifocal">
-            </div>
-            <div class="field-sm">
-              <label>Tratamiento / Filtros del Cristal</label>
-              <input type="text" id="f-cristal-trata" placeholder="Ej: Antirreflejo / Filtro Azul">
-            </div>
+            <div class="field-sm"><label>Nombre Completo *</label><input id="f-cliente" type="text" placeholder="Nombre del cliente"></div>
+            <div class="field-sm"><label>Cédula</label><input id="f-cedula" type="text" placeholder="12345678-9"></div>
+            <div class="field-sm"><label>Teléfono</label><input id="f-telefono" type="text" placeholder="09X XXX XXX"></div>
+            <div class="field-sm"><label>Médico / Institución</label><input id="f-medico" type="text" placeholder="Dr. / Óptica / BPS..."></div>
           </div>
         </div>
 
+        <!-- Graduación Lejos -->
         <div class="form-section">
-          <div class="form-section-title">📐 Medidas Técnicas de la Estructura (mm)</div>
+          <div class="form-section-title">👁️ Graduación Lejos</div>
           <div class="form-grid-4">
-            <div class="field-sm"><label>Horizontal (A)</label><input type="text" id="f-a" placeholder="Horizontal"></div>
-            <div class="field-sm"><label>Vertical (B)</label><input type="text" id="f-k" placeholder="Vertical"></div>
-            <div class="field-sm"><label>Puente (P)</label><input type="text" id="f-p" placeholder="Puente"></div>
-            <div class="field-sm"><label>Diagonal (D)</label><input type="text" id="f-d" placeholder="Diagonal"></div>
+            <div></div>
+            <div class="field-sm" style="text-align:center"><label>EJE</label></div>
+            <div class="field-sm" style="text-align:center"><label>CIL</label></div>
+            <div class="field-sm" style="text-align:center"><label>ESF</label></div>
+            <div class="field-sm"><label style="color:var(--accent2)">OD →</label></div>
+            <div class="field-sm"><input id="f-lej-od-eje" type="number" step="0.01" placeholder="—"></div>
+            <div class="field-sm"><input id="f-lej-od-cil" type="number" step="0.01" placeholder="—"></div>
+            <div class="field-sm"><input id="f-lej-od-esf" type="number" step="0.01" placeholder="—"></div>
+            <div class="field-sm"><label style="color:var(--text2)">OI →</label></div>
+            <div class="field-sm"><input id="f-lej-oi-eje" type="number" step="0.01" placeholder="—"></div>
+            <div class="field-sm"><input id="f-lej-oi-cil" type="number" step="0.01" placeholder="—"></div>
+            <div class="field-sm"><input id="f-lej-oi-esf" type="number" step="0.01" placeholder="—"></div>
+          </div>
+          <div style="margin-top:10px;max-width:200px">
+            <div class="field-sm"><label>ADD</label><input id="f-add" type="number" step="0.01" placeholder="+X.XX"></div>
           </div>
         </div>
 
+        <!-- Graduación Cerca -->
         <div class="form-section">
-          <div class="form-section-title">💰 Liquidación, Descuentos y Pagos</div>
+          <div class="form-section-title">👁️ Graduación Cerca <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(opcional)</span></div>
+          <div class="form-grid-4">
+            <div></div>
+            <div class="field-sm" style="text-align:center"><label>EJE</label></div>
+            <div class="field-sm" style="text-align:center"><label>CIL</label></div>
+            <div class="field-sm" style="text-align:center"><label>ESF</label></div>
+            <div class="field-sm"><label style="color:var(--accent2)">OD →</label></div>
+            <div class="field-sm"><input id="f-cer-od-eje" type="number" step="0.01" placeholder="—"></div>
+            <div class="field-sm"><input id="f-cer-od-cil" type="number" step="0.01" placeholder="—"></div>
+            <div class="field-sm"><input id="f-cer-od-esf" type="number" step="0.01" placeholder="—"></div>
+            <div class="field-sm"><label style="color:var(--text2)">OI →</label></div>
+            <div class="field-sm"><input id="f-cer-oi-eje" type="number" step="0.01" placeholder="—"></div>
+            <div class="field-sm"><input id="f-cer-oi-cil" type="number" step="0.01" placeholder="—"></div>
+            <div class="field-sm"><input id="f-cer-oi-esf" type="number" step="0.01" placeholder="—"></div>
+          </div>
+        </div>
+
+        <!-- Medidas -->
+        <div class="form-section">
+          <div class="form-section-title">📐 Medidas</div>
+          <div class="form-grid-4">
+            <div class="field-sm"><label>Dist OD</label><input id="f-dist-od" type="number" step="0.1" placeholder="32.5"></div>
+            <div class="field-sm"><label>Dist OI</label><input id="f-dist-oi" type="number" step="0.1" placeholder="33"></div>
+            <div class="field-sm"><label>Alt OD</label><input id="f-alt-od" type="number" step="0.1" placeholder="16"></div>
+            <div class="field-sm"><label>Alt OI</label><input id="f-alt-oi" type="number" step="0.1" placeholder="16"></div>
+            <div class="field-sm"><label>K</label><input id="f-k" type="number" step="0.1" placeholder="48"></div>
+            <div class="field-sm"><label>A</label><input id="f-a" type="number" step="0.1" placeholder="43"></div>
+            <div class="field-sm"><label>D</label><input id="f-d" type="number" step="0.1" placeholder="48"></div>
+            <div class="field-sm"><label>P</label><input id="f-p" type="number" step="0.1" placeholder="20"></div>
+          </div>
+        </div>
+
+        <!-- Cristales -->
+        <div class="form-section">
+          <div class="form-section-title">🔍 Cristales</div>
+
+          <div class="cristal-group">
+            <div class="cristal-group-title">Cristal 1 (Principal)</div>
+            <div class="form-grid-4">
+              <div class="field-sm">
+                <label>Tipo</label>
+                <select id="f-c1-tipo">
+                  <option value="">— Seleccionar —</option>
+                  <optgroup label="── Monofocales ──">
+                    <option>MONOFOCAL BLANCO</option>
+                    <option>MONOFOCAL FOTOCROMATICO</option>
+                    <option>XPLUS BLANCO AR</option>
+                    <option>XPLUS BLANCO BLUE</option>
+                    <option>XPLUS FOTOCROMATICO</option>
+                  </optgroup>
+                  <optgroup label="── Bifocales ──">
+                    <option>BIFOCAL KRIPTOCK</option>
+                    <option>BIFOCAL KRIPTOCK(VALE)</option>
+                    <option>BIFOCAL FLAT TOP</option>
+                  </optgroup>
+                  <optgroup label="── Multifocales ──">
+                    <option>MULTIFOCAL BLANCO</option>
+                    <option>MULTIFOCAL FOTOCROMATICO</option>
+                    <option>MULTIFOCAL AR</option>
+                  </optgroup>
+                  <optgroup label="── Otros ──">
+                    <option>LENTE DE CONTACTO</option>
+                    <option>PLANO / SIN GRADUACION</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="field-sm">
+                <label>Material</label>
+                <select id="f-c1-material">
+                  <option value="">— Seleccionar —</option>
+                  <option>ORGANICO ESTANDAR</option>
+                  <option>MEDIO INDICE</option>
+                  <option>MEDIO INDICE FOTOCROMATICO</option>
+                  <option>ALTO INDICE 1.60</option>
+                  <option>ALTO INDICE 1.67</option>
+                  <option>POLICARBONATO</option>
+                  <option>MINERAL</option>
+                  <option>TRIVEX</option>
+                </select>
+              </div>
+              <div class="field-sm"><label>Color / Tinte</label><input id="f-c1-color" type="text" placeholder="—"></div>
+              <div class="field-sm"><label>Tratamiento</label><input id="f-c1-trat" type="text" placeholder="AR, ENDURECIDO..."></div>
+            </div>
+          </div>
+
+          <div class="cristal-group">
+            <div class="cristal-group-title">Cristal 2 (opcional)</div>
+            <div class="form-grid-4">
+              <div class="field-sm">
+                <label>Tipo</label>
+                <select id="f-c2-tipo">
+                  <option value="">— Ninguno —</option>
+                  <optgroup label="── Monofocales ──">
+                    <option>MONOFOCAL BLANCO</option>
+                    <option>MONOFOCAL FOTOCROMATICO</option>
+                    <option>XPLUS BLANCO AR</option>
+                    <option>XPLUS BLANCO BLUE</option>
+                    <option>XPLUS FOTOCROMATICO</option>
+                  </optgroup>
+                  <optgroup label="── Bifocales ──">
+                    <option>BIFOCAL KRIPTOCK</option>
+                    <option>BIFOCAL FLAT TOP</option>
+                  </optgroup>
+                  <optgroup label="── Multifocales ──">
+                    <option>MULTIFOCAL BLANCO</option>
+                    <option>MULTIFOCAL FOTOCROMATICO</option>
+                    <option>MULTIFOCAL AR</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="field-sm">
+                <label>Material</label>
+                <select id="f-c2-material">
+                  <option value="">— Seleccionar —</option>
+                  <option>ORGANICO ESTANDAR</option>
+                  <option>MEDIO INDICE</option>
+                  <option>MEDIO INDICE FOTOCROMATICO</option>
+                  <option>ALTO INDICE 1.60</option>
+                  <option>ALTO INDICE 1.67</option>
+                  <option>POLICARBONATO</option>
+                  <option>MINERAL</option>
+                </select>
+              </div>
+              <div class="field-sm"><label>Color / Tinte</label><input id="f-c2-color" type="text" placeholder="—"></div>
+              <div class="field-sm"><label>Tratamiento</label><input id="f-c2-trat" type="text" placeholder="—"></div>
+            </div>
+          </div>
+
+          <div class="cristal-group">
+            <div class="cristal-group-title">Cristal 3 (opcional)</div>
+            <div class="form-grid-4">
+              <div class="field-sm">
+                <label>Tipo</label>
+                <select id="f-c3-tipo">
+                  <option value="">— Ninguno —</option>
+                  <optgroup label="── Monofocales ──">
+                    <option>MONOFOCAL BLANCO</option>
+                    <option>MONOFOCAL FOTOCROMATICO</option>
+                    <option>XPLUS BLANCO AR</option>
+                    <option>XPLUS BLANCO BLUE</option>
+                    <option>XPLUS FOTOCROMATICO</option>
+                  </optgroup>
+                  <optgroup label="── Multifocales ──">
+                    <option>MULTIFOCAL BLANCO</option>
+                    <option>MULTIFOCAL FOTOCROMATICO</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="field-sm">
+                <label>Material</label>
+                <select id="f-c3-material">
+                  <option value="">— Seleccionar —</option>
+                  <option>ORGANICO ESTANDAR</option>
+                  <option>MEDIO INDICE</option>
+                  <option>ALTO INDICE 1.60</option>
+                  <option>POLICARBONATO</option>
+                </select>
+              </div>
+              <div class="field-sm"><label>Color / Tinte</label><input id="f-c3-color" type="text" placeholder="—"></div>
+              <div class="field-sm"><label>Tratamiento</label><input id="f-c3-trat" type="text" placeholder="—"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Armazón -->
+        <div class="form-section">
+          <div class="form-section-title">👓 Armazón y Pedido</div>
           <div class="form-grid-3">
-            <div class="field-sm"><label>Precio Total Venta ($)</label><input type="number" id="f-total-venta" placeholder="0.00"></div>
-            <div class="field-sm"><label>Seña Recibida ($)</label><input type="number" id="f-sena-recibida" placeholder="0.00"></div>
-            <div class="field-sm"><label>Descuento ASSE / Convenio ($)</label><input type="number" id="f-desc-asse" placeholder="0.00"></div>
+            <div class="field-sm"><label>Armazón (descripción)</label><input id="f-armazones" type="text" placeholder="Marca, código, color..."></div>
+            <div class="field-sm">
+              <label>Tipo de Pedido</label>
+              <select id="f-tipo-pedido">
+                <option value="">— Seleccionar —</option>
+                <option>MONOFOCAL</option>
+                <option>BIFOCAL</option>
+                <option>MULTIFOCAL</option>
+                <option>LENTE DE CONTACTO</option>
+                <option>SOLO ARMAZON</option>
+                <option>REPARACION</option>
+              </select>
+            </div>
+            <div class="field-sm"><label>N° Trabajo</label><input id="f-numero-trabajo" type="text" placeholder="Número interno"></div>
           </div>
         </div>
 
+        <!-- Precio -->
         <div class="form-section">
-          <div class="form-section-title">📝 Notas y Observaciones del Taller</div>
-          <div class="field-sm">
-            <input type="text" id="f-obs" placeholder="Detalles de montaje, urgencias, etc.">
+          <div class="form-section-title">💰 Precio y Pago</div>
+          <div class="form-grid-4">
+            <div class="field-sm"><label>Precio Total</label><input id="f-precio" type="number" step="0.01" placeholder="0.00" min="0"></div>
+            <div class="field-sm"><label>Seña</label><input id="f-sena" type="number" step="0.01" placeholder="0.00" min="0"></div>
+            <div class="field-sm"><label>Saldo</label><input id="f-saldo" type="number" step="0.01" placeholder="0.00" min="0"></div>
+            <div class="field-sm">
+              <label>Forma de Pago</label>
+              <select id="f-forma-pago">
+                <option value="">— Seleccionar —</option>
+                <option>EFECTIVO</option>
+                <option>TARJETA DEBITO</option>
+                <option>TARJETA CREDITO</option>
+                <option>TRANSFERENCIA</option>
+                <option>MERCADO PAGO</option>
+                <option>BPS</option>
+                <option>ASSE</option>
+                <option>FONASA</option>
+              </select>
+            </div>
           </div>
         </div>
 
-        <button class="btn-submit-venta" id="btn-submit-venta" onclick="submitVentaNueva()">💾 Registrar y Sincronizar Pedido</button>
+        <button class="btn-submit-venta" id="btn-submit-venta" onclick="submitNuevaVenta()">
+          📤 Enviar Pedido a Rabaquino
+        </button>
       </div>
     </div>
 
-    <div class="print-footer">
-      Documento confidencial generado automáticamente por el Portal de Pedidos Rabaquino.<br>
-      © 2026 Óptica Roma — Todos los derechos reservados.
+    <!-- Print footer -->
+    <div class="print-footer" id="print-footer">
+      Sistema de Pedidos Óptica Roma — Generado automáticamente
     </div>
-  </div>
-</div>
 
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- Toast -->
 <div id="toast"></div>
 
-<audio id="snd-click" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav" preload="auto"></audio>
-<audio id="snd-success" src="https://assets.mixkit.co/active_storage/sfx/911/911-84.wav" preload="auto"></audio>
-<audio id="snd-alert" src="https://assets.mixkit.co/active_storage/sfx/959/959-84.wav" preload="auto"></audio>
-
 <script>
-// ==========================================
-// 🗄️ BASE DE DATOS E HISTÓRICO ORIGINAL COMPLETO
-// ==========================================
-const OPTICA_DATA = {
-  // --- CREDENCIALES ---
-  usuarios: {
-    "roma": "roma2025",
-    "melo": "melo2025",
-    "canelones": "canelones2025"
-  },
+// ════════════════════════════════════════════════════════════════
+// CONFIG
+// ════════════════════════════════════════════════════════════════
+const SUPABASE_URL      = 'https://ghatbxgsqamtucwfdzri.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdoYXRieGdzcWFtdHVjd2ZkenJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMzU2MjEsImV4cCI6MjA5NDkxMTYyMX0.ZKKT9u-GBVJsiAOOOI4B_vlyPCNSZaC8ix-FgI2YYuA';
 
-  // --- PEDIDOS REALES DE TU ARCHIVO ORIGINAL ---
-  pedidos: [
-    {
-      id: 524,
-      cliente: "Carlos Rodríguez",
-      sucursal: "Melo",
-      fecha: "2026-05-18T10:14:00",
-      tipo: "Laboratorio",
-      estado: "pendiente",
-      medico: "Dr. Luis Arrechea",
-      fecha_receta: "2026-05-10",
-      medico_final: "Lentes de cerca permanentes para lectura de planos.",
-      graduacion: {
-        lej_od_esf: "+1.25", lej_od_cil: "-0.50", lej_od_eje: "90",
-        lej_oi_esf: "+1.00", lej_oi_cil: "0.00",  lej_oi_eje: "0",
-        cer_od_esf: "+3.25", cer_od_cil: "-0.50", cer_od_eje: "90",
-        cer_oi_esf: "+3.00", cer_oi_cil: "0.00",  cer_oi_eje: "0",
-        add: "+2.00"
-      },
-      medidas: {
-        dist_od: "31.5", dist_oi: "32.0",
-        alt_od: "18", alt_oi: "18",
-        a: "54", k: "38", d: "58", p: "17"
-      },
-      componentes: {
-        arm_marca: "Ray-Ban",
-        arm_codigo: "RB5228-54",
-        cristal_tipo: "Multifocal",
-        cristal_trata: "Antirreflejo Crizal Sapphire"
-      },
-      valores: {
-        precio: "14500",
-        sena: "5000",
-        desc_asse: "0"
-      },
-      obs: "Cliente solicita tratamiento antirreflejo reforzado. Entregar estuche rígido original."
-    },
-    {
-      id: 525,
-      cliente: "María Espósito",
-      sucursal: "Canelones",
-      fecha: "2026-05-19T16:45:00",
-      tipo: "Laboratorio",
-      estado: "pendiente",
-      medico: "Dra. Elena Vázquez",
-      fecha_receta: "2026-05-15",
-      medico_final: "Descanso digital y manejo nocturno.",
-      graduacion: {
-        lej_od_esf: "-0.75", lej_od_cil: "-1.25", lej_od_eje: "15",
-        lej_oi_esf: "-0.50", lej_oi_cil: "-1.00", lej_oi_eje: "165",
-        cer_od_esf: "0.00",  cer_od_cil: "0.00",  cer_od_eje: "0",
-        cer_oi_esf: "0.00",  cer_oi_cil: "0.00",  cer_oi_eje: "0",
-        add: "0.00"
-      },
-      medidas: {
-        dist_od: "30.0", dist_oi: "30.5",
-        alt_od: "19", alt_oi: "19",
-        a: "52", k: "40", d: "56", p: "18"
-      },
-      componentes: {
-        arm_marca: "Vogue",
-        arm_codigo: "VO5338",
-        cristal_tipo: "Monofocal",
-        cristal_trata: "Filtro Azul (Blue Shield) + Antirreflejo"
-      },
-      valores: {
-        precio: "8900",
-        sena: "8900",
-        desc_asse: "1200"
-      },
-      obs: "Venta abonada por completo. Aplicado descuento de convenio ASSE."
-    }
-  ],
+// SHA256("RomaCanelones") pre-computado
+const CANELONES_HASH = '62f294befa3c6ec05dc336a34f77c21e2c42f7d7ec1e23fe1cdd913062da1e81';
 
-  // --- CATALOGO MASIVO DE STOCK DE ARMAZONES ---
-  armazones: [
-    { marca: "Ray-Ban", codigo: "RB3016 Clubmaster", stock_melo: 4, stock_canelones: 2, img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500&auto=format&fit=crop&q=60" },
-    { marca: "Ray-Ban", codigo: "RB2140 Wayfarer", stock_melo: 5, stock_canelones: 0, img: "" },
-    { marca: "Oakley", codigo: "OX8156 Holbrook RX", stock_melo: 2, stock_canelones: 3, img: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=500&auto=format&fit=crop&q=60" },
-    { marca: "Vogue", codigo: "VO5338 Cat-Eye", stock_melo: 0, stock_canelones: 4, img: "" },
-    { marca: "Armani Exchange", codigo: "AX3078", stock_melo: 3, stock_canelones: 1, img: "" },
-    { marca: "Arnette", codigo: "AN7184", stock_melo: 6, stock_canelones: 5, img: "" },
-    { marca: "Carrera", codigo: "CA247", stock_melo: 1, stock_canelones: 2, img: "" },
-    { marca: "Tommy Hilfiger", codigo: "TH1794", stock_melo: 2, stock_canelones: 0, img: "" },
-    { marca: "Nike", codigo: "NK7125 Deporte", stock_melo: 4, stock_canelones: 4, img: "" },
-    { marca: "Polo Ralph Lauren", codigo: "PH2214", stock_melo: 0, stock_canelones: 0, img: "" }
-  ],
+// ════════════════════════════════════════════════════════════════
+// ESTADO GLOBAL
+// ════════════════════════════════════════════════════════════════
+let SESSION       = null;
+let PEDIDOS       = [];
+let FILTRO        = 'todos';
+let BUSQUEDA      = '';
+let ULTIMO_ID     = 0;
+let POLL_INTERVAL = null;
+let ARMAZONES     = [];
+let CRISTALES_STOCK = [];
+let VISTA_ACTUAL  = 'pedidos';
 
-  // --- CATALOGO COMPLETO DE CRISTALES DE LABORATORIO ---
-  cristales: {
-    "Monofofales Orgánicos CR-39": [
-      { desc: "Blanco Esf -4.00 a +4.00 / Cil -2.00", ok: true },
-      { desc: "Con Antirreflejo HMC Duro", ok: true },
-      { desc: "Filtro Azul Blue Cut stock", ok: true },
-      { desc: "Alto índice 1.67 Asférico Slim", ok: false }
-    ],
-    "Policarbonato (Airwear) Resistencia Alta": [
-      { desc: "Policarbonato Blanco Esf -6.00 a +4.00", ok: true },
-      { desc: "Policarbonato Antirreflejo Blue Shield", ok: true },
-      { desc: "Transitions Gen 8 Gris Policarbonato", ok: true }
-    ],
-    "Multifocales / Progresivos Digitales": [
-      { desc: "Multifocal Digital Standard CR39", ok: true },
-      { desc: "Multifocal Premium Campo Amplio 1.56", ok: true },
-      { desc: "Multifocal Advance Antirreflejo Premium", ok: true },
-      { desc: "Multifocal Ocupacional (Taller/Lectura)", ok: false }
-    ],
-    "Bifocales": [
-      { desc: "Bifocal Flat-Top Blanco CR39", ok: true },
-      { desc: "Bifocal Invisible Blend Orgánico", ok: false }
-    ]
-  }
+// IDs ya notificados — persistidos en localStorage para sobrevivir recargas
+let NOTIFIED_IDS = new Set(JSON.parse(localStorage.getItem('notif_ids') || '[]'));
+
+// ════════════════════════════════════════════════════════════════
+// SHA-256
+// ════════════════════════════════════════════════════════════════
+async function sha256(msg) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+// ════════════════════════════════════════════════════════════════
+// API SUPABASE
+// ════════════════════════════════════════════════════════════════
+const API_HEADERS = {
+  'apikey'        : SUPABASE_ANON_KEY,
+  'Authorization' : `Bearer ${SUPABASE_ANON_KEY}`,
+  'Content-Type'  : 'application/json',
+  'Prefer'        : 'count=none'
 };
 
-// ==========================================
-// 🚀 MOTOR Y LÓGICA DE CONTROL OPERATIVO
-// ==========================================
-let currentTab = 'pedidos';
-let filterState = 'todos';
-let filterArmState = 'todos';
-let activeUser = null;
-let expandedPedidos = new Set();
-let localPedidos = [];
-let localArmazones = [];
-
-// Inicialización de datos persistentes
-if (!localStorage.getItem('rabaquino_pedidos')) {
-  localStorage.setItem('rabaquino_pedidos', JSON.stringify(OPTICA_DATA.pedidos));
+async function apiGet(table, params = '') {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}${params}`, { headers: API_HEADERS });
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
 }
-if (!localStorage.getItem('rabaquino_armazones')) {
-  localStorage.setItem('rabaquino_armazones', JSON.stringify(OPTICA_DATA.armazones));
+
+async function apiGetAll(table, params = '', pageSize = 1000) {
+  const rows = [];
+  let from = 0;
+
+  while (true) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}${params}`, {
+      headers: {
+        ...API_HEADERS,
+        'Range-Unit': 'items',
+        'Range': `${from}-${from + pageSize - 1}`
+      }
+    });
+    if (!res.ok) throw new Error(await res.text());
+
+    const chunk = await res.json();
+    rows.push(...chunk);
+
+    if (chunk.length < pageSize) break;
+    from += pageSize;
+  }
+
+  return rows;
 }
-localPedidos = JSON.parse(localStorage.getItem('rabaquino_pedidos'));
-localArmazones = JSON.parse(localStorage.getItem('rabaquino_armazones'));
 
-window.addEventListener('DOMContentLoaded', () => {
-  checkSession();
-  checkNotificationPermissionState();
-});
+function normalizeBool(value) {
+  if (typeof value === 'boolean') return value;
+  if (typeof value === 'number') return value > 0;
+  if (value == null) return false;
 
-function checkSession() {
-  const session = localStorage.getItem('rabaquino_session');
-  if (session) {
-    activeUser = session;
-    showApp();
-  } else {
-    showLogin();
+  const text = String(value).trim().toLowerCase();
+  return ['true', 't', '1', 'si', 'sí', 'yes', 'y', 'ok', 'x'].includes(text);
+}
+
+function buildPublicStorageUrl(bucket, rawPath) {
+  if (!rawPath) return null;
+
+  const cleanPath = String(rawPath).trim();
+  if (!cleanPath) return null;
+  if (/^https?:\/\//i.test(cleanPath)) return cleanPath;
+
+  const bucketPrefix = `${bucket}/`;
+  const relativePath = cleanPath.startsWith(bucketPrefix)
+    ? cleanPath.slice(bucketPrefix.length)
+    : cleanPath;
+
+  const encodedPath = relativePath
+    .split('/')
+    .map(part => encodeURIComponent(part))
+    .join('/');
+
+  return `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${encodedPath}`;
+}
+
+async function apiPatch(table, id, data) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, {
+    method: 'PATCH',
+    headers: { ...API_HEADERS, 'Prefer': 'return=minimal' },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Error en API (${res.status}): ${errorText}`);
   }
 }
 
-function playSound(id) {
-  const snd = document.getElementById(id);
-  if (snd) { snd.currentTime = 0; snd.play().catch(()=>{}); }
+async function apiPost(table, data) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+    method: 'POST',
+    headers: { ...API_HEADERS, 'Prefer': 'return=minimal' },
+    body: JSON.stringify(data)
+  });
+  if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Error en API (${res.status}): ${errorText}`);
+  }
 }
 
-function showLogin() {
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('app').style.display = 'none';
+// ════════════════════════════════════════════════════════════════
+// LOGIN / LOGOUT
+// ════════════════════════════════════════════════════════════════
+async function doLogin() {
+  const u   = document.getElementById('inp-user').value.trim().toLowerCase();
+  const p   = document.getElementById('inp-pass').value;
+  const err = document.getElementById('login-error');
+  err.style.display = 'none';
+
+  try {
+    const hash = await sha256(p);
+
+    // ── Sucursal Canelones (validación local) ──
+    if (u === 'canelones' && hash === CANELONES_HASH) {
+      SESSION = { id: 99, usuario: 'canelones', rol: 'sucursal', sucursales: 'romacanelones' };
+      iniciarApp();
+      return;
+    }
+
+    // ── Usuarios en base de datos (rabaquino, etc.) ──
+    const rows = await apiGet('usuarios',
+      `?usuario=eq.${encodeURIComponent(u)}&password_hash=eq.${hash}&select=id,usuario,rol,sucursales`);
+    if (!rows || rows.length === 0) { err.style.display = 'block'; return; }
+
+    SESSION = rows[0];
+    iniciarApp();
+  } catch(e) {
+    err.textContent = 'Error de conexión. Verificá tu internet.';
+    err.style.display = 'block';
+  }
 }
 
-function showApp() {
+function iniciarApp() {
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  document.getElementById('topbar-sub').innerText = `Terminal: Sucursal ${activeUser.toUpperCase()}`;
-  
-  // Limpieza inicial de interfaz según perfil de usuario
-  if (activeUser !== 'roma') {
-    document.getElementById('st-procesados').parentElement.parentElement.style.display = 'none';
-  } else {
-    document.getElementById('st-procesados').parentElement.parentElement.style.display = 'flex';
+
+  const esSucursal  = SESSION.rol === 'sucursal';
+  const esRabaquino = SESSION.rol === 'proveedor';
+
+  // Mostrar botón Nueva Venta solo a sucursales
+  document.getElementById('nav-nueva').style.display = esSucursal ? 'flex' : 'none';
+
+  if (esSucursal) {
+    document.getElementById('topbar-sub').textContent =
+      `Sucursal ${SESSION.sucursales.toUpperCase()} — Sistema de Pedidos`;
+    // Sucursales solo ven Nueva Venta (sin stock ni listado de Rabaquino)
+    document.getElementById('nav-armazones').style.display = 'none';
+    document.getElementById('nav-cristales').style.display = 'none';
+    document.getElementById('nav-pedidos').style.display   = 'none';
+    document.getElementById('stats-bar').style.display     = 'none';
+    setVista('nueva', document.getElementById('nav-nueva'));
+    return;
   }
 
-  refreshUI();
-  initRealtimeSimulation();
-}
-
-function doLogin() {
-  const u = document.getElementById('inp-user').value.trim().toLowerCase();
-  const p = document.getElementById('inp-pass').value.trim();
-  const err = document.getElementById('login-error');
-
-  if (OPTICA_DATA.usuarios[u] && OPTICA_DATA.usuarios[u] === p) {
-    err.style.display = 'none';
-    localStorage.setItem('rabaquino_session', u);
-    activeUser = u;
-    playSound('snd-success');
-    showApp();
-  } else {
-    err.style.display = 'block';
-    playSound('snd-alert');
-  }
+  document.getElementById('topbar-sub').textContent = 'Sistema de Pedidos — Óptica Roma';
+  cargarPedidos();
+  startPolling();
+  verificarPermisoNotif();
 }
 
 function doLogout() {
-  localStorage.removeItem('rabaquino_session');
-  activeUser = null;
-  showLogin();
-}
+  SESSION = null;
+  clearInterval(POLL_INTERVAL);
+  PEDIDOS = []; ULTIMO_ID = 0; ARMAZONES = []; CRISTALES_STOCK = [];
 
-function showToast(text, type='ok') {
-  const t = document.getElementById('toast');
-  t.innerText = text;
-  t.className = `show ${type}`;
-  setTimeout(() => t.className = '', 3500);
-}
-
-function switchTab(tab) {
-  playSound('snd-click');
-  currentTab = tab;
-  
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
-
-  if (tab === 'pedidos') {
-    document.getElementById('nav-pedidos').classList.add('active');
-    document.getElementById('vista-pedidos').style.display = 'block';
-    document.getElementById('stats-bar').style.display = 'grid';
-  } else if (tab === 'armazones') {
-    document.getElementById('nav-armazones').classList.add('active');
-    document.getElementById('vista-armazones').style.display = 'block';
-    document.getElementById('stats-bar').style.display = 'none';
-    renderArmazones();
-  } else if (tab === 'cristales') {
-    document.getElementById('nav-cristales').classList.add('active');
-    document.getElementById('vista-cristales').style.display = 'block';
-    document.getElementById('stats-bar').style.display = 'none';
-    renderCristales();
-  } else if (tab === 'nueva-venta') {
-    document.getElementById('nav-nueva-venta').classList.add('active');
-    document.getElementById('vista-nueva-venta').style.display = 'block';
-    document.getElementById('stats-bar').style.display = 'none';
-    document.getElementById('f-fecha-receta').value = new Date().toISOString().split('T')[0];
-  }
-}
-
-// ==========================================
-// 📊 LÓGICA DE PROCESAMIENTO Y RENDERIZADO
-// ==========================================
-function refreshUI() {
-  renderPedidos();
-  updateStats();
-}
-
-function updateStats() {
-  const total = localPedidos.length;
-  const pendientes = localPedidos.filter(p => p.estado === 'pendiente').length;
-  
-  const hoyStr = new Date().toISOString().split('T')[0];
-  const procesadosHoy = localPedidos.filter(p => p.estado === 'procesado' && p.fecha_procesado && p.fecha_procesado.startsWith(hoyStr)).length;
-  
-  const sucursales = new Set(localPedidos.map(p => p.sucursal)).size || 2;
-
-  document.getElementById('st-total').innerText = total;
-  document.getElementById('st-pendientes').innerText = pendientes;
-  document.getElementById('st-procesados').innerText = procesadosHoy;
-  document.getElementById('st-sucursales').innerText = sucursales;
-}
-
-function togglePedido(id) {
-  if (expandedPedidos.has(id)) expandedPedidos.delete(id);
-  else expandedPedidos.add(id);
-  renderPedidos();
-}
-
-function filterPedidos(st) {
-  filterState = st;
-  document.querySelectorAll('.filters-row .filter-btn').forEach(b => {
-    if(b.id !== 'btn-refresh') b.classList.remove('active');
+  // Restaurar nav
+  ['nav-armazones','nav-cristales','nav-pedidos'].forEach(id => {
+    document.getElementById(id).style.display = 'flex';
   });
-  document.getElementById(`flt-${st}`).classList.add('active');
-  renderPedidos();
+  document.getElementById('nav-nueva').style.display  = 'none';
+  document.getElementById('stats-bar').style.display  = 'grid';
+
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('inp-pass').value = '';
+  document.getElementById('inp-user').value = '';
 }
 
-function handleSearchInput() {
-  const val = document.getElementById('buscador-pedidos').value;
-  document.getElementById('buscador-clear').style.display = val ? 'block' : 'none';
-  renderPedidos();
-}
+document.getElementById('inp-pass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+document.getElementById('inp-user').addEventListener('keydown', e => { if(e.key==='Enter') document.getElementById('inp-pass').focus(); });
 
-function clearSearch() {
-  document.getElementById('buscador-pedidos').value = '';
-  document.getElementById('buscador-clear').style.display = 'none';
-  renderPedidos();
-}
-
-function getFechaDataObj(fStr) {
-  const d = new Date(fStr);
-  if(isNaN(d.getTime())) return { year: 2026, dayStr: "Fecha Especial" };
-  const meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Setiembre","Octubre","Noviembre","Diciembre"];
-  return {
-    year: d.getFullYear(),
-    dayStr: `${d.getDate()} de ${meses[d.getMonth()]}`
-  };
-}
-
-function renderPedidos() {
-  const query = document.getElementById('buscador-pedidos').value.trim().toLowerCase();
-  const container = document.getElementById('contenedor-pedidos');
-  container.innerHTML = '';
-
-  let filtered = [...localPedidos];
-
-  // Reglas de negocio por perfil de terminal
-  if (activeUser !== 'roma') {
-    filtered = filtered.filter(p => p.sucursal.toLowerCase() === activeUser.toLowerCase());
-  }
-
-  // Filtros rápidos de estado
-  if (filterState === 'pendientes') filtered = filtered.filter(p => p.estado === 'pendiente');
-  if (filterState === 'procesados') filtered = filtered.filter(p => p.estado === 'procesado');
-
-  // Buscador inteligente global
-  if (query) {
-    filtered = filtered.filter(p => 
-      p.cliente.toLowerCase().includes(query) ||
-      p.sucursal.toLowerCase().includes(query) ||
-      p.id.toString().includes(query) ||
-      (p.componentes && p.componentes.arm_marca.toLowerCase().includes(query)) ||
-      (p.componentes && p.componentes.cristal_tipo.toLowerCase().includes(query))
-    );
-  }
-
-  if (filtered.length === 0) {
-    container.innerHTML = `
-      <div class="empty">
-        <div class="empty-icon">📂</div>
-        <h3>No se encontraron pedidos</h3>
-        <p>No existen registros que coincidan con la selección o búsqueda actual.</p>
-      </div>`;
-    return;
-  }
-
-  // Ordenar cronológicamente descendente
-  filtered.sort((a,b) => new Date(b.fecha) - new Date(a.fecha));
-
-  // Agrupación por Año y Día
-  let mapAnios = {};
-  filtered.forEach(p => {
-    const fData = getFechaDataObj(p.fecha);
-    if (!mapAnios[fData.year]) mapAnios[fData.year] = {};
-    if (!mapAnios[fData.year][fData.dayStr]) mapAnios[fData.year][fData.dayStr] = [];
-    mapAnios[fData.year][fData.dayStr].push(p);
-  });
-
-  const aniosSorted = Object.keys(mapAnios).sort((a,b) => b - a);
-
-  aniosSorted.forEach(anio => {
-    const sectionAnio = document.createElement('div');
-    sectionAnio.className = 'year-section';
-    sectionAnio.id = `year-sec-${anio}`;
-
-    let totalAnioCount = 0;
-    const diasObj = mapAnios[anio];
-    Object.keys(diasObj).forEach(d => totalAnioCount += diasObj[d].length);
-
-    const headerAnio = document.createElement('div');
-    headerAnio.className = 'year-header';
-    headerAnio.onclick = () => {
-      sectionAnio.classList.toggle('collapsed');
-    };
-    headerAnio.innerHTML = `
-      <span class="year-header-text">📅 Año Operativo ${anio}</span>
-      <span class="year-header-count">${totalAnioCount} ${totalAnioCount === 1 ? 'pedido' : 'pedidos'}</span>
-      <span class="year-header-arrow">▼</span>
-    `;
-    sectionAnio.appendChild(headerAnio);
-
-    const contentAnio = document.createElement('div');
-    contentAnio.className = 'year-content';
-
-    const diasSorted = Object.keys(diasObj); // Preserva orden relativo
-    diasSorted.forEach(dia => {
-      const headerDia = document.createElement('div');
-      headerDia.className = 'day-header';
-      headerDia.innerText = dia;
-      contentAnio.appendChild(headerDia);
-
-      const listPedidos = document.createElement('div');
-      listPedidos.className = 'pedidos-list';
-
-      diasObj[dia].forEach(p => {
-        const isOpen = expandedPedidos.has(p.id);
-        const card = document.createElement('div');
-        card.className = `pedido-card ${p.estado === 'procesado' ? 'procesado' : ''} ${isOpen ? 'open' : ''} ${p.esNuevoRealtime ? 'nuevo' : ''}`;
-        
-        let fFormated = "";
-        try { fFormated = p.fecha.split('T')[1].substring(0,5) + " hs"; } catch(e) { fFormated = "Hora N/D"; }
-
-        // Mapeo seguro de variables internas de receta médica
-        const lejOD = `${p.graduacion?.lej_od_esf || '0.00'} Esf / ${p.graduacion?.lej_od_cil || '0.00'} Cil × ${p.graduacion?.lej_od_eje || '0'}°`;
-        const lejOI = `${p.graduacion?.lej_oi_esf || '0.00'} Esf / ${p.graduacion?.lej_oi_cil || '0.00'} Cil × ${p.graduacion?.lej_oi_eje || '0'}°`;
-        const cerOD = `${p.graduacion?.cer_od_esf || '0.00'} Esf / ${p.graduacion?.cer_od_cil || '0.00'} Cil × ${p.graduacion?.cer_od_eje || '0'}°`;
-        const cerOI = `${p.graduacion?.cer_oi_esf || '0.00'} Esf / ${p.graduacion?.cer_oi_cil || '0.00'} Cil × ${p.graduacion?.cer_oi_eje || '0'}°`;
-
-        card.innerHTML = `
-          <div class="pedido-header" onclick="togglePedido(${p.id})">
-            <div class="pedido-sucursal ${p.sucursal.toLowerCase() === 'canelones' ? 'canelones' : ''}">${p.sucursal}</div>
-            <div class="pedido-info">
-              <div class="pedido-cliente">${p.cliente}</div>
-              <div class="pedido-meta">
-                <span class="pedido-fecha-completa">🕒 ${fFormated}</span>
-                <span>ID: #${p.id}</span>
-                <span class="pedido-tipo">${p.tipo}</span>
-              </div>
-            </div>
-            <div class="pedido-estado estado-${p.estado}">${p.estado.toUpperCase()}</div>
-            <div class="pedido-arrow">▼</div>
-          </div>
-          <div class="pedido-detalle">
-            <div class="det-grid">
-              
-              <div class="det-section">
-                <div class="det-section-title">🩺 Receta Oftalmológica</div>
-                <div class="det-row"><span class="det-key">Médico:</span><span class="det-val">${p.medico || 'N/C'}</span></div>
-                <div class="det-row"><span class="det-key">Fecha Receta:</span><span class="det-val">${p.fecha_receta || 'N/C'}</span></div>
-                <div style="margin-top:8px;">
-                  <table class="grad-table">
-                    <thead><tr><th>Ojo</th><th>Esférico</th><th>Cilíndrico</th><th>Eje</th></tr></thead>
-                    <tbody>
-                      <tr class="lbl"><td colspan="4">Distancia: Lejos</td></tr>
-                      <tr class="od"><td>OD</td><td>${p.graduacion?.lej_od_esf || '0.00'}</td><td>${p.graduacion?.lej_od_cil || '0.00'}</td><td>${p.graduacion?.lej_od_eje || '0'}°</td></tr>
-                      <tr class="oi"><td>OI</td><td>${p.graduacion?.lej_oi_esf || '0.00'}</td><td>${p.graduacion?.lej_oi_cil || '0.00'}</td><td>${p.graduacion?.lej_oi_eje || '0'}°</td></tr>
-                      <tr class="lbl"><td colspan="4">Distancia: Cerca</td></tr>
-                      <tr class="od"><td>OD</td><td>${p.graduacion?.cer_od_esf || '0.00'}</td><td>${p.graduacion?.cer_od_cil || '0.00'}</td><td>${p.graduacion?.cer_od_eje || '0'}°</td></tr>
-                      <tr class="oi"><td>OI</td><td>${p.graduacion?.cer_oi_esf || '0.00'}</td><td>${p.graduacion?.cer_oi_cil || '0.00'}</td><td>${p.graduacion?.cer_oi_eje || '0'}°</td></tr>
-                    </tbody>
-                  </table>
-                </div>
-                <div class="det-row" style="margin-top:8px; border-top:1px dashed var(--border); padding-top:4px;">
-                  <span class="det-key">ADD:</span><span class="det-val highlight">${p.graduacion?.add || '0.00'}</span>
-                </div>
-              </div>
-
-              <div class="det-section">
-                <div class="det-section-title">🛠️ Armazón y Cristales</div>
-                <div class="det-row"><span class="det-key">Armazón:</span><span class="det-val highlight">${p.componentes?.arm_marca || 'N/A'} - ${p.componentes?.arm_codigo || 'N/A'}</span></div>
-                <div class="det-row"><span class="det-key">Tipo Cristal:</span><span class="det-val highlight">${p.componentes?.cristal_tipo || 'N/A'}</span></div>
-                <div class="det-row"><span class="det-key">Filtros:</span><span class="det-val">${p.componentes?.cristal_trata || 'Ninguno'}</span></div>
-                
-                <div class="det-section-title" style="margin-top:14px; margin-bottom:6px;">📐 Medidas Técnicas</div>
-                <div class="det-row"><span class="det-key">D.P. OD / OI:</span><span class="det-val">${p.medidas?.dist_od || '0'} / ${p.medidas?.dist_oi || '0'} mm</span></div>
-                <div class="det-row"><span class="det-key">Altura OD/OI:</span><span class="det-val">${p.medidas?.alt_od || '0'} mm</span></div>
-                <div class="cristal-row" style="margin-top:6px;">
-                  <span class="cristal-badge">A: ${p.medidas?.a || '0'}</span>
-                  <span class="cristal-badge">B: ${p.medidas?.k || '0'}</span>
-                  <span class="cristal-badge">P: ${p.medidas?.p || '0'}</span>
-                  <span class="cristal-badge">D: ${p.medidas?.d || '0'}</span>
-                </div>
-                <div class="det-row" style="margin-top:6px; border-top:1px dashed var(--border); padding-top:4px;">
-                  <span class="det-key">Uso:</span><span class="det-val" style="font-size:11px;">${p.medico_final || 'No especificado'}</span>
-                </div>
-              </div>
-
-              <div class="det-section">
-                <div class="det-section-title">💰 Liquidación de Caja</div>
-                <div class="det-row"><span class="det-key">Precio Total:</span><span class="det-val highlight green">$${Number(p.valores?.precio || 0).toLocaleString()}</span></div>
-                <div class="det-row"><span class="det-key">Seña Entrega:</span><span class="det-val">$${Number(p.valores?.sena || 0).toLocaleString()}</span></div>
-                <div class="det-row"><span class="det-key">Desc. ASSE:</span><span class="det-val amber">-$${Number(p.valores?.desc_asse || 0).toLocaleString()}</span></div>
-                <div class="det-row" style="margin-top:8px; border-top:1px solid var(--border); padding-top:6px;">
-                  <span class="det-key">Saldo Pendiente:</span>
-                  <span class="det-val highlight ${((p.valores?.precio - p.valores?.sena - p.valores?.desc_asse) > 0) ? 'amber' : 'green'}">
-                    $${Math.max(0, p.valores?.precio - p.valores?.sena - p.valores?.desc_asse).toLocaleString()}
-                  </span>
-                </div>
-                <div style="margin-top:12px; font-size:11px; color:var(--text2); background:rgba(0,0,0,0.15); padding:8px; border-radius:6px; border:1px solid var(--border)">
-                  <strong>Obs Taller:</strong> ${p.obs || 'Sin notas aclaratorias.'}
-                </div>
-              </div>
-
-            </div>
-
-            <div class="det-actions">
-              ${p.estado === 'pendiente' && activeUser === 'roma' ? `
-                <button class="btn-procesar" onclick="procesarPedidoIn situ(${p.id})">⚙️ Marcar como PROCESADO / LABORATORIO</button>
-              ` : ''}
-              <button class="btn-imprimir" onclick="imprimirPedidoFisico(${p.id})">🖨️ Imprimir Ficha de Taller</button>
-              ${p.estado === 'procesado' ? `
-                <div class="fecha-procesado">✅ Procesado en Casa Central el ${p.fecha_procesado ? p.fecha_procesado.replace('T', ' ').substring(0,16) : 'Recientemente'}</div>
-              ` : ''}
-            </div>
-          </div>
-        `;
-        listPedidos.appendChild(card);
-      });
-      contentAnio.appendChild(listPedidos);
-    });
-
-    sectionAnio.appendChild(contentAnio);
-    container.appendChild(sectionAnio);
-  });
-}
-
-function refreshDataReal() {
-  const btn = document.getElementById('btn-refresh');
-  btn.classList.add('spinning');
-  playSound('snd-click');
-
-  setTimeout(() => {
-    btn.classList.remove('spinning');
-    localPedidos = JSON.parse(localStorage.getItem('rabaquino_pedidos'));
-    localArmazones = JSON.parse(localStorage.getItem('rabaquino_armazones'));
-    
-    // Limpieza de estados nuevos flash
-    localPedidos.forEach(p => p.esNuevoRealtime = false);
-    localStorage.setItem('rabaquino_pedidos', JSON.stringify(localPedidos));
-
-    refreshUI();
-    showToast("Datos sincronizados en tiempo real", "ok");
-  }, 900);
-}
-
-function procesarPedidoIn_situ(id) {
-  localPedidos = localPedidos.map(p => {
-    if (p.id === id) {
-      p.estado = 'procesado';
-      p.fecha_procesado = new Date().toISOString();
-    }
-    return p;
-  });
-  localStorage.setItem('rabaquino_pedidos', JSON.stringify(localPedidos));
-  playSound('snd-success');
-  showToast(`Pedido #${id} enviado a producción de laboratorio`, "ok");
-  refreshUI();
-}
-
-function imprimirPedidoFisico(id) {
-  // Asegura que esté visualmente desplegado para que @media print lo capture completo
-  expandedPedidos.add(id);
-  renderPedidos();
-
-  // Injecta la fecha actual en la cabecera oculta de impresion
-  const dateStr = new Date().toLocaleString();
-  document.getElementById('print-date-info').innerText = `Fecha Impresión: ${dateStr}\nOperador: Terminal ${activeUser.toUpperCase()}`;
-
-  setTimeout(() => {
-    window.print();
-  }, 150);
-}
-
-// ==========================================
-// 🕶️ MOTOR DE STOCK DE ARMAZONES Y CRISTALES
-// ==========================================
-function filterArmazones(st) {
-  filterArmState = st;
-  document.querySelectorAll('#vista-armazones .filter-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById(`flt-arm-${st}`).classList.add('active');
-  renderArmazones();
-}
-
-function renderArmazones() {
-  const query = document.getElementById('buscador-armazones').value.trim().toLowerCase();
-  const container = document.getElementById('contenedor-armazones');
-  container.innerHTML = '';
-
-  let filtered = [...localArmazones];
-
-  if (filterArmState === 'disponibles') filtered = filtered.filter(a => (a.stock_melo + a.stock_canelones) > 0);
-  if (filterArmState === 'sin') filtered = filtered.filter(a => (a.stock_melo + a.stock_canelones) === 0);
-
-  if (query) {
-    filtered = filtered.filter(a => a.marca.toLowerCase().includes(query) || a.codigo.toLowerCase().includes(query));
-  }
-
-  filtered.forEach(a => {
-    const card = document.createElement('div');
-    card.className = 'stock-card';
-    const totalStock = a.stock_melo + a.stock_canelones;
-
-    const imgHTML = a.img ? `<img src="${a.img}" alt="Armazón">` : `<div class="stock-img-letter">${a.marca.charAt(0)}</div>`;
-
-    card.innerHTML = `
-      <div class="stock-img-wrap">${imgHTML}</div>
-      <div class="stock-card-body">
-        <div class="stock-card-header">
-          <div class="stock-marca">${a.marca}</div>
-          <div class="stock-badge ${totalStock > 0 ? 'stock-ok' : 'stock-no'}">${totalStock > 0 ? 'STOCK' : 'AGOTADO'}</div>
-        </div>
-        <div class="stock-codigo" style="margin-bottom:10px; font-weight:600;">${a.codigo}</div>
-        <div class="stock-row"><span class="stock-key">Suc. Melo:</span><span class="stock-val">${a.stock_melo} uds</span></div>
-        <div class="stock-row"><span class="stock-key">Suc. Canelones:</span><span class="stock-val">${a.stock_canelones} uds</span></div>
-        <div class="stock-row" style="margin-top:6px; border-top:1px dashed var(--border); padding-top:4px; font-weight:700;">
-          <span class="stock-key" style="color:var(--text);">Total Central:</span><span class="stock-val" style="color:var(--accent2);">${totalStock} uds</span>
-        </div>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
-
-function renderCristales() {
-  const query = document.getElementById('buscador-cristales').value.trim().toLowerCase();
-  const container = document.getElementById('contenedor-cristales');
-  container.innerHTML = '';
-
-  Object.keys(OPTICA_DATA.cristales).forEach(categoria => {
-    let items = OPTICA_DATA.cristales[categoria];
-
-    if (query) {
-      items = items.filter(i => i.desc.toLowerCase().includes(query));
-    }
-
-    if (items.length === 0 && query) return;
-
-    const header = document.createElement('div');
-    header.className = 'cris-tipo-header';
-    header.innerHTML = `
-      <div class="cris-tipo-nombre">🔮 ${categoria}</div>
-      <div class="cris-tipo-stats">${items.filter(i=>i.ok).length} habilitados</div>
-    `;
-    container.appendChild(header);
-
-    const itemsWrap = document.createElement('div');
-    itemsWrap.className = 'cris-items';
-
-    items.forEach(i => {
-      const itemSpan = document.createElement('div');
-      itemSpan.className = `cris-item ${i.ok ? 'ok' : 'no'}`;
-      itemSpan.innerText = `${i.desc} [${i.ok ? 'Disponible' : 'Sin Stock Lab'}]`;
-      itemsWrap.appendChild(itemSpan);
-    });
-
-    container.appendChild(itemsWrap);
-  });
-}
-
-// ==========================================
-// ➕ FORMULARIO DE REGISTRO DE VENTA NUEVA
-// ==========================================
-function submitVentaNueva() {
-  const g = (id) => document.getElementById(id).value.trim();
-
-  const cliente = g('f-cliente');
-  if (!cliente) {
-    playSound('snd-alert');
-    showToast("Por favor, ingresá el nombre del cliente", "error");
-    return;
-  }
-
-  // Creación segura de estructura relacional idéntica a la original
-  const nuevoPedido = {
-    id: localPedidos.length > 0 ? Math.max(...localPedidos.map(p=>p.id)) + 1 : 600,
-    cliente: cliente,
-    sucursal: document.getElementById('f-sucursal').value,
-    fecha: new Date().toISOString(),
-    tipo: document.getElementById('f-tipo-trabajo').value,
-    estado: "pendiente",
-    medico: g('f-medico'),
-    fecha_receta: g('f-fecha-receta'),
-    medico_final: g('f-medico-final'),
-    
-    graduacion: {
-      lej_od_eje: g('f-lej-od-eje'), lej_od_cil: g('f-lej-od-cil'), lej_od_esf: g('f-lej-od-esf'),
-      lej_oi_eje: g('f-lej-oi-eje'), lej_oi_cil: g('f-lej-oi-cil'), lej_oi_esf: g('f-lej-oi-esf'),
-      cer_od_eje: g('f-cer-od-eje'), cer_od_cil: g('f-cer-od-cil'), cer_od_esf: g('f-cer-od-esf'),
-      cer_oi_eje: g('f-cer-oi-eje'), cer_oi_cil: g('f-cer-oi-cil'), cer_oi_esf: g('f-cer-oi-esf'),
-      add: g('f-add')
-    },
-    medidas: {
-      dist_od: g('f-dist-od'), dist_oi: g('f-dist-oi'),
-      alt_od: g('f-alt-od'), alt_oi: g('f-alt-od'), // Asume misma altura balanceada simétrica
-      k: g('f-k'), a: g('f-a'), d: g('f-d'), p: g('f-p')
-    },
-    componentes: {
-      arm_marca: g('f-arm-marca') || 'N/A',
-      arm_codigo: g('f-arm-codigo') || 'N/A',
-      cristal_tipo: g('f-cristal-tipo') || 'N/A',
-      cristal_trata: g('f-cristal-trata') || 'Ninguno'
-    },
-    valores: {
-      precio: Number(g('f-total-venta')) || 0,
-      sena: Number(g('f-sena-recibida')) || 0,
-      desc_asse: Number(g('f-desc-asse')) || 0
-    },
-    obs: g('f-obs')
-  };
-
-  localPedidos.push(nuevoPedido);
-  localStorage.setItem('rabaquino_pedidos', JSON.stringify(localPedidos));
-
-  // Descuento automático de Stock si el armazón existe
-  const marcaBuscada = nuevoPedido.componentes.arm_marca.toLowerCase();
-  const codigoBuscado = nuevoPedido.componentes.arm_codigo.toLowerCase();
-  
-  localArmazones = localArmazones.map(a => {
-    if (a.marca.toLowerCase() === marcaBuscada && a.codigo.toLowerCase() === codigoBuscado) {
-      if (nuevoPedido.sucursal === 'Melo' && a.stock_melo > 0) a.stock_melo--;
-      if (nuevoPedido.sucursal === 'Canelones' && a.stock_canelones > 0) a.stock_canelones--;
-    }
-    return a;
-  });
-  localStorage.setItem('rabaquino_armazones', JSON.stringify(localArmazones));
-
-  playSound('snd-success');
-  showToast(`Pedido #${nuevoPedido.id} registrado con éxito`, "ok");
-
-  // Reset del formulario
-  document.getElementById('f-cliente').value = '';
-  document.querySelectorAll('.form-venta input').forEach(i => {
-    if(i.id !== 'f-fecha-receta') i.value = '';
-  });
-
-  switchTab('pedidos');
-}
-
-// ==========================================
-// 🔔 MOTOR DE SIMULACIÓN EN TIEMPO REAL
-// ==========================================
-let notificationPermissionGranted = false;
-
-function checkNotificationPermissionState() {
-  if (!("Notification" in window)) return;
-  if (Notification.permission === "granted") {
-    notificationPermissionGranted = true;
-  } else if (Notification.permission !== "denied") {
+// ════════════════════════════════════════════════════════════════
+// NOTIFICACIONES WINDOWS (Web Notifications API)
+// ════════════════════════════════════════════════════════════════
+function verificarPermisoNotif() {
+  if (!('Notification' in window)) return;
+  if (Notification.permission === 'default') {
     document.getElementById('notif-perm-bar').style.display = 'flex';
   }
 }
 
-function requestNotificationPermission() {
-  if (!("Notification" in window)) return;
-  Notification.requestPermission().then(permission => {
-    if (permission === "granted") {
-      notificationPermissionGranted = true;
-      showToast("Alertas de escritorio activadas", "ok");
-    }
+function pedirPermisoNotif() {
+  Notification.requestPermission().then(perm => {
     document.getElementById('notif-perm-bar').style.display = 'none';
+    if (perm === 'granted') showToast('🔔 Notificaciones activadas', 'ok');
   });
 }
 
-function closeNotifBanner() {
-  document.getElementById('notif-banner').style.display = 'none';
+function enviarNotifWindows(titulo, cuerpo) {
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  try {
+    new Notification(titulo, {
+      body      : cuerpo,
+      icon      : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">👓</text></svg>',
+      tag       : 'nuevo-pedido',
+      renotify  : true
+    });
+  } catch(e) { /* browser may block */ }
 }
 
-function initRealtimeSimulation() {
-  // Simula la llegada de pedidos aleatorios de sucursales remotas cada 2.5 minutos para pruebas reales
-  setInterval(() => {
-    if (activeUser !== 'roma') return; // Solo casa central recibe alertas realtime globales
+// ════════════════════════════════════════════════════════════════
+// CARGAR PEDIDOS
+// ════════════════════════════════════════════════════════════════
+async function cargarPedidos() {
+  const btn = document.getElementById('btn-refresh');
+  if (btn) btn.classList.add('spinning');
+  try {
+    let params = '?order=fecha_subida.desc&limit=10000';
+    if (SESSION && SESSION.sucursales !== 'todas') {
+      params += `&sucursal=eq.${SESSION.sucursales}`;
+    }
+    const data = await apiGet('pedidos', params);
+    PEDIDOS = data;
+    actualizarStats();
+    renderPedidos();
 
-    const nombres = ["Andrés Silva", "Patricia Méndez", "Roberto González", "Lucía Cáceres", "Ignacio Torres"];
-    const marcas = ["Ray-Ban", "Oakley", "Arnette", "Vogue"];
-    const codigos = ["RB3016", "OX8156", "AN7184", "VO5338"];
-    
-    const randomIdx = Math.floor(Math.random() * nombres.length);
-    const randomSuc = Math.random() > 0.5 ? "Melo" : "Canelones";
+    // ── Detectar pedidos nuevos ──
+    const maxId = data.length ? Math.max(...data.map(p => p.id)) : 0;
+    if (ULTIMO_ID > 0 && maxId > ULTIMO_ID) {
+      const nuevos = data.filter(p =>
+        p.id > ULTIMO_ID && p.estado === 'pendiente' && !NOTIFIED_IDS.has(p.id)
+      );
+      if (nuevos.length > 0) {
+        playNotif();
+        const nombres = nuevos.map(p => p.cliente).join(', ');
+        const msg = `🔔 ${nuevos.length} pedido${nuevos.length>1?'s':''} nuevo${nuevos.length>1?'s':''} — ${nombres}`;
+        showToast(msg, 'nuevo');
+        document.getElementById('notif-banner').style.display = 'flex';
+        document.getElementById('notif-text').textContent = msg;
+        enviarNotifWindows(
+          `🔔 Pedido nuevo en Rabaquino`,
+          nuevos.map(p => `${p.cliente} · ${(p.sucursal||'').toUpperCase()}`).join('\n')
+        );
+        nuevos.forEach(p => NOTIFIED_IDS.add(p.id));
+        localStorage.setItem('notif_ids', JSON.stringify([...NOTIFIED_IDS]));
+      }
+    }
+    if (data.length) ULTIMO_ID = maxId;
 
-    const simulatedPedido = {
-      id: Math.max(...localPedidos.map(p=>p.id)) + 1,
-      cliente: nombres[randomIdx],
-      sucursal: randomSuc,
-      fecha: new Date().toISOString(),
-      tipo: "Laboratorio",
-      estado: "pendiente",
-      esNuevoRealtime: true,
-      medico: "Dr. Guardián Central",
-      fecha_receta: new Date().toISOString().split('T')[0],
-      medico_final: "Uso general diario.",
-      graduacion: { lej_od_esf: "+0.50", lej_oi_esf: "+0.50", add: "0.00" },
-      medidas: { dist_od: "32", dist_oi: "32", a: "52", k: "38", p: "16", d: "55" },
-      componentes: { arm_marca: marcas[Math.floor(Math.random()*marcas.length)], arm_codigo: codigos[Math.floor(Math.random()*codigos.length)], cristal_tipo: "Monofocal", cristal_trata: "Filtro Azul" },
-      valores: { precio: 6400, sena: 3000, desc_asse: 0 },
-      obs: "Ingreso automático vía terminal remota."
-    };
+  } catch(e) {
+    showToast('⚠️ Error al cargar pedidos', 'error');
+  } finally {
+    if (btn) btn.classList.remove('spinning');
+  }
+}
 
-    localPedidos.push(simulatedPedido);
-    localStorage.setItem('rabaquino_pedidos', JSON.stringify(localPedidos));
+function startPolling() {
+  clearInterval(POLL_INTERVAL);
+  POLL_INTERVAL = setInterval(cargarPedidos, 30000); // cada 30 seg
+}
 
-    playSound('snd-alert');
-    document.getElementById('notif-banner').style.display = 'flex';
-    showToast(`Nuevo pedido entrante de Sucursal ${randomSuc}`, "nuevo");
+// ════════════════════════════════════════════════════════════════
+// STATS
+// ════════════════════════════════════════════════════════════════
+function actualizarStats() {
+  const hoy = new Date().toISOString().slice(0,10);
+  document.getElementById('st-total').textContent      = PEDIDOS.length;
+  document.getElementById('st-pendientes').textContent = PEDIDOS.filter(p => p.estado==='pendiente').length;
+  document.getElementById('st-procesados').textContent = PEDIDOS.filter(p => p.estado==='procesado' && (p.fecha_procesado||'').startsWith(hoy)).length;
+  const sucs = [...new Set(PEDIDOS.map(p => p.sucursal))];
+  document.getElementById('st-sucursales').textContent = sucs.length || '—';
+}
 
-    if (notificationPermissionGranted) {
-      new Notification("Portal Rabaquino", {
-        body: `Nuevo pedido de ${simulatedPedido.cliente} (${randomSuc})`,
-        icon: "👓"
+// ════════════════════════════════════════════════════════════════
+// FILTRO / BÚSQUEDA
+// ════════════════════════════════════════════════════════════════
+function setFiltro(f, btn) {
+  FILTRO = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active','active-green'));
+  btn.classList.add(f === 'procesado' ? 'active-green' : 'active');
+  renderPedidos();
+}
+
+function buscarPedidos(texto) {
+  BUSQUEDA = texto.trim().toLowerCase();
+  const cb = document.getElementById('buscador-clear');
+  if (cb) cb.style.display = BUSQUEDA ? 'block' : 'none';
+  renderPedidos();
+}
+
+function limpiarBusqueda() {
+  BUSQUEDA = '';
+  document.getElementById('buscador').value = '';
+  const cb = document.getElementById('buscador-clear');
+  if (cb) cb.style.display = 'none';
+  renderPedidos();
+}
+
+// ════════════════════════════════════════════════════════════════
+// RENDER PEDIDOS — agrupado por AÑO → DÍA
+// ════════════════════════════════════════════════════════════════
+function renderPedidos() {
+  const list = document.getElementById('pedidos-list');
+  let filtered = PEDIDOS.slice();
+  if (FILTRO !== 'todos') filtered = filtered.filter(p => p.estado === FILTRO);
+
+  if (BUSQUEDA) {
+    const b = BUSQUEDA;
+    filtered = filtered.filter(p =>
+      (p.cliente||'').toLowerCase().includes(b) ||
+      (p.cedula||'').toLowerCase().includes(b) ||
+      (p.numero_trabajo||'').toLowerCase().includes(b) ||
+      (p.c1_tipo||'').toLowerCase().includes(b) ||
+      (p.c2_tipo||'').toLowerCase().includes(b) ||
+      (p.c3_tipo||'').toLowerCase().includes(b) ||
+      (p.armazones||'').toLowerCase().includes(b) ||
+      (p.medico||'').toLowerCase().includes(b) ||
+      (p.tipo_pedido||'').toLowerCase().includes(b) ||
+      (p.sucursal||'').toLowerCase().includes(b)
+    );
+  }
+
+  const tit = document.getElementById('titulo-lista');
+  if (tit) tit.textContent = BUSQUEDA
+    ? `Pedidos (${filtered.length} resultado${filtered.length!==1?'s':''})`
+    : 'Pedidos';
+
+  if (!filtered.length) {
+    const icono = FILTRO==='procesado' ? '✅' : '📭';
+    const msg   = FILTRO==='procesado' ? 'No hay procesados' : BUSQUEDA ? 'Sin resultados' : 'No hay pedidos';
+    list.innerHTML = `<div class="empty"><div class="empty-icon">${icono}</div><h3>${msg}</h3><p>Los pedidos nuevos aparecerán aquí automáticamente</p></div>`;
+    return;
+  }
+
+  // ── Agrupar por AÑO ──
+  const porAnio = {};
+  filtered.forEach(p => {
+    const anio = (p.fecha_subida || '2025').slice(0, 4);
+    if (!porAnio[anio]) porAnio[anio] = [];
+    porAnio[anio].push(p);
+  });
+
+  let html = '';
+  Object.keys(porAnio).sort((a,b) => b - a).forEach(anio => {
+    const pedidosAnio = porAnio[anio];
+    const pendAnio    = pedidosAnio.filter(p => p.estado === 'pendiente').length;
+
+    // Agrupar por DÍA
+    const porDia = {};
+    pedidosAnio.forEach(p => {
+      const dia = (p.fecha_subida || '').slice(0, 10);
+      if (!porDia[dia]) porDia[dia] = [];
+      porDia[dia].push(p);
+    });
+
+    const pendHtml = pendAnio
+      ? `&nbsp;·&nbsp;<span style="color:var(--amber)">${pendAnio} pendiente${pendAnio>1?'s':''}</span>`
+      : '';
+
+    html += `
+    <div class="year-section" id="year-${anio}">
+      <div class="year-header" onclick="toggleYear('${anio}')">
+        <svg class="year-header-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+        <span class="year-header-text">📅 ${anio}</span>
+        <span class="year-header-count">${pedidosAnio.length} pedido${pedidosAnio.length!==1?'s':''}${pendHtml}</span>
+      </div>
+      <div class="year-content">`;
+
+    Object.keys(porDia).sort((a,b) => b.localeCompare(a)).forEach(dia => {
+      html += `<div class="day-header">${formatDia(dia)}</div>`;
+      porDia[dia].forEach(p => { html += renderCard(p); });
+    });
+
+    html += `</div></div>`;
+  });
+
+  list.innerHTML = html;
+}
+
+function toggleYear(anio) {
+  const sec = document.getElementById('year-' + anio);
+  if (sec) sec.classList.toggle('collapsed');
+}
+
+function formatDia(iso) {
+  if (!iso) return '';
+  const d    = new Date(iso + 'T00:00:00');
+  const hoy  = new Date(); hoy.setHours(0,0,0,0);
+  const ayer = new Date(hoy); ayer.setDate(hoy.getDate()-1);
+  if (d.getTime() === hoy.getTime())  return '📅 Hoy';
+  if (d.getTime() === ayer.getTime()) return '🗓️ Ayer';
+  return d.toLocaleDateString('es-UY', { weekday:'long', day:'numeric', month:'long' });
+}
+
+function formatFechaHora(iso) {
+  if (!iso) return '—';
+  try {
+    const d   = new Date(iso);
+    const pad = n => String(n).padStart(2,'0');
+    return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  } catch(e) { return iso; }
+}
+
+// ════════════════════════════════════════════════════════════════
+// RENDER CARD
+// ════════════════════════════════════════════════════════════════
+function renderCard(p) {
+  const esNuevo     = p.estado === 'pendiente';
+  const sucLabel    = (p.sucursal || 'roma').toUpperCase();
+  const esCanelones = (p.sucursal || '').toLowerCase().includes('canelones');
+  const fechaHora   = formatFechaHora(p.fecha_subida);
+  const horaProc    = p.fecha_procesado ? formatFechaHora(p.fecha_procesado) : '';
+  const tipo        = p.tipo_pedido || '';
+
+  const cBadge = (tipo, mat, col, trat) =>
+    tipo ? `<div class="cristal-row">
+      <span class="cristal-badge main">${tipo}</span>
+      ${mat  ? `<span class="cristal-badge">${mat}</span>`  : ''}
+      ${col  ? `<span class="cristal-badge">${col}</span>`  : ''}
+      ${trat ? `<span class="cristal-badge">${trat}</span>` : ''}
+    </div>` : '';
+
+  const cristales = [
+    cBadge(p.c1_tipo, p.c1_material, p.c1_color, p.c1_trat),
+    cBadge(p.c2_tipo, p.c2_material, p.c2_color, p.c2_trat),
+    cBadge(p.c3_tipo, p.c3_material, p.c3_color, p.c3_trat)
+  ].filter(Boolean).join('') || '<span style="color:var(--text3);font-size:13px">Sin cristales especificados</span>';
+
+  const cerFila = (p.cer_od_esf || p.cer_oi_esf) ? `
+    <div style="margin-top:8px">
+      <div style="font-size:10px;color:var(--text3);margin-bottom:4px;font-weight:600">CERCA</div>
+      <table class="grad-table">
+        <thead><tr><th></th><th>EJE</th><th>CIL</th><th>ESF</th></tr></thead>
+        <tbody>
+          <tr class="od"><td style="color:var(--text3);font-size:10px;font-weight:700">OD</td><td>${p.cer_od_eje||'—'}</td><td>${p.cer_od_cil||'—'}</td><td>${p.cer_od_esf||'—'}</td></tr>
+          <tr class="oi"><td style="color:var(--text3);font-size:10px;font-weight:700">OI</td><td>${p.cer_oi_eje||'—'}</td><td>${p.cer_oi_cil||'—'}</td><td>${p.cer_oi_esf||'—'}</td></tr>
+        </tbody>
+      </table>
+    </div>` : '';
+
+  return `
+  <div class="pedido-card ${esNuevo?'nuevo':'procesado'}" id="card-${p.id}">
+    <div class="pedido-header" onclick="toggleCard(${p.id})">
+      <div class="pedido-sucursal${esCanelones?' canelones':''}">${sucLabel}</div>
+      <div class="pedido-info">
+        <div class="pedido-cliente">${p.cliente || 'Sin nombre'}</div>
+        <div class="pedido-meta">
+          <span>CI ${p.cedula||'—'}</span>
+          <span style="color:var(--text3)">·</span>
+          <span>${p.telefono||'—'}</span>
+          ${tipo ? `<span class="pedido-tipo">${tipo}</span>` : ''}
+          ${p.numero_trabajo ? `<span style="color:var(--accent2)">N° ${p.numero_trabajo}</span>` : ''}
+          <span class="pedido-fecha-completa">🕐 ${fechaHora}</span>
+        </div>
+      </div>
+      <span class="pedido-estado ${esNuevo?'estado-pendiente':'estado-procesado'}">${esNuevo?'⏳ Pendiente':'✅ Procesado'}</span>
+      <svg class="pedido-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </div>
+
+    <div class="pedido-detalle">
+      <div class="det-grid">
+
+        <!-- Cliente -->
+        <div class="det-section">
+          <div class="det-section-title">👤 Cliente</div>
+          <div class="det-row"><span class="det-key">Nombre</span><span class="det-val highlight">${p.cliente||'—'}</span></div>
+          <div class="det-row"><span class="det-key">Cédula</span><span class="det-val">${p.cedula||'—'}</span></div>
+          <div class="det-row"><span class="det-key">Teléfono</span><span class="det-val">${p.telefono||'—'}</span></div>
+          <div class="det-row"><span class="det-key">Médico</span><span class="det-val">${p.medico||'—'}</span></div>
+          <div class="det-row"><span class="det-key">N° Trabajo</span><span class="det-val amber">${p.numero_trabajo||'—'}</span></div>
+          <div class="det-row" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--border)">
+            <span class="det-key">Pedido el</span>
+            <span class="det-val" style="color:var(--accent2)">${fechaHora}</span>
+          </div>
+          ${!esNuevo && horaProc ? `<div class="det-row"><span class="det-key">Procesado</span><span class="det-val green">${horaProc}</span></div>` : ''}
+        </div>
+
+        <!-- Graduación -->
+        <div class="det-section">
+          <div class="det-section-title">👁️ Graduación</div>
+          <div style="margin-bottom:8px">
+            <div style="font-size:10px;color:var(--text3);margin-bottom:4px;font-weight:600">LEJOS</div>
+            <table class="grad-table">
+              <thead><tr><th></th><th>EJE</th><th>CIL</th><th>ESF</th></tr></thead>
+              <tbody>
+                <tr class="od"><td style="color:var(--text3);font-size:10px;font-weight:700">OD</td><td>${p.lej_od_eje||'—'}</td><td>${p.lej_od_cil||'—'}</td><td>${p.lej_od_esf||'—'}</td></tr>
+                <tr class="oi"><td style="color:var(--text3);font-size:10px;font-weight:700">OI</td><td>${p.lej_oi_eje||'—'}</td><td>${p.lej_oi_cil||'—'}</td><td>${p.lej_oi_esf||'—'}</td></tr>
+              </tbody>
+            </table>
+          </div>
+          ${p.add_val ? `<div class="det-row"><span class="det-key">ADD</span><span class="det-val green">${p.add_val}</span></div>` : ''}
+          ${cerFila}
+          <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
+            <div style="font-size:10px;color:var(--text3);margin-bottom:4px;font-weight:600">MEDIDAS</div>
+            <div class="det-row"><span class="det-key">Dist OD/OI</span><span class="det-val">${p.dist_od||'—'} / ${p.dist_oi||'—'}</span></div>
+            <div class="det-row"><span class="det-key">Alt OD/OI</span><span class="det-val">${p.alt_od||'—'} / ${p.alt_oi||'—'}</span></div>
+            <div class="det-row"><span class="det-key">K · A · D · P</span><span class="det-val">${[p.k,p.a,p.d,p.p].map(v=>v||'—').join(' · ')}</span></div>
+          </div>
+        </div>
+
+        <!-- Cristales y precio -->
+        <div class="det-section">
+          <div class="det-section-title">🔍 Cristales</div>
+          ${cristales}
+          ${p.armazones ? `
+          <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
+            <div class="det-section-title">👓 Armazón</div>
+            <div style="font-size:13px;font-family:var(--mono);color:var(--text);line-height:1.6">${p.armazones}</div>
+          </div>` : ''}
+          <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
+            <div class="det-section-title">💰 Precio</div>
+            <div class="det-row"><span class="det-key">Total</span><span class="det-val amber">${p.precio||'—'}</span></div>
+            <div class="det-row"><span class="det-key">Seña</span><span class="det-val">${p.sena||'—'}</span></div>
+            <div class="det-row"><span class="det-key">Saldo</span><span class="det-val">${p.saldo||'—'}</span></div>
+            <div class="det-row"><span class="det-key">Pago</span><span class="det-val">${p.forma_pago||'—'}</span></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Acciones -->
+      <div class="det-actions">
+        ${esNuevo
+          ? `<button class="btn-procesar" onclick="procesar(${p.id}, this)">✅ Marcar como procesado</button>`
+          : `<div class="fecha-procesado">✅ Procesado el ${horaProc}</div>`}
+        <button class="btn-imprimir" onclick="imprimirPedido(${p.id})">🖨️ Imprimir</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════════════════════════
+// TOGGLE
+// ════════════════════════════════════════════════════════════════
+function toggleCard(id) {
+  document.getElementById('card-' + id).classList.toggle('open');
+}
+
+// ════════════════════════════════════════════════════════════════
+// PROCESAR
+// ════════════════════════════════════════════════════════════════
+async function procesar(id, btn) {
+  btn.disabled = true;
+  btn.textContent = 'Procesando...';
+  try {
+    const ahora = new Date().toISOString();
+    await apiPatch('pedidos', id, { estado: 'procesado', fecha_procesado: ahora });
+    // Limpiar de notificados (ya no tiene sentido mantenerlo)
+    NOTIFIED_IDS.delete(id);
+    localStorage.setItem('notif_ids', JSON.stringify([...NOTIFIED_IDS]));
+    showToast('✅ Pedido marcado como procesado', 'ok');
+    await cargarPedidos();
+  } catch(e) {
+    btn.disabled = false;
+    btn.textContent = '✅ Marcar como procesado';
+    showToast('⚠️ Error al procesar: ' + e.message, 'error');
+  }
+}
+
+// ════════════════════════════════════════════════════════════════
+// IMPRIMIR — diseño profesional
+// ════════════════════════════════════════════════════════════════
+function imprimirPedido(id) {
+  // Cerrar todas, abrir solo la seleccionada
+  document.querySelectorAll('.pedido-card').forEach(c => c.classList.remove('open'));
+  const card = document.getElementById('card-' + id);
+  if (!card) return;
+  card.classList.add('open');
+
+  // Completar encabezado de impresión
+  const pi = document.getElementById('print-date-info');
+  if (pi) {
+    const now = new Date();
+    pi.innerHTML =
+      `Impreso: ${formatFechaHora(now.toISOString())}<br>` +
+      `Sucursal: Óptica Roma<br>` +
+      `Sistema: Portal Rabaquino`;
+  }
+
+  setTimeout(() => window.print(), 350);
+}
+
+// ════════════════════════════════════════════════════════════════
+// NAVEGACIÓN
+// ════════════════════════════════════════════════════════════════
+function setVista(vista, btn) {
+  VISTA_ACTUAL = vista;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  document.getElementById('vista-pedidos').style.display     = vista === 'pedidos'   ? 'block' : 'none';
+  document.getElementById('vista-armazones').style.display   = vista === 'armazones' ? 'block' : 'none';
+  document.getElementById('vista-cristales').style.display   = vista === 'cristales' ? 'block' : 'none';
+  document.getElementById('vista-nueva-venta').style.display = vista === 'nueva'     ? 'block' : 'none';
+
+  if (vista === 'armazones' && ARMAZONES.length === 0) cargarArmazones();
+  if (vista === 'cristales' && CRISTALES_STOCK.length === 0) cargarCristalesStock();
+}
+
+// ════════════════════════════════════════════════════════════════
+// SONIDO NOTIFICACIÓN
+// ════════════════════════════════════════════════════════════════
+function playNotif() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    // Melodía alegre de 4 notas
+    [[523, 0, .28],[659, .2, .28],[784, .4, .3],[659, .65, .18],[880, .82, .35]]
+      .forEach(([freq, start, dur]) => {
+        const osc  = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.frequency.value = freq;
+        osc.type = 'sine';
+        gain.gain.setValueAtTime(0, ctx.currentTime + start);
+        gain.gain.linearRampToValueAtTime(0.32, ctx.currentTime + start + 0.04);
+        gain.gain.linearRampToValueAtTime(0, ctx.currentTime + start + dur);
+        osc.start(ctx.currentTime + start);
+        osc.stop(ctx.currentTime + start + dur + 0.05);
       });
-    }
+  } catch(e) { /* AudioContext no disponible */ }
+}
 
-    if (currentTab === 'pedidos') {
-      renderPedidos();
-      updateStats();
-    }
-  }, 150000); 
+// ════════════════════════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════════════════════════
+let toastTimeout;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show ' + type;
+  clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => t.className = '', 4500);
+}
+
+// ════════════════════════════════════════════════════════════════
+// ARMAZONES (con imagen)
+// ════════════════════════════════════════════════════════════════
+async function cargarArmazones() {
+  const list = document.getElementById('arm-list');
+  list.innerHTML = '<div class="empty"><div class="empty-icon">⏳</div><h3>Cargando armazones...</h3></div>';
+  try {
+    const data = await apiGetAll('armazones_stock', '?order=marca.asc');
+    ARMAZONES = data;
+    renderArmazones('');
+  } catch(e) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><h3>No disponible</h3><p>El stock se sincroniza cuando la PC de la óptica está encendida</p></div>';
+  }
+}
+
+function filtrarArmazones(texto) { renderArmazones(texto.toLowerCase()); }
+
+function renderArmazones(filtro) {
+  const list = document.getElementById('arm-list');
+  let items = ARMAZONES;
+  if (filtro) {
+    items = items.filter(a =>
+      (a.marca||'').toLowerCase().includes(filtro) ||
+      (a.codigo||'').toLowerCase().includes(filtro) ||
+      (a.color||'').toLowerCase().includes(filtro) ||
+      (a.material||'').toLowerCase().includes(filtro)
+    );
+  }
+  if (!items.length) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">👓</div><h3>Sin resultados</h3></div>';
+    return;
+  }
+
+  // Intentar URL de Storage Supabase (bucket "armazones")
+  // Si la imagen falla, se muestra la inicial de la marca
+  list.innerHTML = items.map(a => {
+    const st      = parseInt(a.stock || '0');
+    const inicial = (a.marca || '?').charAt(0).toUpperCase();
+    const imgSrc  = buildPublicStorageUrl('armazones', a.imagen);
+
+    const imgHtml = imgSrc
+      ? `<img src="${imgSrc}" alt="${a.marca} ${a.codigo}" loading="lazy"
+             onerror="this.parentElement.innerHTML='<div class=\\'stock-img-letter\\'>${inicial}</div>'">`
+      : `<div class="stock-img-letter">${inicial}</div>`;
+
+    const medidas = [a.k,a.a,a.d,a.p].filter(Boolean).join(' · ');
+
+    return `<div class="stock-card">
+      <div class="stock-img-wrap">${imgHtml}</div>
+      <div class="stock-card-body">
+        <div class="stock-card-header">
+          <div>
+            <div class="stock-marca">${a.marca||'—'}</div>
+            <div class="stock-codigo">${a.codigo||''}</div>
+          </div>
+          <span class="stock-badge ${st>0?'stock-ok':'stock-no'}">${st>0?'✓ '+st:'AGOTADO'}</span>
+        </div>
+        <div class="stock-row"><span class="stock-key">Color</span><span class="stock-val">${a.color||'—'}</span></div>
+        <div class="stock-row"><span class="stock-key">Material</span><span class="stock-val">${a.material||'—'}</span></div>
+        ${medidas ? `<div class="stock-row"><span class="stock-key">K·A·D·P</span><span class="stock-val">${medidas}</span></div>` : ''}
+        ${a.precio_venta ? `<div class="stock-row"><span class="stock-key">Precio</span><span class="stock-val" style="color:var(--amber)">$${a.precio_venta}</span></div>` : ''}
+        ${a.ubicacion ? `<div class="stock-row"><span class="stock-key">Ubicación</span><span class="stock-val">${a.ubicacion}</span></div>` : ''}
+        ${a.notas ? `<div style="font-size:11px;color:var(--text3);margin-top:6px;border-top:1px solid var(--border);padding-top:4px">${a.notas}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════════════
+// CRISTALES STOCK
+// ════════════════════════════════════════════════════════════════
+async function cargarCristalesStock() {
+  const list = document.getElementById('cris-list');
+  list.innerHTML = '<div class="empty"><div class="empty-icon">⏳</div><h3>Cargando cristales...</h3></div>';
+  try {
+    const data = await apiGetAll('cristales_stock', '?order=tipo.asc&order=esf.asc');
+    CRISTALES_STOCK = data;
+    renderCristalesStock();
+  } catch(e) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">⚠️</div><h3>No disponible</h3><p>El stock se sincroniza cuando la PC de la óptica está encendida</p></div>';
+  }
+}
+
+function renderCristalesStock() {
+  const list = document.getElementById('cris-list');
+  if (!CRISTALES_STOCK.length) {
+    list.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div><h3>Sin datos</h3></div>';
+    return;
+  }
+
+  // Agrupar por subtipo → tipo
+  const grupos = {};
+  CRISTALES_STOCK.forEach(c => {
+    const key = c.subtipo || c.tipo || 'SIN TIPO';
+    if (!grupos[key]) grupos[key] = [];
+    grupos[key].push(c);
+  });
+
+  list.innerHTML = Object.keys(grupos).sort().map(tipo => {
+    const items = grupos[tipo];
+    const disp  = items.filter(c => normalizeBool(c.disponible)).length;
+    const pct   = Math.round((disp / items.length) * 100);
+    const color = pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--red)';
+
+    return `
+    <div class="cris-tipo-header">
+      <span class="cris-tipo-nombre">${tipo}</span>
+      <span class="cris-tipo-stats" style="color:${color}">${disp}/${items.length} disponibles</span>
+    </div>
+    <div class="cris-items">
+      ${items.map(c => {
+        const label = [c.esf, c.cil, c.add_val ? '+'+c.add_val : '', c.ojo].filter(Boolean).join(' ');
+        const qty   = c.cantidad && parseInt(c.cantidad) > 1 ? ` <span style="opacity:.6">×${c.cantidad}</span>` : '';
+        const disponible = normalizeBool(c.disponible);
+        return `<span class="cris-item ${disponible?'ok':'no'}" title="${disponible?'Disponible':'Agotado'}">${label||'—'}${qty}</span>`;
+      }).join('')}
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════════════
+// NUEVA VENTA — Canelones
+// ════════════════════════════════════════════════════════════════
+async function submitNuevaVenta() {
+  const cliente = document.getElementById('f-cliente').value.trim();
+  if (!cliente) {
+    showToast('⚠️ Ingresá el nombre del cliente', 'error');
+    document.getElementById('f-cliente').focus();
+    return;
+  }
+
+  // Validar campos requeridos
+  const tipoCristal = document.getElementById('f-c1-tipo').value.trim();
+  if (!tipoCristal) {
+    showToast('⚠️ Seleccioná el tipo de cristal principal', 'error');
+    document.getElementById('f-c1-tipo').focus();
+    return;
+  }
+
+  const tipoPedido = document.getElementById('f-tipo-pedido').value.trim();
+  if (!tipoPedido) {
+    showToast('⚠️ Seleccioná el tipo de pedido', 'error');
+    document.getElementById('f-tipo-pedido').focus();
+    return;
+  }
+
+  // Validar que al menos un valor de graduación lejos esté completo
+  const lejOdEsf = document.getElementById('f-lej-od-esf').value.trim();
+  const lejOiEsf = document.getElementById('f-lej-oi-esf').value.trim();
+  if (!lejOdEsf && !lejOiEsf) {
+    showToast('⚠️ Ingresá al menos la graduación de un ojo (OD u OI)', 'error');
+    document.getElementById('f-lej-od-esf').focus();
+    return;
+  }
+
+  const btn = document.getElementById('btn-submit-venta');
+  btn.disabled = true;
+  btn.innerHTML = '<svg style="display:inline;animation:spin .8s linear infinite;margin-right:6px;vertical-align:middle" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Enviando pedido...';
+
+  const ahora = new Date();
+  const pad   = n => String(n).padStart(2,'0');
+  const fechaVenta = `${pad(ahora.getDate())}/${pad(ahora.getMonth()+1)}/${ahora.getFullYear()} ${pad(ahora.getHours())}:${pad(ahora.getMinutes())}`;
+
+  const g = id => {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  };
+
+  const pedido = {
+    sucursal:       'romacanelones',
+    cliente:        cliente.toUpperCase(),
+    cedula:         g('f-cedula'),
+    telefono:       g('f-telefono'),
+    medico:         g('f-medico'),
+    fecha_venta:    fechaVenta,
+    numero_trabajo: g('f-numero-trabajo'),
+    tipo_pedido:    g('f-tipo-pedido'),
+    lej_od_eje:     g('f-lej-od-eje'),
+    lej_od_cil:     g('f-lej-od-cil'),
+    lej_od_esf:     g('f-lej-od-esf'),
+    lej_oi_eje:     g('f-lej-oi-eje'),
+    lej_oi_cil:     g('f-lej-oi-cil'),
+    lej_oi_esf:     g('f-lej-oi-esf'),
+    add_val:        g('f-add'),
+    cer_od_eje:     g('f-cer-od-eje'),
+    cer_od_cil:     g('f-cer-od-cil'),
+    cer_od_esf:     g('f-cer-od-esf'),
+    cer_oi_eje:     g('f-cer-oi-eje'),
+    cer_oi_cil:     g('f-cer-oi-cil'),
+    cer_oi_esf:     g('f-cer-oi-esf'),
+    dist_od:        g('f-dist-od'),
+    dist_oi:        g('f-dist-oi'),
+    alt_od:         g('f-alt-od'),
+    alt_oi:         g('f-alt-oi'),
+    k:              g('f-k'),
+    a:              g('f-a'),
+    d:              g('f-d'),
+    p:              g('f-p'),
+    c1_tipo:        g('f-c1-tipo'),
+    c1_material:    g('f-c1-material'),
+    c1_color:       g('f-c1-color'),
+    c1_trat:        g('f-c1-trat'),
+    c2_tipo:        g('f-c2-tipo'),
+    c2_material:    g('f-c2-material'),
+    c2_color:       g('f-c2-color'),
+    c2_trat:        g('f-c2-trat'),
+    c3_tipo:        g('f-c3-tipo'),
+    c3_material:    g('f-c3-material'),
+    c3_color:       g('f-c3-color'),
+    c3_trat:        g('f-c3-trat'),
+    armazones:      g('f-armazones'),
+    precio:         g('f-precio'),
+    sena:           g('f-sena'),
+    saldo:          g('f-saldo'),
+    forma_pago:     g('f-forma-pago'),
+    estado:         'pendiente',
+    fecha_subida:   ahora.toISOString()
+  };
+
+  try {
+    await apiPost('pedidos', pedido);
+    showToast('✅ ¡Pedido enviado a Rabaquino exitosamente!', 'ok');
+
+    // Limpiar formulario
+    [
+      'f-cliente','f-cedula','f-telefono','f-medico','f-numero-trabajo',
+      'f-lej-od-eje','f-lej-od-cil','f-lej-od-esf',
+      'f-lej-oi-eje','f-lej-oi-cil','f-lej-oi-esf',
+      'f-add',
+      'f-cer-od-eje','f-cer-od-cil','f-cer-od-esf',
+      'f-cer-oi-eje','f-cer-oi-cil','f-cer-oi-esf',
+      'f-dist-od','f-dist-oi','f-alt-od','f-alt-oi','f-k','f-a','f-d','f-p',
+      'f-c1-tipo','f-c1-material','f-c1-color','f-c1-trat',
+      'f-c2-tipo','f-c2-material','f-c2-color','f-c2-trat',
+      'f-c3-tipo','f-c3-material','f-c3-color','f-c3-trat',
+      'f-armazones','f-precio','f-sena','f-saldo','f-forma-pago','f-tipo-pedido'
+    ].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+
+    // Scroll arriba del formulario
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch(e) {
+    showToast('⚠️ Error al enviar: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '📤 Enviar Pedido a Rabaquino';
+  }
 }
 </script>
 </body>
