@@ -604,6 +604,10 @@
     margin-left: auto;
   }
   .print-only { display: none; }
+  .print-focus,
+  .print-client-grid,
+  .print-product-list,
+  .print-grad-wrap { display: none; }
 
   /* ── EMPTY ── */
   .empty {
@@ -659,11 +663,11 @@
 
   /* ── PRINT ── */
   @media print {
-    @page { size: auto; margin: 14mm; }
+    @page { size: A4 portrait; margin: 8mm; }
     body { background: #fff; color: #000; }
     body::before { display: none; }
     .topbar, .filters-row, .stats-bar, .det-actions,
-    .pedido-header .pedido-arrow, #toast, #login-screen,
+    .pedido-header, .pedido-header .pedido-arrow, #toast, #login-screen,
     #notif-banner, .buscador-wrap, .nav-btn { display: none !important; }
     #app, .main, #vista-pedidos, .pedidos-list, .pedidos-year, .day-group {
       display: block !important;
@@ -677,100 +681,294 @@
       display: none !important;
     }
     .pedido-card {
-      border: 1px solid #d5dbe5 !important;
-      border-radius: 18px !important;
+      border: 1px solid #cbd5e1 !important;
+      border-radius: 12px !important;
       background: #fff !important;
       box-shadow: none !important;
       break-inside: avoid;
-      margin-bottom: 12mm;
+      margin: 0 !important;
       opacity: 1 !important;
       transform: none !important;
     }
-    .pedido-header {
-      display: flex !important;
-      align-items: flex-start !important;
-      padding: 0 !important;
-      margin: 0 !important;
-      border-bottom: 1px solid #dfe6ee;
-      background: linear-gradient(180deg, #f7fafc, #ffffff) !important;
-      cursor: default !important;
-    }
-    .pedido-info {
-      padding: 18px 22px 16px;
-    }
-    .pedido-sucursal {
-      margin: 18px 0 0 18px;
-      background: #eef4ff !important;
-      color: #1d4ed8 !important;
-      border: 1px solid #bfdbfe;
-    }
-    .pedido-meta {
-      row-gap: 8px;
-    }
-    .pedido-fecha-exacta {
-      background: #eff6ff !important;
-      border-color: #bfdbfe !important;
-      color: #1d4ed8 !important;
-    }
-    .pedido-estado {
-      margin: 18px 18px 0 0;
-    }
     .pedido-detalle {
       display: block !important;
-      padding: 18px 22px 22px !important;
+      border-top: 0 !important;
+      padding: 8px 10px 10px !important;
     }
     .print-only {
       display: block !important;
+    }
+    .det-grid {
+      display: none !important;
     }
     .print-headline {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid #111827;
+      margin-bottom: 8px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #0f172a;
     }
     .print-brand {
-      font-size: 22px;
+      font-size: 16px;
       font-weight: 700;
       color: #111827;
     }
     .print-caption {
-      font-size: 11px;
+      font-size: 9px;
       text-transform: uppercase;
-      letter-spacing: .12em;
+      letter-spacing: .08em;
       color: #64748b;
     }
     .print-summary {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-      margin-bottom: 16px;
+      gap: 6px;
+      margin-bottom: 8px;
     }
     .print-summary-card {
       border: 1px solid #dbe3ef;
-      border-radius: 12px;
-      padding: 10px 12px;
+      border-radius: 8px;
+      padding: 6px 8px;
       background: #f8fafc;
     }
     .print-summary-label {
-      font-size: 10px;
+      font-size: 8px;
       text-transform: uppercase;
       letter-spacing: .08em;
       color: #64748b;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .print-summary-value {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 600;
       color: #0f172a;
+      line-height: 1.2;
     }
-    .det-grid {
-      gap: 14px !important;
+    .print-focus {
+      display: grid !important;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 6px;
+      margin-bottom: 6px;
     }
-    .det-section { background: #f9fbfd !important; border: 1px solid #d9e1ea !important; }
-    .det-key, .det-val, .grad-table th, .grad-table td { color: #000 !important; }
+    .print-grad-wrap,
+    .print-product-list,
+    .print-client-grid {
+      display: block !important;
+    }
+    .print-card {
+      background: #f9fbfd !important;
+      border: 1px solid #d9e1ea !important;
+      border-radius: 8px !important;
+      padding: 8px 10px !important;
+    }
+    .print-product-list {
+      display: grid !important;
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
+    .print-section-title {
+      font-size: 9px !important;
+      font-weight: 800 !important;
+      letter-spacing: .08em !important;
+      margin-bottom: 6px !important;
+      color: #0f172a !important;
+      text-transform: uppercase;
+    }
+    .print-client-grid {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px 10px;
+      margin-bottom: 0;
+    }
+    .print-field {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+    .print-field-label {
+      font-size: 8px !important;
+      font-weight: 700 !important;
+      color: #64748b !important;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+    }
+    .print-field-value {
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      color: #0f172a !important;
+      line-height: 1.15;
+    }
+    .print-field-value.strong {
+      font-size: 11px !important;
+      font-weight: 800 !important;
+    }
+    .print-grad-table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      margin-top: 2px;
+    }
+    .print-grad-table th {
+      font-size: 8px !important;
+      font-weight: 800 !important;
+      padding: 3px 4px !important;
+      color: #334155 !important;
+      border-bottom: 1px solid #cbd5e1 !important;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+    .print-grad-table td {
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      padding: 4px !important;
+      color: #0f172a !important;
+      line-height: 1.1 !important;
+      text-align: center;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .print-grad-eye {
+      font-size: 9px !important;
+      font-weight: 800 !important;
+      color: #334155 !important;
+      text-align: left !important;
+      width: 44px;
+    }
+    .print-measures {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 4px;
+      margin-top: 6px;
+    }
+    .print-measure-box {
+      border: 1px solid #dbe3ef;
+      border-radius: 6px;
+      padding: 4px 6px;
+      background: #fff;
+    }
+    .print-measure-label {
+      font-size: 8px !important;
+      font-weight: 700 !important;
+      color: #64748b !important;
+      text-transform: uppercase;
+    }
+    .print-measure-value {
+      font-size: 10px !important;
+      font-weight: 800 !important;
+      color: #0f172a !important;
+      line-height: 1.15;
+    }
+    .print-product-card {
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 6px 8px;
+      background: #fff;
+    }
+    .print-product-name {
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      color: #0f172a !important;
+      margin-bottom: 3px;
+    }
+    .print-product-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    .print-tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid #cbd5e1;
+      background: #f8fafc;
+      color: #334155;
+      font-size: 8px !important;
+      font-weight: 700 !important;
+    }
+    .print-frame-box {
+      margin-top: 6px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 6px 8px;
+      background: #fff;
+    }
+    .print-frame-name {
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      color: #0f172a !important;
+      line-height: 1.2;
+    }
+    .det-row {
+      margin-bottom: 3px !important;
+      gap: 6px !important;
+    }
+    .det-key {
+      font-size: 9px !important;
+      font-weight: 700 !important;
+      color: #475569 !important;
+    }
+    .det-val {
+      font-size: 10px !important;
+      font-weight: 600 !important;
+      color: #111827 !important;
+      word-break: normal !important;
+      line-height: 1.15 !important;
+    }
+    .det-val.highlight,
+    .det-val.green,
+    .det-val.amber {
+      font-weight: 800 !important;
+      color: #111827 !important;
+    }
+    .grad-table {
+      table-layout: fixed !important;
+    }
+    .grad-table th {
+      font-size: 8px !important;
+      font-weight: 800 !important;
+      padding: 3px 4px !important;
+      color: #334155 !important;
+      border-bottom: 1px solid #cbd5e1 !important;
+    }
+    .grad-table td {
+      font-size: 10px !important;
+      font-weight: 800 !important;
+      padding: 4px !important;
+      color: #0f172a !important;
+      line-height: 1.1 !important;
+    }
+    .grad-table tr:nth-child(2) td,
+    .grad-table tr:nth-child(3) td,
+    .grad-table tr:nth-child(4) td,
+    .grad-table tr:nth-child(5) td {
+      color: #111827 !important;
+    }
+    .cristal-row {
+      gap: 4px !important;
+      margin-bottom: 4px !important;
+    }
+    .cristal-badge {
+      padding: 2px 6px !important;
+      border-radius: 999px !important;
+      background: #fff !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #334155 !important;
+      font-size: 9px !important;
+      font-weight: 700 !important;
+    }
+    .cristal-badge.main {
+      background: #e2e8f0 !important;
+      border-color: #94a3b8 !important;
+      color: #0f172a !important;
+      font-weight: 800 !important;
+    }
+    .fecha-procesado {
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      color: #0f172a !important;
+      margin-left: 0 !important;
+      margin-top: 6px !important;
+    }
   }
 
   /* ── RESPONSIVE ── */
@@ -1076,6 +1274,7 @@ let POLL_INTERVAL = null;
 let PRINTING_ID = null;
 let NOTIFIED_PENDING_IDS = new Set(loadNotifiedPendingIds());
 let ACTIVE_BROWSER_NOTIFS = new Map();
+let BOLETAS_OVERRIDES = loadBoletasOverrides();
 
 function loadNotifiedPendingIds() {
   try {
@@ -1091,6 +1290,26 @@ function saveNotifiedPendingIds() {
   try {
     localStorage.setItem('portal_rabaquino_notified_pending_ids', JSON.stringify(Array.from(NOTIFIED_PENDING_IDS)));
   } catch (e) {}
+}
+
+function loadBoletasOverrides() {
+  try {
+    const raw = localStorage.getItem('portal_rabaquino_boletas_overrides');
+    const parsed = JSON.parse(raw || '{}');
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveBoletasOverrides() {
+  try {
+    localStorage.setItem('portal_rabaquino_boletas_overrides', JSON.stringify(BOLETAS_OVERRIDES));
+  } catch (e) {}
+}
+
+function getNumeroBoleta(pedido) {
+  return pedido.numero_boleta || BOLETAS_OVERRIDES[String(pedido.id)] || '';
 }
 
 function pad2(n) {
@@ -1410,6 +1629,7 @@ function renderCard(p) {
   const fechaExacta = formatFechaHoraExacta(p.fecha_subida);
   const fechaProc   = p.fecha_procesado ? formatFechaHoraExacta(p.fecha_procesado) : '';
   const horaProc    = fechaProc;
+  const numeroBoleta = getNumeroBoleta(p);
   const sucLabel   = (p.sucursal||'roma').toUpperCase();
   const tipo       = p.tipo_pedido || '';
 
@@ -1421,6 +1641,22 @@ function renderCard(p) {
     p.c2_tipo ? `<div class="cristal-row"><span class="cristal-badge main">${p.c2_tipo}</span>${p.c2_material?`<span class="cristal-badge">${p.c2_material}</span>`:''} ${p.c2_color?`<span class="cristal-badge">${p.c2_color}</span>`:''} ${p.c2_trat?`<span class="cristal-badge">${p.c2_trat}</span>`:''}</div>` : '',
     p.c3_tipo ? `<div class="cristal-row"><span class="cristal-badge main">${p.c3_tipo}</span>${p.c3_material?`<span class="cristal-badge">${p.c3_material}</span>`:''} ${p.c3_color?`<span class="cristal-badge">${p.c3_color}</span>`:''} ${p.c3_trat?`<span class="cristal-badge">${p.c3_trat}</span>`:''}</div>` : ''
   ].filter(Boolean).join('') || '<span style="color:var(--text3);font-size:13px">Sin cristales</span>';
+
+  const printCristales = [
+    p.c1_tipo ? { tipo: p.c1_tipo, tags: [p.c1_material, p.c1_color, p.c1_trat].filter(Boolean) } : null,
+    p.c2_tipo ? { tipo: p.c2_tipo, tags: [p.c2_material, p.c2_color, p.c2_trat].filter(Boolean) } : null,
+    p.c3_tipo ? { tipo: p.c3_tipo, tags: [p.c3_material, p.c3_color, p.c3_trat].filter(Boolean) } : null
+  ].filter(Boolean);
+
+  const printCristalesHtml = printCristales.length
+    ? printCristales.map(item => `
+      <div class="print-product-card">
+        <div class="print-product-name">${escapeHtml(item.tipo)}</div>
+        <div class="print-product-tags">
+          ${item.tags.length ? item.tags.map(tag => `<span class="print-tag">${escapeHtml(tag)}</span>`).join('') : '<span class="print-tag">Sin detalle</span>'}
+        </div>
+      </div>`).join('')
+    : `<div class="print-product-card"><div class="print-product-name">Sin cristales cargados</div></div>`;
 
   return `
   <div class="pedido-card ${esNuevo?'nuevo':''} ${!esNuevo?'procesado':''}" id="card-${p.id}">
@@ -1434,6 +1670,7 @@ function renderCard(p) {
           <span>${p.telefono||'—'}</span>
           ${tipo ? `<span class="pedido-tipo">${tipo}</span>` : ''}
           ${p.numero_trabajo ? `<span style="color:var(--accent2);font-size:12px;font-family:var(--mono)">N° ${p.numero_trabajo}</span>` : ''}
+          ${numeroBoleta ? `<span style="color:var(--green);font-size:12px;font-family:var(--mono)">Boleta ${numeroBoleta}</span>` : ''}
           <span class="pedido-fecha-exacta">Pedido ${fechaExacta}</span>
         </div>
       </div>
@@ -1445,7 +1682,7 @@ function renderCard(p) {
         <div class="print-headline">
           <div>
             <div class="print-brand">Portal Rabaquino</div>
-            <div class="print-caption">Resumen profesional de reposiciÃ³n</div>
+            <div class="print-caption">Resumen profesional de reposición</div>
           </div>
           <div class="print-caption">${escapeHtml(sucLabel)}</div>
         </div>
@@ -1461,6 +1698,93 @@ function renderCard(p) {
           <div class="print-summary-card">
             <div class="print-summary-label">Estado</div>
             <div class="print-summary-value">${esNuevo ? 'Pendiente' : `Procesado ${escapeHtml(fechaProc)}`}</div>
+          </div>
+          <div class="print-summary-card">
+            <div class="print-summary-label">Boleta</div>
+            <div class="print-summary-value">${escapeHtml(numeroBoleta||'Sin cargar')}</div>
+          </div>
+        </div>
+        <div class="print-focus">
+          <div class="print-card print-grad-wrap">
+            <div class="print-section-title">Graduación</div>
+            <table class="print-grad-table">
+              <thead>
+                <tr><th></th><th>Eje</th><th>Cil</th><th>Esf</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="print-grad-eye">OD</td>
+                  <td>${p.lej_od_eje||'—'}</td>
+                  <td>${p.lej_od_cil||'—'}</td>
+                  <td>${p.lej_od_esf||'—'}</td>
+                </tr>
+                <tr>
+                  <td class="print-grad-eye">OI</td>
+                  <td>${p.lej_oi_eje||'—'}</td>
+                  <td>${p.lej_oi_cil||'—'}</td>
+                  <td>${p.lej_oi_esf||'—'}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="print-measures">
+              <div class="print-measure-box">
+                <div class="print-measure-label">ADD</div>
+                <div class="print-measure-value">${p.add_val||'—'}</div>
+              </div>
+              <div class="print-measure-box">
+                <div class="print-measure-label">Dist</div>
+                <div class="print-measure-value">${p.dist_od||'—'} / ${p.dist_oi||'—'}</div>
+              </div>
+              <div class="print-measure-box">
+                <div class="print-measure-label">Alt</div>
+                <div class="print-measure-value">${p.alt_od||'—'} / ${p.alt_oi||'—'}</div>
+              </div>
+            </div>
+          </div>
+          <div class="print-product-list">
+            <div class="print-card">
+              <div class="print-section-title">Cristal elegido</div>
+              ${printCristalesHtml}
+            </div>
+            <div class="print-card">
+              <div class="print-section-title">Armazón elegido</div>
+              <div class="print-frame-box">
+                <div class="print-frame-name">${escapeHtml(p.armazones||'Sin armazón cargado')}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="print-card">
+          <div class="print-section-title">Datos del pedido</div>
+          <div class="print-client-grid">
+            <div class="print-field">
+              <div class="print-field-label">Cliente</div>
+              <div class="print-field-value strong">${escapeHtml(p.cliente||'Sin nombre')}</div>
+            </div>
+            <div class="print-field">
+              <div class="print-field-label">N° trabajo</div>
+              <div class="print-field-value strong">${escapeHtml(p.numero_trabajo||'—')}</div>
+            </div>
+            <div class="print-field">
+              <div class="print-field-label">Cédula</div>
+              <div class="print-field-value">${escapeHtml(p.cedula||'—')}</div>
+            </div>
+            <div class="print-field">
+              <div class="print-field-label">Médico</div>
+              <div class="print-field-value">${escapeHtml(p.medico||'—')}</div>
+            </div>
+            <div class="print-field">
+              <div class="print-field-label">Tipo</div>
+              <div class="print-field-value">${escapeHtml(tipo||'—')}</div>
+            </div>
+            <div class="print-field">
+              <div class="print-field-label">Boleta</div>
+              <div class="print-field-value strong">${escapeHtml(numeroBoleta||'Sin cargar')}</div>
+            </div>
+            <div class="print-field">
+              <div class="print-field-label">Fecha pedido</div>
+              <div class="print-field-value">${escapeHtml(fechaExacta)}</div>
+            </div>
           </div>
         </div>
       </div>
@@ -1525,7 +1849,7 @@ function renderCard(p) {
           <button class="btn-procesar" onclick="procesar(${p.id}, this)">
             ✅ Marcar como procesado
           </button>` : `
-          <div class="fecha-procesado">✅ Procesado ${horaProc}</div>`
+          <div class="fecha-procesado">✅ Procesado ${horaProc}${numeroBoleta ? ` • Boleta ${numeroBoleta}` : ''}</div>`
         }
         <button class="btn-imprimir" onclick="imprimirPedido(${p.id})">
           🖨️ Imprimir
@@ -1543,10 +1867,25 @@ function toggleCard(id) {
 
 // ══ PROCESAR ══
 async function procesar(id, btn) {
+  const pedido = PEDIDOS.find(p => String(p.id) === String(id));
+  const boletaActual = pedido ? getNumeroBoleta(pedido) : '';
+  const numeroBoleta = window.prompt('Indicá el número de boleta para procesar este pedido:', boletaActual);
+  if (numeroBoleta === null) return;
+  const boletaLimpia = numeroBoleta.trim();
+  if (!boletaLimpia) {
+    showToast('Tenés que indicar el número de boleta', 'error');
+    return;
+  }
   btn.disabled = true;
   btn.textContent = 'Procesando...';
   try {
-    await apiPatch('pedidos', id, { estado: 'procesado', fecha_procesado: new Date().toISOString() });
+    try {
+      await apiPatch('pedidos', id, { estado: 'procesado', fecha_procesado: new Date().toISOString(), numero_boleta: boletaLimpia });
+    } catch (e) {
+      await apiPatch('pedidos', id, { estado: 'procesado', fecha_procesado: new Date().toISOString() });
+    }
+    BOLETAS_OVERRIDES[String(id)] = boletaLimpia;
+    saveBoletasOverrides();
     NOTIFIED_PENDING_IDS.delete(String(id));
     saveNotifiedPendingIds();
     closeBrowserNotification(id);
