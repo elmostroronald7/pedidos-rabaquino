@@ -606,11 +606,30 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width: 768px) {
-    .main       { padding: 16px; }
-    .topbar     { padding: 0 16px; }
-    .stats-bar  { grid-template-columns: repeat(2, 1fr); }
-    .det-grid   { grid-template-columns: 1fr; }
-    .filters-row { flex-direction: column; align-items: flex-start; }
+    .main        { padding: 12px; }
+    .topbar      { padding: 0 12px; height: 56px; }
+    .topbar-sub  { display: none; }
+    .stats-bar   { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+    .stat-card   { padding: 14px 16px; gap: 10px; }
+    .stat-icon   { width: 36px; height: 36px; font-size: 16px; }
+    .stat-num    { font-size: 22px; }
+    .det-grid    { grid-template-columns: 1fr; }
+    .filters-row { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+    .filters-row h2 { width: 100%; margin-bottom: 0; }
+    .pedido-header { padding: 14px 16px; gap: 10px; }
+    .pedido-cliente { font-size: 14px; }
+    .pedido-detalle { padding: 16px; }
+    .det-actions { flex-direction: column; }
+    .btn-procesar, .btn-imprimir { width: 100%; justify-content: center; }
+    .conn-badge  { font-size: 11px; padding: 4px 8px; }
+    .btn-logout  { padding: 5px 10px; font-size: 12px; }
+    .topbar-title { font-size: 14px; }
+  }
+
+  @media (max-width: 400px) {
+    .stats-bar  { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .stat-num   { font-size: 20px; }
+    .main       { padding: 10px; }
   }
 </style>
 </head>
@@ -813,7 +832,7 @@ async function cargarPedidos() {
   const btn = document.getElementById('btn-refresh');
   btn.classList.add('spinning');
   try {
-    let params = '?order=fecha_subida.desc&limit=200';
+    let params = '?order=fecha_subida.desc&limit=10000';
     if (SESSION && SESSION.sucursales !== 'todas') {
       params += `&sucursal=eq.${SESSION.sucursales}`;
     }
