@@ -404,8 +404,9 @@
   .print-header { display:none; }
 
   @media print {
+    @page { size:A4; margin:8mm 8mm 8mm 8mm; }
     * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-    body { background:#fff !important; color:#111 !important; font-family:Arial,sans-serif; }
+    html, body { margin:0 !important; padding:0 !important; background:#fff !important; color:#111 !important; font-family:Arial,sans-serif; }
     body::before { display:none; }
 
     #login-screen, .topbar, .stats-bar, .filters-row, .det-actions,
@@ -413,61 +414,68 @@
     #notif-banner, #notif-perm-bar { display:none !important; }
 
     #app { display:block !important; }
-    .main { padding:16px !important; max-width:100% !important; }
+    .main { padding:6px !important; max-width:100% !important; margin:0 !important; }
 
     .print-header {
       display:flex !important; align-items:flex-start; justify-content:space-between;
-      border-bottom:3px solid #1E3A5F; padding-bottom:14px; margin-bottom:18px;
+      border-bottom:2px solid #1E3A5F; padding-bottom:6px; margin-bottom:8px;
     }
-    .print-header-brand { display:flex; align-items:center; gap:10px; }
+    .print-header-brand { display:flex; align-items:center; gap:6px; }
     .print-header-logo {
-      width:44px; height:44px; background:#1E3A5F; border-radius:10px;
-      display:flex; align-items:center; justify-content:center; font-size:22px;
+      width:32px; height:32px; background:#1E3A5F; border-radius:6px;
+      display:flex; align-items:center; justify-content:center; font-size:16px; flex-shrink:0;
     }
-    .print-header-name h1 { font-size:20px; font-weight:700; color:#1E3A5F; margin:0; }
-    .print-header-name p  { font-size:11px; color:#666; margin:2px 0 0; }
-    .print-header-right { text-align:right; font-size:11px; color:#555; line-height:1.6; }
+    .print-header-name h1 { font-size:14px; font-weight:700; color:#1E3A5F; margin:0; line-height:1.1; }
+    .print-header-name p  { font-size:9px; color:#666; margin:1px 0 0; }
+    .print-header-right { text-align:right; font-size:9px; color:#555; line-height:1.3; }
 
     /* Solo mostrar la card abierta */
     .pedido-card:not(.open) { display:none !important; }
     .pedido-card.open {
-      border:1.5px solid #CBD5E1 !important; border-radius:8px !important;
+      border:1px solid #999 !important; border-radius:4px !important;
       box-shadow:none !important; margin-bottom:0 !important; opacity:1 !important;
-      break-inside:avoid;
+      break-inside:avoid; page-break-inside:avoid;
     }
     .pedido-header {
-      background:#F1F5F9 !important; padding:10px 14px !important; border-bottom:1px solid #CBD5E1 !important;
+      background:#F1F5F9 !important; padding:6px 8px !important; border-bottom:1px solid #CBD5E1 !important;
+      display:flex !important; flex-wrap:wrap !important; gap:4px !important; align-items:center !important;
     }
-    .pedido-sucursal { background:#1E3A5F !important; color:#fff !important; -webkit-print-color-adjust:exact !important; }
-    .pedido-cliente { color:#111 !important; font-size:15px !important; font-weight:700 !important; }
-    .pedido-meta span { color:#555 !important; }
-    .pedido-fecha-completa { background:#EFF6FF !important; border-color:#BFDBFE !important; color:#1D4ED8 !important; }
+    .pedido-sucursal { background:#1E3A5F !important; color:#fff !important; font-size:8px !important; padding:2px 6px !important; }
+    .pedido-cliente { color:#111 !important; font-size:13px !important; font-weight:700 !important; flex:1; }
+    .pedido-meta { display:flex !important; flex-wrap:wrap !important; gap:3px !important; margin:0 !important; }
+    .pedido-meta span { color:#555 !important; font-size:9px !important; }
+    .pedido-fecha-completa { background:#EFF6FF !important; border-color:#BFDBFE !important; color:#1D4ED8 !important; font-size:8px !important; padding:2px 4px !important; }
+    .pedido-tipo { font-size:8px !important; padding:2px 5px !important; }
+    .pedido-estado { font-size:10px !important; padding:2px 6px !important; }
     .estado-pendiente { background:#FEF3C7 !important; color:#92400E !important; border-color:#F59E0B !important; }
     .estado-procesado { background:#D1FAE5 !important; color:#065F46 !important; border-color:#10B981 !important; }
 
-    .pedido-detalle { display:block !important; padding:14px !important; }
+    .pedido-detalle { display:block !important; padding:6px !important; }
 
     .det-grid {
-      display:grid !important; grid-template-columns:repeat(3,1fr) !important;
-      gap:10px !important; margin-bottom:12px !important;
+      display:grid !important; grid-template-columns:1fr 1fr !important;
+      gap:4px !important; margin-bottom:6px !important;
     }
     .det-section {
       background:#F8FAFC !important; border:1px solid #CBD5E1 !important;
-      border-radius:6px !important; padding:10px 12px !important;
+      border-radius:3px !important; padding:4px 6px !important;
     }
-    .det-section-title { color:#1D4ED8 !important; font-size:10px !important; margin-bottom:8px !important; }
-    .det-key   { color:#555 !important; font-size:11px !important; }
-    .det-val   { color:#111 !important; font-size:12px !important; }
-    .det-val.highlight { color:#1D4ED8 !important; }
+    .det-section-title { color:#1D4ED8 !important; font-size:8px !important; margin-bottom:2px !important; font-weight:700 !important; }
+    .det-row { margin-bottom:2px !important; }
+    .det-key   { color:#555 !important; font-size:9px !important; }
+    .det-val   { color:#111 !important; font-size:10px !important; }
+    .det-val.highlight { color:#1D4ED8 !important; font-weight:600 !important; }
     .det-val.green     { color:#059669 !important; }
     .det-val.amber     { color:#B45309 !important; }
-    .grad-table th   { color:#888 !important; border-color:#CBD5E1 !important; font-size:9px !important; }
-    .grad-table td   { color:#111 !important; font-size:12px !important; }
+    .grad-table { font-size:9px !important; }
+    .grad-table th   { color:#888 !important; border-color:#CBD5E1 !important; font-size:7px !important; padding:1px 2px !important; }
+    .grad-table td   { color:#111 !important; font-size:9px !important; padding:1px 2px !important; }
     .grad-table .od td { color:#1D4ED8 !important; }
     .grad-table .oi td { color:#555 !important; }
-    .grad-table .lbl td { color:#888 !important; font-size:9px !important; }
-    .cristal-badge      { background:#F1F5F9 !important; border-color:#CBD5E1 !important; color:#555 !important; font-size:11px !important; }
-    .cristal-badge.main { color:#111 !important; border-color:#1D4ED8 !important; }
+    .grad-table .lbl td { color:#888 !important; font-size:7px !important; }
+    .cristal-row { margin:3px 0 !important; }
+    .cristal-badge      { background:#F1F5F9 !important; border-color:#CBD5E1 !important; color:#555 !important; font-size:8px !important; padding:1px 4px !important; }
+    .cristal-badge.main { color:#111 !important; border-color:#1D4ED8 !important; font-weight:600 !important; }
 
     /* Vista armazones / cristales → ocultar al imprimir pedido */
     #vista-armazones, #vista-cristales, #vista-nueva-venta { display:none !important; }
@@ -475,8 +483,8 @@
 
     /* Footer de impresión */
     .print-footer {
-      display:block !important; margin-top:16px; padding-top:10px;
-      border-top:1px solid #CBD5E1; text-align:center; font-size:10px; color:#888;
+      display:block !important; margin-top:6px; padding-top:4px;
+      border-top:1px solid #CBD5E1; text-align:center; font-size:8px; color:#888;
     }
   }
 
@@ -655,261 +663,393 @@
     </div>
 
     <!-- Vista Nueva Venta (solo Canelones) -->
-    <div id="vista-nueva-venta" style="display:none">
-      <div class="form-venta">
-        <div class="form-venta-title">
-          ➕ Nueva Venta &nbsp;<span style="color:var(--purple);font-size:15px">ROMACANELONES</span>
-        </div>
-
-        <!-- Cliente -->
-        <div class="form-section">
-          <div class="form-section-title">👤 Datos del Cliente</div>
-          <div class="form-grid-2">
-            <div class="field-sm"><label>Nombre Completo *</label><input id="f-cliente" type="text" placeholder="Nombre del cliente"></div>
-            <div class="field-sm"><label>Cédula</label><input id="f-cedula" type="text" placeholder="12345678-9"></div>
-            <div class="field-sm"><label>Teléfono</label><input id="f-telefono" type="text" placeholder="09X XXX XXX"></div>
-            <div class="field-sm"><label>Médico / Institución</label><input id="f-medico" type="text" placeholder="Dr. / Óptica / BPS..."></div>
-          </div>
-        </div>
-
-        <!-- Graduación Lejos -->
-        <div class="form-section">
-          <div class="form-section-title">👁️ Graduación Lejos</div>
-          <div class="form-grid-4">
-            <div></div>
-            <div class="field-sm" style="text-align:center"><label>EJE</label></div>
-            <div class="field-sm" style="text-align:center"><label>CIL</label></div>
-            <div class="field-sm" style="text-align:center"><label>ESF</label></div>
-            <div class="field-sm"><label style="color:var(--accent2)">OD →</label></div>
-            <div class="field-sm"><input id="f-lej-od-eje" type="number" step="0.01" placeholder="—"></div>
-            <div class="field-sm"><input id="f-lej-od-cil" type="number" step="0.01" placeholder="—"></div>
-            <div class="field-sm"><input id="f-lej-od-esf" type="number" step="0.01" placeholder="—"></div>
-            <div class="field-sm"><label style="color:var(--text2)">OI →</label></div>
-            <div class="field-sm"><input id="f-lej-oi-eje" type="number" step="0.01" placeholder="—"></div>
-            <div class="field-sm"><input id="f-lej-oi-cil" type="number" step="0.01" placeholder="—"></div>
-            <div class="field-sm"><input id="f-lej-oi-esf" type="number" step="0.01" placeholder="—"></div>
-          </div>
-          <div style="margin-top:10px;max-width:200px">
-            <div class="field-sm"><label>ADD</label><input id="f-add" type="number" step="0.01" placeholder="+X.XX"></div>
-          </div>
-        </div>
-
-        <!-- Graduación Cerca -->
-        <div class="form-section">
-          <div class="form-section-title">👁️ Graduación Cerca <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text3)">(opcional)</span></div>
-          <div class="form-grid-4">
-            <div></div>
-            <div class="field-sm" style="text-align:center"><label>EJE</label></div>
-            <div class="field-sm" style="text-align:center"><label>CIL</label></div>
-            <div class="field-sm" style="text-align:center"><label>ESF</label></div>
-            <div class="field-sm"><label style="color:var(--accent2)">OD →</label></div>
-            <div class="field-sm"><input id="f-cer-od-eje" type="number" step="0.01" placeholder="—"></div>
-            <div class="field-sm"><input id="f-cer-od-cil" type="number" step="0.01" placeholder="—"></div>
-            <div class="field-sm"><input id="f-cer-od-esf" type="number" step="0.01" placeholder="—"></div>
-            <div class="field-sm"><label style="color:var(--text2)">OI →</label></div>
-            <div class="field-sm"><input id="f-cer-oi-eje" type="number" step="0.01" placeholder="—"></div>
-            <div class="field-sm"><input id="f-cer-oi-cil" type="number" step="0.01" placeholder="—"></div>
-            <div class="field-sm"><input id="f-cer-oi-esf" type="number" step="0.01" placeholder="—"></div>
-          </div>
-        </div>
-
-        <!-- Medidas -->
-        <div class="form-section">
-          <div class="form-section-title">📐 Medidas</div>
-          <div class="form-grid-4">
-            <div class="field-sm"><label>Dist OD</label><input id="f-dist-od" type="number" step="0.1" placeholder="32.5"></div>
-            <div class="field-sm"><label>Dist OI</label><input id="f-dist-oi" type="number" step="0.1" placeholder="33"></div>
-            <div class="field-sm"><label>Alt OD</label><input id="f-alt-od" type="number" step="0.1" placeholder="16"></div>
-            <div class="field-sm"><label>Alt OI</label><input id="f-alt-oi" type="number" step="0.1" placeholder="16"></div>
-            <div class="field-sm"><label>K</label><input id="f-k" type="number" step="0.1" placeholder="48"></div>
-            <div class="field-sm"><label>A</label><input id="f-a" type="number" step="0.1" placeholder="43"></div>
-            <div class="field-sm"><label>D</label><input id="f-d" type="number" step="0.1" placeholder="48"></div>
-            <div class="field-sm"><label>P</label><input id="f-p" type="number" step="0.1" placeholder="20"></div>
-          </div>
-        </div>
-
-        <!-- Cristales -->
-        <div class="form-section">
-          <div class="form-section-title">🔍 Cristales</div>
-
-          <div class="cristal-group">
-            <div class="cristal-group-title">Cristal 1 (Principal)</div>
-            <div class="form-grid-4">
-              <div class="field-sm">
-                <label>Tipo</label>
-                <select id="f-c1-tipo">
-                  <option value="">— Seleccionar —</option>
-                  <optgroup label="── Monofocales ──">
-                    <option>MONOFOCAL BLANCO</option>
-                    <option>MONOFOCAL FOTOCROMATICO</option>
-                    <option>XPLUS BLANCO AR</option>
-                    <option>XPLUS BLANCO BLUE</option>
-                    <option>XPLUS FOTOCROMATICO</option>
-                  </optgroup>
-                  <optgroup label="── Bifocales ──">
-                    <option>BIFOCAL KRIPTOCK</option>
-                    <option>BIFOCAL KRIPTOCK(VALE)</option>
-                    <option>BIFOCAL FLAT TOP</option>
-                  </optgroup>
-                  <optgroup label="── Multifocales ──">
-                    <option>MULTIFOCAL BLANCO</option>
-                    <option>MULTIFOCAL FOTOCROMATICO</option>
-                    <option>MULTIFOCAL AR</option>
-                  </optgroup>
-                  <optgroup label="── Otros ──">
-                    <option>LENTE DE CONTACTO</option>
-                    <option>PLANO / SIN GRADUACION</option>
-                  </optgroup>
-                </select>
-              </div>
-              <div class="field-sm">
-                <label>Material</label>
-                <select id="f-c1-material">
-                  <option value="">— Seleccionar —</option>
-                  <option>ORGANICO ESTANDAR</option>
-                  <option>MEDIO INDICE</option>
-                  <option>MEDIO INDICE FOTOCROMATICO</option>
-                  <option>ALTO INDICE 1.60</option>
-                  <option>ALTO INDICE 1.67</option>
-                  <option>POLICARBONATO</option>
-                  <option>MINERAL</option>
-                  <option>TRIVEX</option>
-                </select>
-              </div>
-              <div class="field-sm"><label>Color / Tinte</label><input id="f-c1-color" type="text" placeholder="—"></div>
-              <div class="field-sm"><label>Tratamiento</label><input id="f-c1-trat" type="text" placeholder="AR, ENDURECIDO..."></div>
-            </div>
-          </div>
-
-          <div class="cristal-group">
-            <div class="cristal-group-title">Cristal 2 (opcional)</div>
-            <div class="form-grid-4">
-              <div class="field-sm">
-                <label>Tipo</label>
-                <select id="f-c2-tipo">
-                  <option value="">— Ninguno —</option>
-                  <optgroup label="── Monofocales ──">
-                    <option>MONOFOCAL BLANCO</option>
-                    <option>MONOFOCAL FOTOCROMATICO</option>
-                    <option>XPLUS BLANCO AR</option>
-                    <option>XPLUS BLANCO BLUE</option>
-                    <option>XPLUS FOTOCROMATICO</option>
-                  </optgroup>
-                  <optgroup label="── Bifocales ──">
-                    <option>BIFOCAL KRIPTOCK</option>
-                    <option>BIFOCAL FLAT TOP</option>
-                  </optgroup>
-                  <optgroup label="── Multifocales ──">
-                    <option>MULTIFOCAL BLANCO</option>
-                    <option>MULTIFOCAL FOTOCROMATICO</option>
-                    <option>MULTIFOCAL AR</option>
-                  </optgroup>
-                </select>
-              </div>
-              <div class="field-sm">
-                <label>Material</label>
-                <select id="f-c2-material">
-                  <option value="">— Seleccionar —</option>
-                  <option>ORGANICO ESTANDAR</option>
-                  <option>MEDIO INDICE</option>
-                  <option>MEDIO INDICE FOTOCROMATICO</option>
-                  <option>ALTO INDICE 1.60</option>
-                  <option>ALTO INDICE 1.67</option>
-                  <option>POLICARBONATO</option>
-                  <option>MINERAL</option>
-                </select>
-              </div>
-              <div class="field-sm"><label>Color / Tinte</label><input id="f-c2-color" type="text" placeholder="—"></div>
-              <div class="field-sm"><label>Tratamiento</label><input id="f-c2-trat" type="text" placeholder="—"></div>
-            </div>
-          </div>
-
-          <div class="cristal-group">
-            <div class="cristal-group-title">Cristal 3 (opcional)</div>
-            <div class="form-grid-4">
-              <div class="field-sm">
-                <label>Tipo</label>
-                <select id="f-c3-tipo">
-                  <option value="">— Ninguno —</option>
-                  <optgroup label="── Monofocales ──">
-                    <option>MONOFOCAL BLANCO</option>
-                    <option>MONOFOCAL FOTOCROMATICO</option>
-                    <option>XPLUS BLANCO AR</option>
-                    <option>XPLUS BLANCO BLUE</option>
-                    <option>XPLUS FOTOCROMATICO</option>
-                  </optgroup>
-                  <optgroup label="── Multifocales ──">
-                    <option>MULTIFOCAL BLANCO</option>
-                    <option>MULTIFOCAL FOTOCROMATICO</option>
-                  </optgroup>
-                </select>
-              </div>
-              <div class="field-sm">
-                <label>Material</label>
-                <select id="f-c3-material">
-                  <option value="">— Seleccionar —</option>
-                  <option>ORGANICO ESTANDAR</option>
-                  <option>MEDIO INDICE</option>
-                  <option>ALTO INDICE 1.60</option>
-                  <option>POLICARBONATO</option>
-                </select>
-              </div>
-              <div class="field-sm"><label>Color / Tinte</label><input id="f-c3-color" type="text" placeholder="—"></div>
-              <div class="field-sm"><label>Tratamiento</label><input id="f-c3-trat" type="text" placeholder="—"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Armazón -->
-        <div class="form-section">
-          <div class="form-section-title">👓 Armazón y Pedido</div>
-          <div class="form-grid-3">
-            <div class="field-sm"><label>Armazón (descripción)</label><input id="f-armazones" type="text" placeholder="Marca, código, color..."></div>
-            <div class="field-sm">
-              <label>Tipo de Pedido</label>
-              <select id="f-tipo-pedido">
-                <option value="">— Seleccionar —</option>
-                <option>MONOFOCAL</option>
-                <option>BIFOCAL</option>
-                <option>MULTIFOCAL</option>
-                <option>LENTE DE CONTACTO</option>
-                <option>SOLO ARMAZON</option>
-                <option>REPARACION</option>
-              </select>
-            </div>
-            <div class="field-sm"><label>N° Trabajo</label><input id="f-numero-trabajo" type="text" placeholder="Número interno"></div>
-          </div>
-        </div>
-
-        <!-- Precio -->
-        <div class="form-section">
-          <div class="form-section-title">💰 Precio y Pago</div>
-          <div class="form-grid-4">
-            <div class="field-sm"><label>Precio Total</label><input id="f-precio" type="number" step="0.01" placeholder="0.00" min="0"></div>
-            <div class="field-sm"><label>Seña</label><input id="f-sena" type="number" step="0.01" placeholder="0.00" min="0"></div>
-            <div class="field-sm"><label>Saldo</label><input id="f-saldo" type="number" step="0.01" placeholder="0.00" min="0"></div>
-            <div class="field-sm">
-              <label>Forma de Pago</label>
-              <select id="f-forma-pago">
-                <option value="">— Seleccionar —</option>
-                <option>EFECTIVO</option>
-                <option>TARJETA DEBITO</option>
-                <option>TARJETA CREDITO</option>
-                <option>TRANSFERENCIA</option>
-                <option>MERCADO PAGO</option>
-                <option>BPS</option>
-                <option>ASSE</option>
-                <option>FONASA</option>
-              </select>
-            </div>
-          </div>
-        </div>
-
-        <button class="btn-submit-venta" id="btn-submit-venta" onclick="submitNuevaVenta()">
-          📤 Enviar Pedido a Rabaquino
-        </button>
+<!-- NUEVA SECCIÓN: Vista Nueva Venta Profesional (Canelones) -->
+<div id="vista-nueva-venta" style="display:none">
+  <!-- Encabezado Profesional -->
+  <div style="background:linear-gradient(135deg,#0F1F3C,#1A2E4A); border-bottom:2px solid var(--accent); padding:16px 20px; margin-bottom:20px; border-radius:8px; display:flex; align-items:center; justify-content:space-between; gap:20px;">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div style="font-size:24px">📋</div>
+      <div>
+        <div style="font-size:18px; font-weight:700; color:var(--accent)">NUEVA VENTA PROFESIONAL</div>
+        <div style="font-size:12px; color:var(--text2); margin-top:2px">Carga guiada de cliente, graduación, productos y cobro</div>
       </div>
     </div>
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
+      <div style="font-size:13px; color:var(--amber); font-family:var(--mono); font-weight:600" id="fecha-hora-venta">📅 21/05/2026 16:17</div>
+      <button style="background:var(--green); color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:12px; transition:opacity .2s" onclick="guardarVenta()" title="Guardar la venta actual">✅ GUARDAR VENTA</button>
+      <button style="background:var(--accent); color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:12px; transition:opacity .2s" onclick="buscarVenta()" title="Buscar una venta existente">🔍 BUSCAR</button>
+      <button style="background:#FF9800; color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:12px; transition:opacity .2s" onclick="exportarExcel()" title="Exportar a Excel">📊 EXCEL</button>
+      <button style="background:#2196F3; color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:12px; transition:opacity .2s" onclick="generarRecibo()" title="Generar recibo">🧾 RECIBO</button>
+      <button style="background:#9C27B0; color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:12px; transition:opacity .2s" onclick="procesarBPS()" title="Procesar con BPS">🏥 BPS</button>
+      <button style="background:#00BCD4; color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:12px; transition:opacity .2s" onclick="generarPresupuesto()" title="Generar presupuesto">📄 PRESUPUESTO</button>
+      <button style="background:var(--surface); color:var(--text2); border:1px solid var(--border); border-radius:6px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:12px; transition:all .2s" onclick="limpiarFormulario()" title="Limpiar el formulario">🗑️ LIMPIAR</button>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px;">
+
+    <!-- SECCIÓN 1: DATOS DEL CLIENTE -->
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; border-left:4px solid var(--accent);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+        <div style="font-size:20px">👤</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.05em">Datos del Cliente</div>
+          <div style="font-size:11px; color:var(--text2); margin-top:2px">Información principal del paciente y medios de contacto.</div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;">
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Nombre del cliente *</label>
+          <input id="f-cliente" type="text" placeholder="Nombre completo" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Cédula / Documento</label>
+          <input id="f-cedula" type="text" placeholder="Cédula" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Fecha de nacimiento</label>
+          <input id="f-fecha-nac" type="date" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Edad</label>
+          <input id="f-edad" type="number" placeholder="Edad" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)" readonly>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Teléfono principal</label>
+          <input id="f-telefono" type="text" placeholder="09X XXX XXX" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Números de trabajo</label>
+          <input id="f-numero-trabajo" type="text" placeholder="Ej: 001, 002" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Dirección</label>
+          <input id="f-direccion" type="text" placeholder="Dirección" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Correo electrónico</label>
+          <input id="f-email" type="email" placeholder="correo@ejemplo.com" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 2: GRADUACIÓN Y MEDIDAS -->
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; border-left:4px solid var(--accent);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+        <div style="font-size:20px">👁️</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.05em">Graduación y Medidas</div>
+          <div style="font-size:11px; color:var(--text2); margin-top:2px">Carga ordenada de lentes, cerca y parámetros ópticos.</div>
+        </div>
+      </div>
+
+      <!-- GRADUACIÓN -->
+      <div style="margin-bottom:16px;">
+        <div style="font-size:11px; font-weight:700; color:var(--accent2); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+          <span>📏 GRADUACIÓN</span>
+        </div>
+        <table style="width:100%; border-collapse:collapse; margin-bottom:12px;">
+          <thead>
+            <tr style="background:var(--card); border-bottom:1px solid var(--border);">
+              <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em"></th>
+              <th style="padding:8px; text-align:center; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">EJE</th>
+              <th style="padding:8px; text-align:center; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">CIL</th>
+              <th style="padding:8px; text-align:center; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">ESF</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px; font-size:11px; color:var(--accent2); font-weight:600;">LEJOS OD</td>
+              <td style="padding:8px;"><input id="f-lej-od-eje" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+              <td style="padding:8px;"><input id="f-lej-od-cil" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+              <td style="padding:8px;"><input id="f-lej-od-esf" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px; font-size:11px; color:var(--text2); font-weight:600;">LEJOS OI</td>
+              <td style="padding:8px;"><input id="f-lej-oi-eje" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+              <td style="padding:8px;"><input id="f-lej-oi-cil" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+              <td style="padding:8px;"><input id="f-lej-oi-esf" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:8px; font-size:11px; color:var(--accent2); font-weight:600;">CERCA OD</td>
+              <td style="padding:8px;"><input id="f-cer-od-eje" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+              <td style="padding:8px;"><input id="f-cer-od-cil" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+              <td style="padding:8px;"><input id="f-cer-od-esf" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+            </tr>
+            <tr>
+              <td style="padding:8px; font-size:11px; color:var(--text2); font-weight:600;">CERCA OI</td>
+              <td style="padding:8px;"><input id="f-cer-oi-eje" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+              <td style="padding:8px;"><input id="f-cer-oi-cil" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+              <td style="padding:8px;"><input id="f-cer-oi-esf" type="number" step="0.01" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:center; outline:none;"></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="display:flex; gap:12px; align-items:flex-end;">
+          <div style="flex:1; max-width:150px;">
+            <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">ADD</label>
+            <input id="f-add" type="number" step="0.01" placeholder="+X.XX" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+          </div>
+          <button style="background:var(--accent); color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:12px; transition:opacity .2s" onclick="simularEspejor()" title="Simular espejor">🔄 Simular espejor</button>
+        </div>
+      </div>
+
+      <!-- MEDIDAS ÓPTICAS -->
+      <div style="margin-top:16px;">
+        <div style="font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; display:flex; align-items:center; gap:6px;">
+          <span>📐 MEDIDAS ÓPTICAS</span>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px;">
+          <div>
+            <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Dist OD</label>
+            <input id="f-dist-od" type="number" step="0.1" placeholder="32.5" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+          </div>
+          <div>
+            <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Dist OI</label>
+            <input id="f-dist-oi" type="number" step="0.1" placeholder="33" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+          </div>
+          <div>
+            <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Alt OD</label>
+            <input id="f-alt-od" type="number" step="0.1" placeholder="16" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+          </div>
+          <div>
+            <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Alt OI</label>
+            <input id="f-alt-oi" type="number" step="0.1" placeholder="16" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:12px;">
+          <div style="background:var(--card); border:1px solid var(--border); border-radius:8px; padding:12px;">
+            <div style="font-size:10px; font-weight:700; color:var(--text3); text-transform:uppercase; margin-bottom:8px;">ARMAZÓN 1</div>
+            <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px;">
+              <div><label style="font-size:9px; color:var(--text2);">K</label><input id="f-k" type="number" step="0.1" placeholder="48" style="width:100%; background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:6px; color:var(--text); font-size:12px; text-align:center; outline:none;"></div>
+              <div><label style="font-size:9px; color:var(--text2);">A</label><input id="f-a" type="number" step="0.1" placeholder="43" style="width:100%; background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:6px; color:var(--text); font-size:12px; text-align:center; outline:none;"></div>
+              <div><label style="font-size:9px; color:var(--text2);">D</label><input id="f-d" type="number" step="0.1" placeholder="48" style="width:100%; background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:6px; color:var(--text); font-size:12px; text-align:center; outline:none;"></div>
+              <div><label style="font-size:9px; color:var(--text2);">P</label><input id="f-p" type="number" step="0.1" placeholder="20" style="width:100%; background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:6px; color:var(--text); font-size:12px; text-align:center; outline:none;"></div>
+            </div>
+          </div>
+          <div style="background:var(--card); border:1px solid var(--border); border-radius:8px; padding:12px;">
+            <div style="font-size:10px; font-weight:700; color:var(--text3); text-transform:uppercase; margin-bottom:8px;">ARMAZÓN 2</div>
+            <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:8px;">
+              <div><label style="font-size:9px; color:var(--text2);">K</label><input id="f-k2" type="number" step="0.1" placeholder="48" style="width:100%; background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:6px; color:var(--text); font-size:12px; text-align:center; outline:none;"></div>
+              <div><label style="font-size:9px; color:var(--text2);">A</label><input id="f-a2" type="number" step="0.1" placeholder="43" style="width:100%; background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:6px; color:var(--text); font-size:12px; text-align:center; outline:none;"></div>
+              <div><label style="font-size:9px; color:var(--text2);">D</label><input id="f-d2" type="number" step="0.1" placeholder="48" style="width:100%; background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:6px; color:var(--text); font-size:12px; text-align:center; outline:none;"></div>
+              <div><label style="font-size:9px; color:var(--text2);">P</label><input id="f-p2" type="number" step="0.1" placeholder="20" style="width:100%; background:var(--surface); border:1px solid var(--border); border-radius:4px; padding:6px; color:var(--text); font-size:12px; text-align:center; outline:none;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECCIÓN 3: CRISTALES -->
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; border-left:4px solid var(--green);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+        <div style="font-size:20px">🔍</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:.05em">Cristales</div>
+          <div style="font-size:11px; color:var(--text2); margin-top:2px">Selección de productos, materiales, tratamientos y notas comerciales.</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <label style="display:block; font-size:11px; font-weight:600; color:var(--amber); margin-bottom:8px; text-transform:uppercase; letter-spacing:.05em">Buscar cristal y agregar:</label>
+        <div style="display:flex; gap:8px;">
+          <input id="f-buscar-cristal" type="text" placeholder="Buscar cristal por tipo, material, tratamiento..." style="flex:1; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+          <button style="background:var(--green); color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:12px; transition:opacity .2s" onclick="agregarCristal()" title="Agregar cristal a la tabla">➕ Agregar</button>
+        </div>
+      </div>
+
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--card); border-bottom:1px solid var(--border);">
+            <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em; width:30px"></th>
+            <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">MATERIAL</th>
+            <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">TIPO</th>
+            <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">TRATAMIENTO</th>
+            <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">COLOR</th>
+            <th style="padding:8px; text-align:right; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">PRECIO</th>
+            <th style="padding:8px; text-align:center; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em; width:40px"></th>
+          </tr>
+        </thead>
+        <tbody id="tabla-cristales">
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px; text-align:center; color:var(--text2); font-weight:600;">1°</td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px; text-align:right;"><input type="number" step="0.01" placeholder="0.00" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:right; outline:none;"></td>
+            <td style="padding:8px; text-align:center;"><button style="background:var(--green); color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size:11px; font-weight:600; transition:opacity .2s" onclick="this.textContent=this.textContent==='✓'?'✗':'✓'" title="Marcar/desmarcar">✓</button></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px; text-align:center; color:var(--text2); font-weight:600;">2°</td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px; text-align:right;"><input type="number" step="0.01" placeholder="0.00" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:right; outline:none;"></td>
+            <td style="padding:8px; text-align:center;"><button style="background:var(--green); color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size:11px; font-weight:600; transition:opacity .2s" onclick="this.textContent=this.textContent==='✓'?'✗':'✓'" title="Marcar/desmarcar">✓</button></td>
+          </tr>
+          <tr>
+            <td style="padding:8px; text-align:center; color:var(--text2); font-weight:600;">3°</td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px; text-align:right;"><input type="number" step="0.01" placeholder="0.00" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:right; outline:none;"></td>
+            <td style="padding:8px; text-align:center;"><button style="background:var(--green); color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size:11px; font-weight:600; transition:opacity .2s" onclick="this.textContent=this.textContent==='✓'?'✗':'✓'" title="Marcar/desmarcar">✓</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECCIÓN 4: ARMAZÓN -->
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; border-left:4px solid var(--green);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+        <div style="font-size:20px">👓</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:.05em">Armazón</div>
+          <div style="font-size:11px; color:var(--text2); margin-top:2px">Selección de marcos, códigos, precios y detalles especiales.</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:12px;">
+        <label style="display:block; font-size:11px; font-weight:600; color:var(--amber); margin-bottom:8px; text-transform:uppercase; letter-spacing:.05em">Buscar armazón y agregar:</label>
+        <div style="display:flex; gap:8px;">
+          <input id="f-buscar-armazon" type="text" placeholder="Buscar armazón por marca, modelo, código..." style="flex:1; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+          <button style="background:var(--green); color:#fff; border:none; border-radius:6px; padding:8px 16px; font-weight:600; cursor:pointer; font-size:12px; transition:opacity .2s" onclick="agregarArmazon()" title="Agregar armazón a la tabla">➕ Agregar</button>
+        </div>
+      </div>
+
+      <table style="width:100%; border-collapse:collapse;">
+        <thead>
+          <tr style="background:var(--card); border-bottom:1px solid var(--border);">
+            <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em; width:30px"></th>
+            <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">MARCA/MODELO</th>
+            <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">MATERIAL</th>
+            <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">CÓDIGO</th>
+            <th style="padding:8px; text-align:right; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">PRECIO</th>
+            <th style="padding:8px; text-align:left; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em">NOTA/DETALLE</th>
+            <th style="padding:8px; text-align:center; font-size:10px; color:var(--text3); font-weight:600; text-transform:uppercase; letter-spacing:.05em; width:40px"></th>
+          </tr>
+        </thead>
+        <tbody id="tabla-armazones">
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px; text-align:center; color:var(--text2); font-weight:600;">1°</td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px; text-align:right;"><input type="number" step="0.01" placeholder="0.00" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:right; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px; text-align:center;"><button style="background:var(--green); color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size:11px; font-weight:600; transition:opacity .2s" onclick="this.textContent=this.textContent==='✓'?'✗':'✓'" title="Marcar/desmarcar">✓</button></td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--border);">
+            <td style="padding:8px; text-align:center; color:var(--text2); font-weight:600;">2°</td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px; text-align:right;"><input type="number" step="0.01" placeholder="0.00" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:right; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px; text-align:center;"><button style="background:var(--green); color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size:11px; font-weight:600; transition:opacity .2s" onclick="this.textContent=this.textContent==='✓'?'✗':'✓'" title="Marcar/desmarcar">✓</button></td>
+          </tr>
+          <tr>
+            <td style="padding:8px; text-align:center; color:var(--text2); font-weight:600;">3°</td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px; text-align:right;"><input type="number" step="0.01" placeholder="0.00" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; text-align:right; outline:none;"></td>
+            <td style="padding:8px;"><input type="text" placeholder="—" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:4px; padding:6px 8px; color:var(--text); font-size:12px; outline:none;"></td>
+            <td style="padding:8px; text-align:center;"><button style="background:var(--green); color:#fff; border:none; border-radius:4px; padding:4px 8px; cursor:pointer; font-size:11px; font-weight:600; transition:opacity .2s" onclick="this.textContent=this.textContent==='✓'?'✗':'✓'" title="Marcar/desmarcar">✓</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECCIÓN 5: PRECIO Y OBSERVACIONES -->
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:16px; border-left:4px solid var(--amber);">
+      <div style="display:flex; align-items:center; gap:8px; margin-bottom:16px;">
+        <div style="font-size:20px">💰</div>
+        <div>
+          <div style="font-size:14px; font-weight:700; color:var(--amber); text-transform:uppercase; letter-spacing:.05em">Precio y Observaciones de Cobro</div>
+          <div style="font-size:11px; color:var(--text2); margin-top:2px">Resumen comercial, descuentos, saldo y forma de pago.</div>
+        </div>
+      </div>
+
+      <!-- RESUMEN DE PAGO -->
+      <div style="background:linear-gradient(135deg,#1a3a1a,#0d2d0d); border:1px solid var(--green); border-radius:8px; padding:16px; margin-bottom:16px;">
+        <div style="font-size:11px; font-weight:700; color:var(--green); text-transform:uppercase; letter-spacing:.08em; margin-bottom:12px;">RESUMEN DE PAGO</div>
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(16,185,129,.2); margin-bottom:8px;">
+          <span style="font-size:13px; color:var(--text2);">Subtotal</span>
+          <span style="font-size:14px; font-weight:600; color:var(--text); font-family:var(--mono);" id="subtotal-display">$ 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(16,185,129,.2); margin-bottom:8px;">
+          <span style="font-size:13px; color:var(--text2);">Descuentos</span>
+          <span style="font-size:14px; font-weight:600; color:var(--amber); font-family:var(--mono);" id="descuentos-display">$ 0</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:12px 0; border-top:2px solid var(--green);">
+          <span style="font-size:14px; font-weight:700; color:var(--green); text-transform:uppercase;">TOTAL FINAL</span>
+          <span style="font-size:18px; font-weight:700; color:var(--green); font-family:var(--mono);" id="total-final-display">$ 0</span>
+        </div>
+      </div>
+
+      <!-- CAMPOS DE PAGO -->
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px;">
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">TOTAL de la venta</label>
+          <input id="f-total-venta" type="number" step="0.01" placeholder="0.00" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)" oninput="actualizarTotales()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Seña recibida</label>
+          <input id="f-sena-recibida" type="number" step="0.01" placeholder="0.00" style="width:100%; background:linear-gradient(135deg,#1a3a1a,#0d2d0d); border:1px solid var(--green); border-radius:6px; padding:8px 10px; color:var(--green); font-size:13px; font-weight:600; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)" oninput="actualizarTotales()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Descuento BPS</label>
+          <button style="width:100%; background:var(--accent); color:#fff; border:none; border-radius:6px; padding:8px 10px; font-weight:600; cursor:pointer; font-size:12px; transition:opacity .2s" onclick="realizarBPS()" title="Realizar descuento BPS">🏥 REALIZAR BPS</button>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Descuento ASSE</label>
+          <input id="f-desc-asse" type="number" step="0.01" placeholder="0.00" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)" oninput="actualizarTotales()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Descuento FOCER</label>
+          <input id="f-desc-focer" type="number" step="0.01" placeholder="0.00" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)" oninput="actualizarTotales()">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Saldo a pagar</label>
+          <div style="width:100%; background:linear-gradient(135deg,#3a1a1a,#2d0d0d); border:1px solid var(--red); border-radius:6px; padding:8px 10px; color:var(--red); font-size:14px; font-weight:600; font-family:var(--mono); text-align:right;" id="saldo-display">$ 0</div>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Forma de pago</label>
+          <select id="f-forma-pago-final" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; cursor:pointer;">
+            <option value="">— Seleccionar —</option>
+            <option>EFECTIVO</option>
+            <option>TARJETA DÉBITO</option>
+            <option>TARJETA CRÉDITO</option>
+            <option>TRANSFERENCIA</option>
+            <option>MERCADO PAGO</option>
+            <option>CONTADO</option>
+          </select>
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Tarjeta</label>
+          <input id="f-tarjeta" type="text" placeholder="Número/Referencia" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+        </div>
+        <div>
+          <label style="display:block; font-size:11px; font-weight:600; color:var(--text2); margin-bottom:6px; text-transform:uppercase; letter-spacing:.05em">Médico</label>
+          <input id="f-medico-final" type="text" placeholder="Nombre del médico" style="width:100%; background:var(--card); border:1px solid var(--border); border-radius:6px; padding:8px 10px; color:var(--text); font-size:13px; outline:none; transition:border-color .2s" onfocus="this.style.borderColor=var(--accent)">
+        </div>
+      </div>
+
+      <!-- BOTONES DE ACCIÓN -->
+      <div style="display:flex; gap:12px; flex-wrap:wrap; justify-content:flex-end;">
+        <button style="background:var(--accent); color:#fff; border:none; border-radius:6px; padding:10px 20px; font-weight:600; cursor:pointer; font-size:13px; transition:opacity .2s" onclick="procesarFacturacion()" title="Procesar facturación">💳 es FACTURAR</button>
+        <button style="background:var(--amber); color:#fff; border:none; border-radius:6px; padding:10px 20px; font-weight:600; cursor:pointer; font-size:13px; transition:opacity .2s" onclick="enviarDatos()" title="Enviar datos a Rabaquino">📤 ENVIAR DATOS</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
     <!-- Print footer -->
     <div class="print-footer" id="print-footer">
