@@ -640,7 +640,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
           <div class="venta-section-title">💰 Precios</div>
           <div class="venta-grid venta-grid-4" style="margin-bottom:10px">
             <div class="form-group"><label class="form-label">Precio Total $</label>
-              <input class="form-input" id="nv-precio" placeholder="0" oninput="nv_calcularSaldo()" style="font-size:16px;font-weight:700;color:var(--amber)">
+              <input class="form-input" id="nv-precio" placeholder="0" oninput="NV_PRECIO_MANUAL=true;nv_calcularSaldo()" style="font-size:16px;font-weight:700;color:var(--amber)">
             </div>
             <div class="form-group"><label class="form-label">Seña $</label>
               <input class="form-input" id="nv-sena" placeholder="0" oninput="nv_calcularSaldo()">
@@ -800,6 +800,7 @@ let NOTIFIED_IDS=new Set(JSON.parse(localStorage.getItem('notified_ids')||'[]'))
 let BOLETAS=JSON.parse(localStorage.getItem('boletas')||'{}');
 let NV_CRISTALES=[null,null,null];
 let NV_ARMAZON=null;
+let NV_PRECIO_MANUAL=false; // true cuando el usuario editó el precio a mano
 
 // ══ UTILS ══
 function pad2(n){return String(n).padStart(2,'0');}
@@ -1374,14 +1375,15 @@ async function nvBuscarCliente(){
 }
 
 function nv_autoPrice(){
-  // Suma precios de cristales seleccionados + armazón y pone en Precio Total
+  // Solo autocompleta si el usuario NO editó el precio manualmente
+  if(NV_PRECIO_MANUAL)return;
+  // Parseo correcto: "$9.880" → quitar $ → quitar puntos (miles UY) → entero
   function parsePrecio(s){
     if(!s)return 0;
-    // Formato "$3.990" — punto es separador de miles en UY
-    return parseInt(String(s).replace(/[^0-9]/g,''))||0;
+    return parseInt(String(s).replace('$','').replace(/\./g,''))||0;
   }
   let total=0;
-  NV_CRISTALES.forEach(c=>{if(c&&c.precio)total+=parsePrecio(c.precio)*2;});// par de cristales
+  NV_CRISTALES.forEach(c=>{if(c&&c.precio)total+=parsePrecio(c.precio)*2;}); // par de cristales
   if(NV_ARMAZON&&NV_ARMAZON.precio_venta)total+=parsePrecio(NV_ARMAZON.precio_venta);
   if(total>0){
     document.getElementById('nv-precio').value=total.toLocaleString('es-UY');
@@ -1535,6 +1537,7 @@ function nvLimpiar(){
   document.getElementById('nv-tarjeta').value='';
   document.getElementById('nv-tarjeta-cuotas-wrap').style.display='none';
   document.getElementById('nv-cuotas-wrap').style.display='none';
+  NV_PRECIO_MANUAL=false; // resetear flag al limpiar
 }
 
 // ══ SONIDO NOTIF ══
