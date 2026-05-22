@@ -433,11 +433,12 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
           <div class="venta-section-title">👤 Datos del Cliente</div>
           <div class="venta-grid venta-grid-3" style="margin-bottom:10px">
             <div class="form-group"><label class="form-label">Nombre *</label><input class="form-input" id="nv-cliente" placeholder="Nombre completo" oninput="nv_calcularSaldo()"></div>
-            <div class="form-group"><label class="form-label">Cédula</label><input class="form-input" id="nv-cedula" placeholder="CI"></div>
+            <div class="form-group"><label class="form-label">Cédula</label><input class="form-input" id="nv-cedula" placeholder="CI" onblur="nvBuscarCliente()"></div>
             <div class="form-group"><label class="form-label">Teléfono</label><input class="form-input" id="nv-telefono" placeholder="Teléfono"></div>
           </div>
-          <div class="venta-grid venta-grid-3" style="margin-bottom:10px">
-            <div class="form-group"><label class="form-label">Fecha de nacimiento</label><input class="form-input" id="nv-fnac" placeholder="DD/MM/AAAA"></div>
+          <div class="venta-grid venta-grid-4" style="margin-bottom:10px">
+            <div class="form-group"><label class="form-label">Fecha de nacimiento</label><input class="form-input" id="nv-fnac" placeholder="DD/MM/AAAA" oninput="nv_calcularEdad()"></div>
+            <div class="form-group"><label class="form-label">Edad</label><input class="form-input" id="nv-edad" placeholder="Automática" readonly style="color:var(--text2)"></div>
             <div class="form-group"><label class="form-label">Dirección</label><input class="form-input" id="nv-direccion" placeholder="Dirección"></div>
             <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="nv-email" type="email" placeholder="email@ejemplo.com"></div>
           </div>
@@ -593,12 +594,50 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <!-- TIPO DE PEDIDO -->
         <div class="venta-section">
           <div class="venta-section-title">📋 Tipo de Pedido</div>
-          <div class="venta-grid venta-grid-3" style="margin-bottom:10px">
+          <div class="venta-grid venta-grid-2" style="margin-bottom:10px">
             <div class="form-group"><label class="form-label">Tipo</label>
               <select class="form-select" id="nv-tipo">
                 <option>MONOFOCAL</option><option>MULTIFOCAL</option><option>BIFOCAL</option>
                 <option>LENTES DE CONTACTO</option><option>OTRO</option>
               </select>
+            </div>
+            <div class="form-group"><label class="form-label">Observaciones</label>
+              <input class="form-input" id="nv-notas" placeholder="Notas adicionales">
+            </div>
+          </div>
+        </div>
+
+        <!-- PRECIOS -->
+        <div class="venta-section">
+          <div class="venta-section-title">💰 Precios</div>
+          <div class="venta-grid venta-grid-4" style="margin-bottom:10px">
+            <div class="form-group"><label class="form-label">Precio Total $</label>
+              <input class="form-input" id="nv-precio" placeholder="0" oninput="nv_calcularSaldo()" style="font-size:16px;font-weight:700;color:var(--amber)">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Seña $</label>
+              <input class="form-input" id="nv-sena" placeholder="0" oninput="nv_calcularSaldo()">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Método Seña</label>
+              <select class="form-select" id="nv-metodo-sena">
+                <option value="">-- Método --</option>
+                <option>CONTADO</option><option>DEBITO</option><option>CREDITO</option><option>TRANSFERENCIA</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Saldo $</label>
+              <input class="form-input" id="nv-saldo" placeholder="0" readonly style="color:var(--green);font-weight:700">
+            </div>
+          </div>
+          <div class="venta-grid venta-grid-4" style="margin-bottom:10px">
+            <div class="form-group"><label class="form-label">BPS $</label>
+              <input class="form-input" id="nv-bps" placeholder="0">
+            </div>
+            <div class="form-group"><label class="form-label">ASSE $</label>
+              <input class="form-input" id="nv-asse" placeholder="0">
+            </div>
+            <div class="form-group"><label class="form-label">FOCER $</label>
+              <input class="form-input" id="nv-focer" placeholder="0">
             </div>
             <div class="form-group"><label class="form-label">Forma de Pago</label>
               <select class="form-select" id="nv-forma-pago" onchange="nvFormaPagoChanged()">
@@ -609,51 +648,34 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
                 <option>CRAMI</option><option>OTROS</option><option>OPTICA</option>
               </select>
             </div>
-            <div class="form-group"><label class="form-label">Observaciones</label>
-              <input class="form-input" id="nv-notas" placeholder="Notas adicionales">
-            </div>
           </div>
           <div class="venta-grid venta-grid-2" id="nv-tarjeta-cuotas-wrap" style="display:none">
             <div class="form-group">
               <label class="form-label">Tarjeta</label>
               <select class="form-select" id="nv-tarjeta" onchange="nvTarjetaChanged()">
                 <option value="">-- Seleccionar tarjeta --</option>
-                <option>VISA</option><option>MASTERCARD</option><option>OCA</option>
-                <option>PREX</option><option>CABAL</option><option>OTRO</option>
+                <option>OCA</option><option>VISA</option><option>mastercard</option>
+                <option>TARJETA D</option><option>CREDITO DIRECTO</option>
+                <option>BANCO REPÚBLICA</option><option>pass card</option>
+                <option>asse salud</option><option>BPS</option><option>mercado pago</option>
+                <option>anda</option><option>crédito de la casa</option><option>lider</option>
+                <option>CREDITEL</option><option>CABAL</option>
               </select>
             </div>
             <div class="form-group" id="nv-cuotas-wrap" style="display:none">
               <label class="form-label">Cuotas</label>
-              <input class="form-input" id="nv-cuotas" placeholder="N° de cuotas">
-            </div>
-          </div>
-        </div>
-
-        <!-- PRECIOS -->
-        <div class="venta-section">
-          <div class="venta-section-title">💰 Precios</div>
-          <div class="venta-grid venta-grid-4">
-            <div class="form-group"><label class="form-label">Precio Total $</label>
-              <input class="form-input" id="nv-precio" placeholder="0" oninput="nv_calcularSaldo()" style="font-size:16px;font-weight:700;color:var(--amber)">
-            </div>
-            <div class="form-group"><label class="form-label">Seña $</label>
-              <input class="form-input" id="nv-sena" placeholder="0" oninput="nv_calcularSaldo()">
-            </div>
-            <div class="form-group"><label class="form-label">Saldo $</label>
-              <input class="form-input" id="nv-saldo" placeholder="0" readonly style="color:var(--green);font-weight:700">
-            </div>
-            <div class="form-group"><label class="form-label">BPS / ASSE / FOCER $</label>
-              <input class="form-input" id="nv-cobertura" placeholder="0">
+              <input class="form-input" id="nv-cuotas" type="number" min="1" placeholder="N° de cuotas">
             </div>
           </div>
         </div>
 
         <!-- BOTONES -->
         <div class="venta-botones">
-          <button class="btn-venta primary" onclick="nvEnviarPedido()">📤 Enviar Pedido a Rabaquino</button>
-          <button class="btn-venta blue" onclick="nvImprimirRecibo()">🖨️ Imprimir Recibo</button>
-          <button class="btn-venta amber" onclick="nvPresupuesto()">📄 Presupuesto</button>
-          <button class="btn-venta secondary" onclick="nvLimpiar()">🗑️ Limpiar</button>
+          <button class="btn-venta primary" onclick="nvEnviarPedido()">� ENVIAR PEDIDO A RABAQUINO</button>
+          <button class="btn-venta amber" onclick="nvImprimirRecibo()">🧾 RECIBO</button>
+          <button class="btn-venta blue" onclick="nvImprimirBPS()">📄 BPS</button>
+          <button class="btn-venta" style="background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple)" onclick="nvPresupuesto()">� PRESUPUESTO</button>
+          <button class="btn-venta secondary" onclick="nvLimpiar()">🧹 LIMPIAR</button>
         </div>
       </div>
     </div>
@@ -1222,8 +1244,9 @@ function seleccionarCristal(n,idx,tipo,mat,fil,pre){
   document.getElementById(`nv-crist-sel-pre-${n}`).textContent=pre;
   sel.style.display='flex';
   if(n===1)document.getElementById('btn-agregar-crist3').style.display='none';
+  nv_autoSumarPrecios();
 }
-function limpiarCristal(n){NV_CRISTALES[n-1]=null;document.getElementById(`nv-crist-sel-${n}`).style.display='none';document.getElementById(`nv-crist-busq-${n}`).value='';}
+function limpiarCristal(n){NV_CRISTALES[n-1]=null;document.getElementById(`nv-crist-sel-${n}`).style.display='none';document.getElementById(`nv-crist-busq-${n}`).value='';nv_autoSumarPrecios();}
 function agregarCristal(){document.getElementById('nv-crist-2').style.display='block';document.getElementById('btn-agregar-crist3').style.display='block';}
 function agregarCristal3(){document.getElementById('nv-crist-3').style.display='block';document.getElementById('btn-agregar-crist3').style.display='none';}
 // Cerrar dropdown al hacer click afuera
@@ -1251,8 +1274,9 @@ function seleccionarArmazonNV(idx){
   document.getElementById('nv-arm-sel-txt').textContent=`${a.marca||''} (${a.codigo||''} ${a.color||''})`;
   document.getElementById('nv-arm-sel-pre').textContent=a.precio_venta?'$'+a.precio_venta:'';
   document.getElementById('nv-arm-seleccionado').style.display='block';
+  nv_autoSumarPrecios();
 }
-function limpiarArmazonNV(){NV_ARMAZON=null;document.getElementById('nv-arm-seleccionado').style.display='none';}
+function limpiarArmazonNV(){NV_ARMAZON=null;document.getElementById('nv-arm-seleccionado').style.display='none';nv_autoSumarPrecios();}
 
 function abrirFotoArmazon(id){
   const p=PEDIDOS.find(x=>x.id===id);
@@ -1278,7 +1302,23 @@ function nvFormaPagoChanged(){
 function nvTarjetaChanged(){
   const tar=document.getElementById('nv-tarjeta').value;
   document.getElementById('nv-cuotas-wrap').style.display=tar?'block':'none';
-  if(!tar)document.getElementById('nv-cuotas').value='';
+  if(!tar){document.getElementById('nv-cuotas').value='';return;}
+  // Máximo de cuotas por tarjeta
+  const maxCuotas={VISA:10,OCA:12,mastercard:6,CREDITEL:18,'TARJETA D':18,'CREDITO DIRECTO':12,'BANCO REPÚBLICA':6,'pass card':6,'asse salud':3,BPS:3,'mercado pago':3,anda:6,'crédito de la casa':12,lider:6,CABAL:6};
+  const max=maxCuotas[tar]||12;
+  const inp=document.getElementById('nv-cuotas');
+  inp.max=max;inp.placeholder=`1-${max} cuotas`;
+}
+
+// Parsear precio con formato "$3.990" o "$23.900"
+function parsePrecioCristal(str){if(!str)return 0;return parseInt(str.replace(/\$/g,'').replace(/\./g,'').replace(/,/g,''))||0;}
+
+function nv_autoSumarPrecios(){
+  let total=0;
+  NV_CRISTALES.forEach(c=>{if(c&&c.precio)total+=parsePrecioCristal(c.precio);});
+  if(NV_ARMAZON&&NV_ARMAZON.precio_venta)total+=parseInt(String(NV_ARMAZON.precio_venta).replace(/\./g,'').replace(/,/g,''))||0;
+  if(total>0)document.getElementById('nv-precio').value=total;
+  nv_calcularSaldo();
 }
 
 function nv_calcularSaldo(){
@@ -1335,12 +1375,15 @@ async function nvEnviarPedido(){
     c2_tipo:c2?.tipo||'',c2_material:c2?.material||'',c2_color:c2?.filtro||'',c2_trat:'',
     c3_tipo:c3?.tipo||'',c3_material:c3?.material||'',c3_color:c3?.filtro||'',c3_trat:'',
     armazones:arm?`${arm.marca||''} (${[arm.codigo,arm.color].filter(v=>v&&v.trim()).join(' ')})`.trim():'',
-    tarjeta:document.getElementById('nv-tarjeta').value,
+    tarjeta:(()=>{const t=document.getElementById('nv-tarjeta').value,c=document.getElementById('nv-cuotas').value;return t?(c?`${t} - ${c} cuota${parseInt(c)!==1?'s':''}`:t):'';})(),
     cuotas:document.getElementById('nv-cuotas').value,
     precio:document.getElementById('nv-precio').value,
     sena:document.getElementById('nv-sena').value,
     saldo:document.getElementById('nv-saldo').value,
     forma_pago:document.getElementById('nv-forma-pago').value,
+    bps:document.getElementById('nv-bps').value,
+    asse:document.getElementById('nv-asse').value,
+    focer:document.getElementById('nv-focer').value,
     tipo_pedido:document.getElementById('nv-tipo').value,
     estado:'pendiente',
     fecha_subida:new Date().toISOString()
@@ -1373,7 +1416,32 @@ function nvImprimirRecibo(){
   const w=window.open('','_blank','width=400,height=600');w.document.write(html);w.document.close();w.print();
 }
 
-function nvPresupuesto(){
+function nvImprimirBPS(){
+  const cliente=document.getElementById('nv-cliente').value.trim()||'CLIENTE';
+  const suc=(SESSION?.sucursales||'roma').toUpperCase();
+  const c1=NV_CRISTALES[0],c2=NV_CRISTALES[1],arm=NV_ARMAZON;
+  const html=`<html><head><style>body{font-family:Arial,sans-serif;margin:0;padding:16px;color:#000}h1{font-size:16px;font-weight:900}.sep{border:none;border-top:1px solid #000;margin:8px 0}.label{font-size:9px;text-transform:uppercase;color:#555;font-weight:700}.val{font-size:12px;font-weight:700}.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.precio{font-size:18px;font-weight:900}</style></head><body>
+  <h1>PRESUPUESTO BPS · ÓPTICA ${suc}</h1><div style="font-size:11px;color:#666">Fecha: ${new Date().toLocaleDateString('es-UY')}</div><hr class="sep">
+  <div class="label">Paciente</div><div class="val">${cliente}</div>
+  <div class="grid" style="margin-top:6px">
+    <div><div class="label">Cédula</div><div class="val">${document.getElementById('nv-cedula').value||'—'}</div></div>
+    <div><div class="label">Fecha Nac.</div><div class="val">${document.getElementById('nv-fnac').value||'—'}</div></div>
+    <div><div class="label">Médico</div><div class="val">${document.getElementById('nv-medico').value||'—'}</div></div>
+    <div><div class="label">Teléfono</div><div class="val">${document.getElementById('nv-telefono').value||'—'}</div></div>
+  </div><hr class="sep">
+  <div class="label">Graduación Lejos</div>
+  <table style="width:100%;border-collapse:collapse;font-size:11px;margin-top:4px"><thead><tr><th style="border:1px solid #ccc;padding:3px"></th><th style="border:1px solid #ccc;padding:3px">ESF</th><th style="border:1px solid #ccc;padding:3px">CIL</th><th style="border:1px solid #ccc;padding:3px">EJE</th></tr></thead><tbody>
+  <tr><td style="border:1px solid #ccc;padding:3px;font-weight:700">OD</td><td style="border:1px solid #ccc;padding:3px;text-align:center">${document.getElementById('nv-lej-od-esf').value||'—'}</td><td style="border:1px solid #ccc;padding:3px;text-align:center">${document.getElementById('nv-lej-od-cil').value||'—'}</td><td style="border:1px solid #ccc;padding:3px;text-align:center">${document.getElementById('nv-lej-od-eje').value||'—'}</td></tr>
+  <tr><td style="border:1px solid #ccc;padding:3px;font-weight:700">OI</td><td style="border:1px solid #ccc;padding:3px;text-align:center">${document.getElementById('nv-lej-oi-esf').value||'—'}</td><td style="border:1px solid #ccc;padding:3px;text-align:center">${document.getElementById('nv-lej-oi-cil').value||'—'}</td><td style="border:1px solid #ccc;padding:3px;text-align:center">${document.getElementById('nv-lej-oi-eje').value||'—'}</td></tr>
+  </tbody></table><hr class="sep">
+  ${c1?`<div class="label">Cristal 1</div><div class="val">${c1.tipo} · ${c1.material}${c1.filtro?' · '+c1.filtro:''}</div><div style="font-size:11px;color:#555">${c1.precio}</div>`:''}
+  ${c2?`<div class="label" style="margin-top:4px">Cristal 2</div><div class="val">${c2.tipo} · ${c2.material}${c2.filtro?' · '+c2.filtro:''}</div><div style="font-size:11px;color:#555">${c2.precio}</div>`:''}
+  ${arm?`<div class="label" style="margin-top:4px">Armazón</div><div class="val">${arm.marca||''} ${arm.codigo||''} ${arm.color||''}</div>`:''}
+  <hr class="sep">
+  <div class="label">Monto BPS</div><div class="precio">$${document.getElementById('nv-bps').value||document.getElementById('nv-precio').value||'—'}</div>
+  </body></html>`;
+  const w=window.open('','_blank','width=420,height=620');w.document.write(html);w.document.close();w.print();
+}
   const cliente=document.getElementById('nv-cliente').value.trim()||'CLIENTE';
   const suc=(SESSION?.sucursales||'roma').toUpperCase();
   const c1=NV_CRISTALES[0],arm=NV_ARMAZON;
@@ -1389,7 +1457,7 @@ function nvPresupuesto(){
 }
 
 function nvLimpiar(){
-  ['nv-cliente','nv-cedula','nv-telefono','nv-fnac','nv-direccion','nv-email','nv-trabajo','nv-trabajo2','nv-trabajo3','nv-add','nv-dist-od','nv-dist-oi','nv-alt-od','nv-alt-oi','nv-k','nv-a','nv-d','nv-p','nv-k2','nv-a2','nv-d2','nv-p2','nv-precio','nv-sena','nv-saldo','nv-cobertura','nv-notas','nv-arm-busq','nv-cuotas'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['nv-cliente','nv-cedula','nv-telefono','nv-fnac','nv-edad','nv-direccion','nv-email','nv-trabajo','nv-trabajo2','nv-trabajo3','nv-add','nv-dist-od','nv-dist-oi','nv-alt-od','nv-alt-oi','nv-k','nv-a','nv-d','nv-p','nv-k2','nv-a2','nv-d2','nv-p2','nv-precio','nv-sena','nv-saldo','nv-bps','nv-asse','nv-focer','nv-notas','nv-arm-busq','nv-cuotas'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   ['nv-lej-od-esf','nv-lej-od-cil','nv-lej-od-eje','nv-lej-oi-esf','nv-lej-oi-cil','nv-lej-oi-eje','nv-cer-od-esf','nv-cer-od-cil','nv-cer-od-eje','nv-cer-oi-esf','nv-cer-oi-cil','nv-cer-oi-eje'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   NV_CRISTALES=[null,null,null];NV_ARMAZON=null;
   [1,2,3].forEach(n=>{document.getElementById(`nv-crist-sel-${n}`).style.display='none';document.getElementById(`nv-crist-busq-${n}`).value='';});
@@ -1399,6 +1467,7 @@ function nvLimpiar(){
   document.getElementById('btn-agregar-crist3').style.display='none';
   document.getElementById('nv-medico').value='';
   document.getElementById('nv-forma-pago').value='';
+  document.getElementById('nv-metodo-sena').value='';
   document.getElementById('nv-tarjeta').value='';
   document.getElementById('nv-tarjeta-cuotas-wrap').style.display='none';
   document.getElementById('nv-cuotas-wrap').style.display='none';
@@ -1408,8 +1477,17 @@ function nvLimpiar(){
 function playNotif(){
   try{
     const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    // [frecuencia, tiempo, tipo, volumen, ataque, release]
-    [[880,.00,'square',.85,.04,.18],[880,.22,'square',.85,.04,.18],[1100,.44,'square',.90,.04,.22],[1100,.66,'square',.90,.04,.22],[1320,.88,'sawtooth',.95,.03,.28],[1320,1.14,'sawtooth',1.00,.03,.38]].forEach(([freq,t,type,vol,att,rel])=>{
+    // Melodía de 8 notas más llamativa y fuerte
+    [
+      [523,.00,'square',.55,.02,.12],
+      [784,.14,'square',.58,.02,.12],
+      [1047,.28,'square',.60,.02,.14],
+      [1319,.42,'sawtooth',.60,.02,.16],
+      [1047,.58,'square',.58,.02,.14],
+      [1319,.72,'sawtooth',.60,.02,.16],
+      [1568,.88,'sawtooth',.60,.02,.22],
+      [1568,1.12,'sawtooth',.60,.02,.38]
+    ].forEach(([freq,t,type,vol,att,rel])=>{
       const osc=ctx.createOscillator(),gain=ctx.createGain();
       osc.connect(gain);gain.connect(ctx.destination);
       osc.frequency.value=freq;osc.type=type;
@@ -1426,6 +1504,38 @@ let _toastT;
 function showToast(msg,type=''){
   const t=document.getElementById('toast');t.textContent=msg;t.className='show '+type;
   clearTimeout(_toastT);_toastT=setTimeout(()=>t.className='',4500);
+}
+
+// ══ BUSCAR CLIENTE POR CÉDULA ══
+async function nvBuscarCliente(){
+  const ci=document.getElementById('nv-cedula').value.trim();
+  if(!ci||ci.length<4)return;
+  try{
+    const rows=await apiGet('clientes',`?cedula=eq.${encodeURIComponent(ci)}&limit=1`);
+    if(rows&&rows.length){
+      const c=rows[0];
+      if(c.nombre&&!document.getElementById('nv-cliente').value)document.getElementById('nv-cliente').value=c.nombre||'';
+      if(c.telefono&&!document.getElementById('nv-telefono').value)document.getElementById('nv-telefono').value=c.telefono||'';
+      if(c.direccion&&!document.getElementById('nv-direccion').value)document.getElementById('nv-direccion').value=c.direccion||'';
+      if(c.email&&!document.getElementById('nv-email').value)document.getElementById('nv-email').value=c.email||'';
+      if(c.fecha_nacimiento&&!document.getElementById('nv-fnac').value){document.getElementById('nv-fnac').value=c.fecha_nacimiento;nv_calcularEdad();}
+      showToast('✅ Cliente encontrado y autocompletado','ok');
+    }
+  }catch(e){/* tabla clientes puede no existir, ignorar */}
+}
+
+// ══ CALCULAR EDAD ══
+function nv_calcularEdad(){
+  const val=document.getElementById('nv-fnac').value.trim();
+  if(!val){document.getElementById('nv-edad').value='';return;}
+  let d;
+  // Soportar DD/MM/AAAA o AAAA-MM-DD
+  if(/^\d{2}\/\d{2}\/\d{4}$/.test(val)){const p=val.split('/');d=new Date(parseInt(p[2]),parseInt(p[1])-1,parseInt(p[0]));}
+  else{d=new Date(val);}
+  if(isNaN(d.getTime())){document.getElementById('nv-edad').value='';return;}
+  const hoy=new Date();let edad=hoy.getFullYear()-d.getFullYear();
+  if(hoy.getMonth()<d.getMonth()||(hoy.getMonth()===d.getMonth()&&hoy.getDate()<d.getDate()))edad--;
+  document.getElementById('nv-edad').value=edad>=0&&edad<130?edad+' años':'';
 }
 </script>
 </body>
