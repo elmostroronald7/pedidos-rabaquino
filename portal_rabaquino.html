@@ -249,6 +249,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .empty p{font-size:13px;}
 
 /* PRINT */
+.print-only{display:none;}
 @media print{
   @page{size:A4 portrait;margin:10mm;}
   body{background:#fff!important;color:#000!important;}
@@ -296,7 +297,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
   .print-frame-box{margin-top:5px;border:1px solid #cbd5e1;border-radius:7px;padding:5px 7px;background:#fff;}
   .print-frame-name{font-size:11px!important;font-weight:800!important;color:#0f172a!important;}
   .print-only{display:block!important;}
-} .print-only{display:none;}
+}
 
 /* RESPONSIVE */
 @media(max-width:900px){
@@ -435,9 +436,15 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
             <div class="form-group"><label class="form-label">Cédula</label><input class="form-input" id="nv-cedula" placeholder="CI"></div>
             <div class="form-group"><label class="form-label">Teléfono</label><input class="form-input" id="nv-telefono" placeholder="Teléfono"></div>
           </div>
-          <div class="venta-grid venta-grid-3">
+          <div class="venta-grid venta-grid-3" style="margin-bottom:10px">
             <div class="form-group"><label class="form-label">Fecha de nacimiento</label><input class="form-input" id="nv-fnac" placeholder="DD/MM/AAAA"></div>
-            <div class="form-group"><label class="form-label">N° de Trabajo</label><input class="form-input" id="nv-trabajo" placeholder="N° trabajo"></div>
+            <div class="form-group"><label class="form-label">Dirección</label><input class="form-input" id="nv-direccion" placeholder="Dirección"></div>
+            <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="nv-email" type="email" placeholder="email@ejemplo.com"></div>
+          </div>
+          <div class="venta-grid venta-grid-4">
+            <div class="form-group"><label class="form-label">N° Trabajo</label><input class="form-input" id="nv-trabajo" placeholder="N° trabajo"></div>
+            <div class="form-group"><label class="form-label">N° Trabajo 2</label><input class="form-input" id="nv-trabajo2" placeholder="N° trabajo 2"></div>
+            <div class="form-group"><label class="form-label">N° Trabajo 3</label><input class="form-input" id="nv-trabajo3" placeholder="N° trabajo 3"></div>
             <div class="form-group"><label class="form-label">Médico / Cobertura</label>
               <select class="form-select" id="nv-medico">
                 <option value="">-- Seleccionar --</option>
@@ -497,10 +504,16 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
             <div class="form-group"><label class="form-label">Alt OI</label><input class="form-input" id="nv-alt-oi" placeholder=""></div>
           </div>
           <div class="venta-grid venta-grid-4" style="margin-top:10px">
-            <div class="form-group"><label class="form-label">K</label><input class="form-input" id="nv-k" placeholder=""></div>
-            <div class="form-group"><label class="form-label">A</label><input class="form-input" id="nv-a" placeholder=""></div>
-            <div class="form-group"><label class="form-label">D</label><input class="form-input" id="nv-d" placeholder=""></div>
-            <div class="form-group"><label class="form-label">P</label><input class="form-input" id="nv-p" placeholder=""></div>
+            <div class="form-group"><label class="form-label">K (OD)</label><input class="form-input" id="nv-k" placeholder=""></div>
+            <div class="form-group"><label class="form-label">A (OD)</label><input class="form-input" id="nv-a" placeholder=""></div>
+            <div class="form-group"><label class="form-label">D (OD)</label><input class="form-input" id="nv-d" placeholder=""></div>
+            <div class="form-group"><label class="form-label">P (OD)</label><input class="form-input" id="nv-p" placeholder=""></div>
+          </div>
+          <div class="venta-grid venta-grid-4" style="margin-top:6px">
+            <div class="form-group"><label class="form-label">K (OI)</label><input class="form-input" id="nv-k2" placeholder=""></div>
+            <div class="form-group"><label class="form-label">A (OI)</label><input class="form-input" id="nv-a2" placeholder=""></div>
+            <div class="form-group"><label class="form-label">D (OI)</label><input class="form-input" id="nv-d2" placeholder=""></div>
+            <div class="form-group"><label class="form-label">P (OI)</label><input class="form-input" id="nv-p2" placeholder=""></div>
           </div>
         </div>
 
@@ -580,7 +593,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
         <!-- TIPO DE PEDIDO -->
         <div class="venta-section">
           <div class="venta-section-title">📋 Tipo de Pedido</div>
-          <div class="venta-grid venta-grid-3">
+          <div class="venta-grid venta-grid-3" style="margin-bottom:10px">
             <div class="form-group"><label class="form-label">Tipo</label>
               <select class="form-select" id="nv-tipo">
                 <option>MONOFOCAL</option><option>MULTIFOCAL</option><option>BIFOCAL</option>
@@ -588,7 +601,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
               </select>
             </div>
             <div class="form-group"><label class="form-label">Forma de Pago</label>
-              <select class="form-select" id="nv-forma-pago">
+              <select class="form-select" id="nv-forma-pago" onchange="nvFormaPagoChanged()">
                 <option value="">-- Seleccionar --</option>
                 <option>CONTADO</option><option>DEBITO</option><option>CREDITO</option>
                 <option>TRANSFERENCIA</option><option>BPS</option><option>ASSE</option>
@@ -598,6 +611,20 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
             </div>
             <div class="form-group"><label class="form-label">Observaciones</label>
               <input class="form-input" id="nv-notas" placeholder="Notas adicionales">
+            </div>
+          </div>
+          <div class="venta-grid venta-grid-2" id="nv-tarjeta-cuotas-wrap" style="display:none">
+            <div class="form-group">
+              <label class="form-label">Tarjeta</label>
+              <select class="form-select" id="nv-tarjeta" onchange="nvTarjetaChanged()">
+                <option value="">-- Seleccionar tarjeta --</option>
+                <option>VISA</option><option>MASTERCARD</option><option>OCA</option>
+                <option>PREX</option><option>CABAL</option><option>OTRO</option>
+              </select>
+            </div>
+            <div class="form-group" id="nv-cuotas-wrap" style="display:none">
+              <label class="form-label">Cuotas</label>
+              <input class="form-input" id="nv-cuotas" placeholder="N° de cuotas">
             </div>
           </div>
         </div>
@@ -1045,7 +1072,7 @@ function renderCard(p){
         <div class="det-section">
           <div class="det-section-title">🔍 Cristales</div>
           ${cristales}
-          ${p.armazones?`<div style="margin-top:12px"><div class="det-section-title">👓 Armazón</div><div style="font-size:13px;font-family:var(--mono);color:var(--text);line-height:1.5">${p.armazones}</div>${(()=>{const cod=(p.armazones||'').split(/[-|]/)[0].trim().toUpperCase();const m=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===cod&&a.imagen);return m?`<button class="arm-foto-btn" onclick="event.stopPropagation();abrirFoto('${imgUrl(m.imagen)}')">📷 Ver foto</button>`:'';})()} </div>`:''}
+          ${p.armazones?`<div style="margin-top:12px"><div class="det-section-title">👓 Armazón</div><span style="font-size:13px;font-family:var(--mono);color:var(--accent2);line-height:1.5;cursor:pointer;text-decoration:underline dotted" onclick="event.stopPropagation();abrirFotoArmazon(${p.id})" title="Click para ver foto del armazón">📷 ${p.armazones}</span></div>`:''}
           <div style="margin-top:12px">
             <div class="det-section-title">💰 Precio</div>
             <div class="det-row"><span class="det-key">Total</span><span class="det-val amber">${p.precio||'—'}</span></div>
@@ -1227,6 +1254,33 @@ function seleccionarArmazonNV(idx){
 }
 function limpiarArmazonNV(){NV_ARMAZON=null;document.getElementById('nv-arm-seleccionado').style.display='none';}
 
+function abrirFotoArmazon(id){
+  const p=PEDIDOS.find(x=>x.id===id);
+  if(!p||!p.armazones)return;
+  if(!ARMAZONES.length){showToast('Cargando catálogo, intentá de nuevo en un momento','ok');cargarArmazones();return;}
+  const match=p.armazones.match(/\(([^)]+)\)/);
+  if(!match){showToast('Sin foto: código de armazón no reconocido','');return;}
+  const inner=match[1].trim();
+  const codigo=inner.split(/\s+/)[0].toUpperCase();
+  let arm=ARMAZONES.find(a=>`${a.codigo||''} ${a.color||''}`.trim().toUpperCase()===inner.toUpperCase());
+  if(!arm)arm=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo&&a.imagen);
+  if(arm&&arm.imagen)abrirFoto(imgUrl(arm.imagen));
+  else showToast('Sin foto disponible para este armazón','');
+}
+
+function nvFormaPagoChanged(){
+  const fp=document.getElementById('nv-forma-pago').value;
+  const wrap=document.getElementById('nv-tarjeta-cuotas-wrap');
+  if(fp==='CREDITO'||fp==='DEBITO'){wrap.style.display='';}
+  else{wrap.style.display='none';document.getElementById('nv-tarjeta').value='';document.getElementById('nv-cuotas').value='';document.getElementById('nv-cuotas-wrap').style.display='none';}
+}
+
+function nvTarjetaChanged(){
+  const tar=document.getElementById('nv-tarjeta').value;
+  document.getElementById('nv-cuotas-wrap').style.display=tar?'block':'none';
+  if(!tar)document.getElementById('nv-cuotas').value='';
+}
+
 function nv_calcularSaldo(){
   const precio=parseFloat((document.getElementById('nv-precio').value||'0').replace(/\./g,'').replace(',','.'))||0;
   const sena=parseFloat((document.getElementById('nv-sena').value||'0').replace(/\./g,'').replace(',','.'))||0;
@@ -1246,6 +1300,11 @@ async function nvEnviarPedido(){
     telefono:document.getElementById('nv-telefono').value.trim(),
     fecha_venta:new Date().toLocaleDateString('es-UY'),
     numero_trabajo:document.getElementById('nv-trabajo').value.trim(),
+    numero_trabajo2:document.getElementById('nv-trabajo2').value.trim(),
+    numero_trabajo3:document.getElementById('nv-trabajo3').value.trim(),
+    fecha_nacimiento:document.getElementById('nv-fnac').value.trim(),
+    direccion:document.getElementById('nv-direccion').value.trim(),
+    email:document.getElementById('nv-email').value.trim(),
     medico:document.getElementById('nv-medico').value,
     lej_od_esf:document.getElementById('nv-lej-od-esf').value,
     lej_od_cil:document.getElementById('nv-lej-od-cil').value,
@@ -1268,10 +1327,16 @@ async function nvEnviarPedido(){
     a:document.getElementById('nv-a').value,
     d:document.getElementById('nv-d').value,
     p:document.getElementById('nv-p').value,
+    k2:document.getElementById('nv-k2').value,
+    a2:document.getElementById('nv-a2').value,
+    d2:document.getElementById('nv-d2').value,
+    p2:document.getElementById('nv-p2').value,
     c1_tipo:c1?.tipo||'',c1_material:c1?.material||'',c1_color:c1?.filtro||'',c1_trat:'',
     c2_tipo:c2?.tipo||'',c2_material:c2?.material||'',c2_color:c2?.filtro||'',c2_trat:'',
     c3_tipo:c3?.tipo||'',c3_material:c3?.material||'',c3_color:c3?.filtro||'',c3_trat:'',
-    armazones:arm?`${arm.marca||''} (${arm.codigo||''} ${arm.color||''})`.trim():'',
+    armazones:arm?`${arm.marca||''} (${[arm.codigo,arm.color].filter(v=>v&&v.trim()).join(' ')})`.trim():'',
+    tarjeta:document.getElementById('nv-tarjeta').value,
+    cuotas:document.getElementById('nv-cuotas').value,
     precio:document.getElementById('nv-precio').value,
     sena:document.getElementById('nv-sena').value,
     saldo:document.getElementById('nv-saldo').value,
@@ -1324,7 +1389,7 @@ function nvPresupuesto(){
 }
 
 function nvLimpiar(){
-  ['nv-cliente','nv-cedula','nv-telefono','nv-fnac','nv-trabajo','nv-add','nv-dist-od','nv-dist-oi','nv-alt-od','nv-alt-oi','nv-k','nv-a','nv-d','nv-p','nv-precio','nv-sena','nv-saldo','nv-cobertura','nv-notas','nv-arm-busq'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['nv-cliente','nv-cedula','nv-telefono','nv-fnac','nv-direccion','nv-email','nv-trabajo','nv-trabajo2','nv-trabajo3','nv-add','nv-dist-od','nv-dist-oi','nv-alt-od','nv-alt-oi','nv-k','nv-a','nv-d','nv-p','nv-k2','nv-a2','nv-d2','nv-p2','nv-precio','nv-sena','nv-saldo','nv-cobertura','nv-notas','nv-arm-busq','nv-cuotas'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   ['nv-lej-od-esf','nv-lej-od-cil','nv-lej-od-eje','nv-lej-oi-esf','nv-lej-oi-cil','nv-lej-oi-eje','nv-cer-od-esf','nv-cer-od-cil','nv-cer-od-eje','nv-cer-oi-esf','nv-cer-oi-cil','nv-cer-oi-eje'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   NV_CRISTALES=[null,null,null];NV_ARMAZON=null;
   [1,2,3].forEach(n=>{document.getElementById(`nv-crist-sel-${n}`).style.display='none';document.getElementById(`nv-crist-busq-${n}`).value='';});
@@ -1334,20 +1399,24 @@ function nvLimpiar(){
   document.getElementById('btn-agregar-crist3').style.display='none';
   document.getElementById('nv-medico').value='';
   document.getElementById('nv-forma-pago').value='';
+  document.getElementById('nv-tarjeta').value='';
+  document.getElementById('nv-tarjeta-cuotas-wrap').style.display='none';
+  document.getElementById('nv-cuotas-wrap').style.display='none';
 }
 
 // ══ SONIDO NOTIF ══
 function playNotif(){
   try{
     const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    [[523,.0],[659,.18],[784,.36],[1047,.54]].forEach(([freq,t])=>{
+    // [frecuencia, tiempo, tipo, volumen, ataque, release]
+    [[880,.00,'square',.85,.04,.18],[880,.22,'square',.85,.04,.18],[1100,.44,'square',.90,.04,.22],[1100,.66,'square',.90,.04,.22],[1320,.88,'sawtooth',.95,.03,.28],[1320,1.14,'sawtooth',1.00,.03,.38]].forEach(([freq,t,type,vol,att,rel])=>{
       const osc=ctx.createOscillator(),gain=ctx.createGain();
       osc.connect(gain);gain.connect(ctx.destination);
-      osc.frequency.value=freq;osc.type='sine';
+      osc.frequency.value=freq;osc.type=type;
       gain.gain.setValueAtTime(0,ctx.currentTime+t);
-      gain.gain.linearRampToValueAtTime(.4,ctx.currentTime+t+.06);
-      gain.gain.linearRampToValueAtTime(0,ctx.currentTime+t+.35);
-      osc.start(ctx.currentTime+t);osc.stop(ctx.currentTime+t+.4);
+      gain.gain.linearRampToValueAtTime(vol,ctx.currentTime+t+att);
+      gain.gain.linearRampToValueAtTime(0,ctx.currentTime+t+att+rel);
+      osc.start(ctx.currentTime+t);osc.stop(ctx.currentTime+t+att+rel+.05);
     });
   }catch(e){}
 }
