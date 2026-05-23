@@ -437,7 +437,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
             <div class="form-group"><label class="form-label">Teléfono</label><input class="form-input" id="nv-telefono" placeholder="Teléfono"></div>
           </div>
           <div class="venta-grid venta-grid-4" style="margin-bottom:10px">
-            <div class="form-group"><label class="form-label">Fecha de nacimiento</label><input class="form-input" id="nv-fnac" placeholder="DD/MM/AAAA" oninput="nv_calcularEdad()"></div>
+            <div class="form-group"><label class="form-label">Fecha de nacimiento</label><input class="form-input" id="nv-fnac" placeholder="DD/MM/AAAA" maxlength="10" oninput="nv_formatFnac(this);nv_calcularEdad()"></div>
             <div class="form-group"><label class="form-label">Edad</label><input class="form-input" id="nv-edad" placeholder="Automática" readonly style="color:var(--text2)"></div>
             <div class="form-group"><label class="form-label">Dirección</label><input class="form-input" id="nv-direccion" placeholder="Dirección"></div>
             <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="nv-email" type="email" placeholder="email@ejemplo.com"></div>
@@ -498,7 +498,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
             </div>
           </div>
           <div class="venta-grid venta-grid-5" style="margin-top:12px">
-            <div class="form-group"><label class="form-label">ADD</label><input class="form-input" id="nv-add" placeholder=""></div>
+            <div class="form-group"><label class="form-label">ADD</label><select class="form-select" id="nv-add"><option value="">-- ADD --</option><option>+0.25</option><option>+0.50</option><option>+0.75</option><option>+1.00</option><option>+1.25</option><option>+1.50</option><option>+1.75</option><option>+2.00</option><option>+2.25</option><option>+2.50</option><option>+2.75</option><option>+3.00</option><option>+3.25</option><option>+3.50</option><option>+3.75</option><option>+4.00</option></select></div>
             <div class="form-group"><label class="form-label">Dist OD</label><input class="form-input" id="nv-dist-od" placeholder=""></div>
             <div class="form-group"><label class="form-label">Dist OI</label><input class="form-input" id="nv-dist-oi" placeholder=""></div>
             <div class="form-group"><label class="form-label">Alt OD</label><input class="form-input" id="nv-alt-od" placeholder=""></div>
@@ -531,7 +531,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
               <div class="cristal-seleccionado" id="nv-crist-sel-1" style="display:none">
                 <span id="nv-crist-sel-txt-1"></span>
                 <div style="display:flex;align-items:center;gap:8px">
-                  <span class="precio-tag" id="nv-crist-sel-pre-1"></span>
+                  <input type="number" id="nv-crist-precio-1" class="form-input" style="width:100px;padding:4px 8px;font-size:12px;font-weight:700;color:var(--amber);border-color:rgba(245,158,11,.4)" placeholder="Precio $" oninput="nv_precioEditado(1)">
                   <button class="btn-limpiar-crist" onclick="limpiarCristal(1)">✕</button>
                 </div>
               </div>
@@ -545,7 +545,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
               <div class="cristal-seleccionado" id="nv-crist-sel-2" style="display:none">
                 <span id="nv-crist-sel-txt-2"></span>
                 <div style="display:flex;align-items:center;gap:8px">
-                  <span class="precio-tag" id="nv-crist-sel-pre-2"></span>
+                  <input type="number" id="nv-crist-precio-2" class="form-input" style="width:100px;padding:4px 8px;font-size:12px;font-weight:700;color:var(--amber);border-color:rgba(245,158,11,.4)" placeholder="Precio $" oninput="nv_precioEditado(2)">
                   <button class="btn-limpiar-crist" onclick="limpiarCristal(2)">✕</button>
                 </div>
               </div>
@@ -559,7 +559,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
               <div class="cristal-seleccionado" id="nv-crist-sel-3" style="display:none">
                 <span id="nv-crist-sel-txt-3"></span>
                 <div style="display:flex;align-items:center;gap:8px">
-                  <span class="precio-tag" id="nv-crist-sel-pre-3"></span>
+                  <input type="number" id="nv-crist-precio-3" class="form-input" style="width:100px;padding:4px 8px;font-size:12px;font-weight:700;color:var(--amber);border-color:rgba(245,158,11,.4)" placeholder="Precio $" oninput="nv_precioEditado(3)">
                   <button class="btn-limpiar-crist" onclick="limpiarCristal(3)">✕</button>
                 </div>
               </div>
@@ -588,6 +588,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
                 <button class="btn-limpiar-crist" onclick="limpiarArmazonNV()">✕</button>
               </div>
             </div>
+          </div>
+          <div style="margin-top:10px">
+            <label class="form-label" style="display:block;margin-bottom:5px">O escribir manualmente:</label>
+            <input class="form-input" id="nv-arm-manual" placeholder="Escribir armazón manualmente (tiene prioridad sobre el buscador)">
           </div>
         </div>
 
@@ -658,20 +662,26 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
           </div>
           <div class="venta-grid venta-grid-3">
             <div class="form-group"><label class="form-label">BPS $</label>
-              <input class="form-input" id="nv-bps" placeholder="0" type="number" min="0">
+              <input class="form-input" id="nv-bps" placeholder="0" type="number" min="0" oninput="nv_calcularSaldo()">
             </div>
             <div class="form-group"><label class="form-label">ASSE $</label>
-              <input class="form-input" id="nv-asse" placeholder="0" type="number" min="0">
+              <input class="form-input" id="nv-asse" placeholder="0" type="number" min="0" oninput="nv_calcularSaldo()">
             </div>
             <div class="form-group"><label class="form-label">FOCER $</label>
-              <input class="form-input" id="nv-focer" placeholder="0" type="number" min="0">
+              <input class="form-input" id="nv-focer" placeholder="0" type="number" min="0" oninput="nv_calcularSaldo()">
             </div>
           </div>
         </div>
 
         <!-- BOTONES -->
         <div class="venta-botones">
-          <button class="btn-venta primary" onclick="nvEnviarPedido()">💾 Enviar Pedido</button>
+          <select id="nv-estado-pedido" class="form-select" style="width:auto;padding:9px 14px;font-family:var(--sans);font-size:13px" onchange="nv_actualizarBtnEstado()">
+            <option value="pendiente">📤 Enviar a Rabaquino</option>
+            <option value="reserva_con_sena">💰 Reserva con seña</option>
+            <option value="reserva_sin_sena">📋 Reserva sin seña</option>
+            <option value="listo_para_pedir">✅ Listo para pedir</option>
+          </select>
+          <button class="btn-venta primary" id="btn-nv-enviar" onclick="nvEnviarPedido()">💾 Enviar Pedido</button>
           <button class="btn-venta amber" onclick="nvImprimirRecibo()">🧾 Recibo</button>
           <button class="btn-venta blue" onclick="nvPresupuestoBPS()">📄 Presup. BPS</button>
           <button class="btn-venta" style="background:var(--purple,#7c3aed);color:#fff" onclick="nvPresupuesto()">📜 Presupuesto</button>
@@ -868,6 +878,8 @@ async function doLogin(){
       document.getElementById('btn-nueva-venta').style.display='block';
       document.getElementById('nv-sucursal-label').textContent=`Sucursal: ${suc.toUpperCase()}`;
       document.getElementById('topbar-title').textContent=`Portal Óptica ${suc.charAt(0).toUpperCase()+suc.slice(1)}`;
+      // Ocultar botón Cristales para sucursales que no son 'todas'
+      document.querySelectorAll('#nav-row .nav-btn').forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'cristales'"))b.style.display='none';});
     }
     if(Notification&&Notification.permission==='default')Notification.requestPermission();
     cargarPedidos();
@@ -1242,12 +1254,14 @@ function seleccionarCristal(n,idx,tipo,mat,fil,pre){
   document.getElementById(`nv-crist-busq-${n}`).value='';
   const sel=document.getElementById(`nv-crist-sel-${n}`);
   document.getElementById(`nv-crist-sel-txt-${n}`).textContent=`${tipo} · ${mat}${fil?' · '+fil:''}`;
-  document.getElementById(`nv-crist-sel-pre-${n}`).textContent=pre;
+  const _rawP=parseInt(String(pre).replace('$','').replace(/\./g,''))||0;
+  const _pi=document.getElementById(`nv-crist-precio-${n}`);
+  if(_pi)_pi.value=_rawP;
   sel.style.display='flex';
   if(n===1)document.getElementById('btn-agregar-crist3').style.display='none';
   nv_autoPrice();
 }
-function limpiarCristal(n){NV_CRISTALES[n-1]=null;document.getElementById(`nv-crist-sel-${n}`).style.display='none';document.getElementById(`nv-crist-busq-${n}`).value='';nv_autoPrice();}
+function limpiarCristal(n){NV_CRISTALES[n-1]=null;document.getElementById(`nv-crist-sel-${n}`).style.display='none';document.getElementById(`nv-crist-busq-${n}`).value='';const _cpi=document.getElementById(`nv-crist-precio-${n}`);if(_cpi)_cpi.value='';nv_autoPrice();}
 function agregarCristal(){document.getElementById('nv-crist-2').style.display='block';document.getElementById('btn-agregar-crist3').style.display='block';}
 function agregarCristal3(){document.getElementById('nv-crist-3').style.display='block';document.getElementById('btn-agregar-crist3').style.display='none';}
 // Cerrar dropdown al hacer click afuera
@@ -1330,9 +1344,22 @@ function nvTarjetaChanged(){
 function nv_calcularSaldo(){
   const precio=parseFloat((document.getElementById('nv-precio').value||'0').replace(/\./g,'').replace(',','.'))||0;
   const sena=parseFloat((document.getElementById('nv-sena').value||'0').replace(/\./g,'').replace(',','.'))||0;
-  document.getElementById('nv-saldo').value=Math.max(0,precio-sena).toLocaleString('es-UY');
+  const bps=parseFloat(document.getElementById('nv-bps').value||'0')||0;
+  const asse=parseFloat(document.getElementById('nv-asse').value||'0')||0;
+  const focer=parseFloat(document.getElementById('nv-focer').value||'0')||0;
+  document.getElementById('nv-saldo').value=Math.max(0,precio-sena-bps-asse-focer).toLocaleString('es-UY');
 }
 
+function nv_formatFnac(el){
+  let v=el.value.replace(/[^0-9\/]/g,'');
+  // Si el usuario ya puso slashes manualmente, trabajar con los digitos
+  const digits=v.replace(/\//g,'');
+  let out='';
+  if(digits.length>4)out=digits.slice(0,2)+'/'+digits.slice(2,4)+'/'+digits.slice(4,8);
+  else if(digits.length>2)out=digits.slice(0,2)+'/'+digits.slice(2);
+  else out=digits;
+  if(out!==el.value)el.value=out;
+}
 function nv_calcularEdad(){
   const raw=document.getElementById('nv-fnac').value.trim();
   const el=document.getElementById('nv-edad');
@@ -1374,6 +1401,12 @@ async function nvBuscarCliente(){
   }catch(e){/* tabla clientes puede no existir aún */}
 }
 
+function nv_precioEditado(n){
+  const _v=parseInt(document.getElementById(`nv-crist-precio-${n}`)?.value||'0')||0;
+  if(NV_CRISTALES[n-1])NV_CRISTALES[n-1].precio='$'+_v.toLocaleString('es-UY');
+  NV_PRECIO_MANUAL=false;
+  nv_autoPrice();
+}
 function nv_autoPrice(){
   // Solo autocompleta si el usuario NO editó el precio manualmente
   if(NV_PRECIO_MANUAL)return;
@@ -1383,7 +1416,7 @@ function nv_autoPrice(){
     return parseInt(String(s).replace('$','').replace(/\./g,''))||0;
   }
   let total=0;
-  NV_CRISTALES.forEach(c=>{if(c&&c.precio)total+=parsePrecio(c.precio)*2;}); // par de cristales
+  NV_CRISTALES.forEach(c=>{if(c&&c.precio)total+=parsePrecio(c.precio);});
   if(NV_ARMAZON&&NV_ARMAZON.precio_venta)total+=parsePrecio(NV_ARMAZON.precio_venta);
   if(total>0){
     document.getElementById('nv-precio').value=total.toLocaleString('es-UY');
@@ -1391,30 +1424,55 @@ function nv_autoPrice(){
   }
 }
 
-async function nvPresupuestoBPS(){
+function nvPresupuestoBPS(){
   const cliente=document.getElementById('nv-cliente').value.trim()||'CLIENTE';
+  const cedula=document.getElementById('nv-cedula').value.trim()||'—';
+  const telefono=document.getElementById('nv-telefono').value.trim()||'—';
+  const direccion=document.getElementById('nv-direccion').value.trim()||'—';
   const suc=(SESSION?.sucursales||'roma').toUpperCase();
-  const c1=NV_CRISTALES[0],arm=NV_ARMAZON;
-  const bps=document.getElementById('nv-bps').value||'0';
-  const asse=document.getElementById('nv-asse').value||'0';
-  const focer=document.getElementById('nv-focer').value||'0';
-  const html=`<html><head><style>body{font-family:Arial,sans-serif;margin:0;padding:20px;color:#000}h1{font-size:18px;font-weight:900;margin:0 0 2px}.sub{font-size:12px;color:#555;margin-bottom:10px}.sep{border:none;border-top:2px solid #000;margin:10px 0}.sep2{border:none;border-top:1px dashed #aaa;margin:8px 0}.label{font-size:10px;text-transform:uppercase;color:#777;font-weight:700}.val{font-size:13px;font-weight:700;margin-bottom:6px}.row{display:flex;justify-content:space-between;margin:4px 0}.big{font-size:20px;font-weight:900}</style></head><body>
-  <h1>ÓPTICA ${suc}</h1><div class="sub">Presupuesto BPS/ASSE/FOCER — ${new Date().toLocaleDateString('es-UY')}</div><hr class="sep">
-  <div class="label">Beneficiario</div><div class="val" style="font-size:16px">${cliente}</div>
-  <div class="label">Cédula</div><div class="val">${document.getElementById('nv-cedula').value||'—'}</div>
-  <hr class="sep2">
-  ${c1?`<div class="label">Cristales</div><div class="val">${c1.tipo} · ${c1.material}${c1.filtro?' · '+c1.filtro:''}</div>`:''}
-  ${arm?`<div class="label">Armazón</div><div class="val">${arm.marca||''} ${arm.codigo||''} ${arm.color||''}</div>`:''}
-  <hr class="sep">
-  <div class="row"><span class="label">Total</span><span class="big">$${document.getElementById('nv-precio').value||'—'}</span></div>
-  <hr class="sep2">
-  <div class="row"><span class="label">BPS $</span><span class="val">$${bps}</span></div>
-  <div class="row"><span class="label">ASSE $</span><span class="val">$${asse}</span></div>
-  <div class="row"><span class="label">FOCER $</span><span class="val">$${focer}</span></div>
-  <hr class="sep2">
-  <div style="font-size:10px;color:#888;margin-top:10px">Válido 30 días · Sujeto a disponibilidad de stock</div>
-  </body></html>`;
-  const w=window.open('','_blank','width=420,height=620');w.document.write(html);w.document.close();w.print();
+  const precio=document.getElementById('nv-precio').value||'0';
+  const sena=document.getElementById('nv-sena').value||'0';
+  const metodoSena=document.getElementById('nv-metodo-sena').value||'—';
+  const saldo=document.getElementById('nv-saldo').value||'0';
+  const bps=parseFloat(document.getElementById('nv-bps').value||'0')||0;
+  const asse=parseFloat(document.getElementById('nv-asse').value||'0')||0;
+  const focer=parseFloat(document.getElementById('nv-focer').value||'0')||0;
+  const notas=document.getElementById('nv-notas').value.trim();
+  const medico=document.getElementById('nv-medico').value||'';
+  const ahora=new Date();
+  const fechaHora=ahora.toLocaleDateString('es-UY')+' '+String(ahora.getHours()).padStart(2,'0')+':'+String(ahora.getMinutes()).padStart(2,'0');
+  function _pp(s){return parseInt(String(s||'0').replace('$','').replace(/\./g,''))||0;}
+  let filasCristales='';
+  NV_CRISTALES.forEach((c,i)=>{
+    if(!c)return;
+    const pnum=_pp(c.precio);
+    filasCristales+=`<tr><td style="text-align:center;white-space:nowrap">1 par</td><td>Cristal ${i+1}: ${c.tipo} ${c.material}${c.filtro?' · '+c.filtro:''}</td><td style="color:#555">${medico||'—'}</td><td style="text-align:right;font-weight:700">$${pnum.toLocaleString('es-UY')}</td></tr>`;
+  });
+  let filaArmazon='';
+  const armManual=document.getElementById('nv-arm-manual').value.trim();
+  if(NV_ARMAZON){
+    const a=NV_ARMAZON;
+    const parm=a.precio_venta?'$'+parseInt(a.precio_venta).toLocaleString('es-UY'):'—';
+    filaArmazon=`<tr><td style="text-align:center">1</td><td>Armazón 1: ${a.marca||''} (Cod: ${a.codigo||''} ${a.color||''})</td><td style="color:#555">${notas||'—'}</td><td style="text-align:right;font-weight:700">${parm}</td></tr>`;
+  } else if(armManual){
+    filaArmazon=`<tr><td style="text-align:center">1</td><td>Armazón 1: ${armManual}</td><td style="color:#555">${notas||'—'}</td><td style="text-align:right;font-weight:700">—</td></tr>`;
+  }
+  if(!filasCristales&&!filaArmazon)filasCristales='<tr><td colspan="4" style="text-align:center;color:#aaa">Sin productos cargados</td></tr>';
+  const css=`*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;font-size:12px;color:#000;padding:20px 24px}.hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:10px;border-bottom:2.5px solid #000}.hdr-l h1{font-size:19px;font-weight:900;letter-spacing:.03em}.hdr-l p{font-size:10.5px;color:#444;margin-top:3px;line-height:1.7}.hdr-r{text-align:right}.hdr-r .tit{font-size:17px;font-weight:900;letter-spacing:.04em}.hdr-r .fh{font-size:10px;color:#666;margin-top:3px}.valid{font-size:11px;color:#888;font-style:italic;margin-top:4px}table{width:100%;border-collapse:collapse;margin:10px 0}table.cli th{background:#f0f0f0;font-size:10px;font-weight:700;text-transform:uppercase;padding:5px 8px;border:1px solid #ccc;text-align:left}table.cli td{font-size:12px;font-weight:600;padding:6px 8px;border:1px solid #ccc}table.det th{background:#1a1a2e;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:7px 8px;border:1px solid #333;text-align:left}table.det td{font-size:12px;padding:7px 8px;border:1px solid #ddd;vertical-align:top}table.det tr:nth-child(even) td{background:#f9f9f9}.tots{margin-top:14px;padding:12px 16px;background:#f8f8f8;border:1px solid #ddd;border-radius:5px}.tr{display:flex;justify-content:flex-end;align-items:baseline;gap:14px;margin-bottom:4px}.tl{font-size:12px;color:#555;text-align:right;min-width:200px}.tv{font-size:13px;font-weight:700;text-align:right;min-width:90px}.tr.sal{margin-top:8px;padding-top:8px;border-top:2px solid #000}.tr.sal .tl{font-size:14px;font-weight:900;color:#000}.tr.sal .tv{font-size:20px;font-weight:900;color:red}.desc{color:red}.foot{margin-top:20px;text-align:center;padding-top:10px;border-top:1px solid #ccc;font-size:11px;color:#777}@media print{body{padding:10px 14px}}`;
+  const html=`<html><head><meta charset="UTF-8"><style>${css}</style></head><body>
+<div class="hdr"><div class="hdr-l"><h1>ÓPTICA ${suc}</h1><p>RUT: 080255880012<br>RIVERA 617 ESQ. INSTRUCCIONES DEL AÑO 13<br>Tel: 2364 1800 &nbsp;|&nbsp; Cel: 098 871 673<br>opticaromalaspiedras@hotmail.com</p></div><div class="hdr-r"><div class="tit">PRESUPUESTO BPS</div><div class="fh">${fechaHora}</div><div class="valid">Válido 15 días</div></div></div>
+<table class="cli"><tr><th>Beneficiario</th><th>Cédula</th><th>Teléfono</th><th>Dirección</th></tr><tr><td>${cliente}</td><td>${cedula}</td><td>${telefono}</td><td>${direccion}</td></tr></table>
+<table class="det"><thead><tr><th style="width:70px">CANT.</th><th>DESCRIPCIÓN DEL PRODUCTO</th><th style="width:160px">DETALLE/NOTA</th><th style="width:100px;text-align:right">PRECIO</th></tr></thead><tbody>${filasCristales}${filaArmazon}</tbody></table>
+<div class="tots">
+  <div class="tr"><span class="tl">PRECIO TOTAL:</span><span class="tv">$${precio}</span></div>
+  ${bps>0?`<div class="tr"><span class="tl desc">DESC. BPS:</span><span class="tv desc">- $${bps.toLocaleString('es-UY')}</span></div>`:''}
+  ${asse>0?`<div class="tr"><span class="tl desc">DESC. ASSE:</span><span class="tv desc">- $${asse.toLocaleString('es-UY')}</span></div>`:''}
+  ${focer>0?`<div class="tr"><span class="tl desc">DESC. FOCER:</span><span class="tv desc">- $${focer.toLocaleString('es-UY')}</span></div>`:''}
+  <div class="tr sal"><span class="tl">SALDO PENDIENTE:</span><span class="tv">$${saldo}</span></div>
+</div>
+<div class="foot">————————————————————————————<br>ÓPTICA ROMA</div>
+</body></html>`;
+  const w=window.open('','_blank','width=820,height=720');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
 }
 
 async function nvEnviarPedido(){
@@ -1464,7 +1522,7 @@ async function nvEnviarPedido(){
     c1_tipo:c1?.tipo||'',c1_material:c1?.material||'',c1_color:c1?.filtro||'',c1_trat:'',
     c2_tipo:c2?.tipo||'',c2_material:c2?.material||'',c2_color:c2?.filtro||'',c2_trat:'',
     c3_tipo:c3?.tipo||'',c3_material:c3?.material||'',c3_color:c3?.filtro||'',c3_trat:'',
-    armazones:arm?`${arm.marca||''} (${[arm.codigo,arm.color].filter(v=>v&&v.trim()).join(' ')})`.trim():'',
+    armazones:(document.getElementById('nv-arm-manual').value.trim())||(arm?`${arm.marca||''} (${[arm.codigo,arm.color].filter(v=>v&&v.trim()).join(' ')})`.trim():''),
     tarjeta:(()=>{const t=document.getElementById('nv-tarjeta').value;const q=document.getElementById('nv-cuotas').value;return t?(q?`${t} - ${q} cuota${q=='1'?'':'s'}`:t):'';})(),
     cuotas:document.getElementById('nv-cuotas').value,
     precio:document.getElementById('nv-precio').value,
@@ -1476,12 +1534,14 @@ async function nvEnviarPedido(){
     focer:document.getElementById('nv-focer').value,
     forma_pago:document.getElementById('nv-forma-pago').value,
     tipo_pedido:document.getElementById('nv-tipo').value,
-    estado:'pendiente',
+    estado:document.getElementById('nv-estado-pedido').value||'pendiente',
     fecha_subida:new Date().toISOString()
   };
   try{
     await apiPost('pedidos',pedido);
-    showToast('✅ Pedido enviado a Rabaquino','ok');
+    const _estadoEnv=document.getElementById('nv-estado-pedido').value||'pendiente';
+    const _msgMap={pendiente:'✅ Pedido enviado a Rabaquino',reserva_con_sena:'✅ Reserva con seña guardada',reserva_sin_sena:'✅ Reserva sin seña guardada',listo_para_pedir:'✅ Pedido guardado'};
+    showToast(_msgMap[_estadoEnv]||'✅ Guardado','ok');
     nvLimpiar();
     setVista('pedidos',document.querySelector('.nav-btn.active'));
     await cargarPedidos();
@@ -1490,43 +1550,109 @@ async function nvEnviarPedido(){
 
 function nvImprimirRecibo(){
   const cliente=document.getElementById('nv-cliente').value.trim()||'CLIENTE';
+  const cedula=document.getElementById('nv-cedula').value.trim()||'—';
+  const telefono=document.getElementById('nv-telefono').value.trim()||'—';
+  const direccion=document.getElementById('nv-direccion').value.trim()||'—';
   const suc=(SESSION?.sucursales||'roma').toUpperCase();
-  const c1=NV_CRISTALES[0],arm=NV_ARMAZON;
-  const html=`<html><head><style>body{font-family:Arial,sans-serif;margin:0;padding:16px;color:#000}h1{font-size:18px;font-weight:900;margin:0}.suc{font-size:13px;color:#555}.sep{border:none;border-top:2px solid #000;margin:10px 0}.field{display:flex;justify-content:space-between;margin:4px 0;font-size:13px}.label{color:#555;font-size:11px;text-transform:uppercase;font-weight:700}.val{font-weight:700}.precio{font-size:20px;font-weight:900;color:#000}</style></head><body>
-  <h1>ÓPTICA ${suc}</h1><div class="suc">Recibo de Venta · ${new Date().toLocaleDateString('es-UY')}</div><hr class="sep">
-  <div class="label">Cliente</div><div class="val" style="font-size:16px">${cliente}</div>
-  <div class="field"><span><div class="label">Cédula</div><div class="val">${document.getElementById('nv-cedula').value||'—'}</div></span><span><div class="label">Teléfono</div><div class="val">${document.getElementById('nv-telefono').value||'—'}</div></span></div>
-  <hr class="sep">
-  ${c1?`<div class="label">Cristal</div><div class="val">${c1.tipo} · ${c1.material}${c1.filtro?' · '+c1.filtro:''}</div>`:''}
-  ${arm?`<div class="label">Armazón</div><div class="val">${arm.marca||''} ${arm.codigo||''} ${arm.color||''}</div>`:''}
-  <hr class="sep">
-  <div class="label">Total</div><div class="precio">$${document.getElementById('nv-precio').value||'0'}</div>
-  <div class="field"><span><div class="label">Seña</div><div class="val">$${document.getElementById('nv-sena').value||'0'}</div></span><span><div class="label">Saldo</div><div class="val">$${document.getElementById('nv-saldo').value||'0'}</div></span></div>
-  <div class="field"><span class="label">Forma de pago:</span><span class="val">${document.getElementById('nv-forma-pago').value||'—'}</span></div>
-  </body></html>`;
-  const w=window.open('','_blank','width=400,height=600');w.document.write(html);w.document.close();w.print();
+  const precio=document.getElementById('nv-precio').value||'0';
+  const sena=document.getElementById('nv-sena').value||'0';
+  const metodoSena=document.getElementById('nv-metodo-sena').value||'—';
+  const saldo=document.getElementById('nv-saldo').value||'0';
+  const bps=parseFloat(document.getElementById('nv-bps').value||'0')||0;
+  const asse=parseFloat(document.getElementById('nv-asse').value||'0')||0;
+  const focer=parseFloat(document.getElementById('nv-focer').value||'0')||0;
+  const notas=document.getElementById('nv-notas').value.trim();
+  const medico=document.getElementById('nv-medico').value||'';
+  const nRecibo=String(Date.now()).slice(-6);
+  const ahora=new Date();
+  const fechaHora=ahora.toLocaleDateString('es-UY')+' '+String(ahora.getHours()).padStart(2,'0')+':'+String(ahora.getMinutes()).padStart(2,'0');
+  function _pp(s){return parseInt(String(s||'0').replace('$','').replace(/\./g,''))||0;}
+  let filasCristales='';
+  NV_CRISTALES.forEach((c,i)=>{
+    if(!c)return;
+    const pnum=_pp(c.precio);
+    filasCristales+=`<tr><td style="text-align:center;white-space:nowrap">1 par</td><td>Cristal ${i+1}: ${c.tipo} ${c.material}${c.filtro?' · '+c.filtro:''}</td><td style="color:#555">${medico||'—'}</td><td style="text-align:right;font-weight:700">$${pnum.toLocaleString('es-UY')}</td></tr>`;
+  });
+  let filaArmazon='';
+  const armManual=document.getElementById('nv-arm-manual').value.trim();
+  if(NV_ARMAZON){
+    const a=NV_ARMAZON;
+    const parm=a.precio_venta?'$'+parseInt(a.precio_venta).toLocaleString('es-UY'):'—';
+    filaArmazon=`<tr><td style="text-align:center">1</td><td>Armazón 1: ${a.marca||''} (Cod: ${a.codigo||''} ${a.color||''})</td><td style="color:#555">${notas||'—'}</td><td style="text-align:right;font-weight:700">${parm}</td></tr>`;
+  } else if(armManual){
+    filaArmazon=`<tr><td style="text-align:center">1</td><td>Armazón 1: ${armManual}</td><td style="color:#555">${notas||'—'}</td><td style="text-align:right;font-weight:700">—</td></tr>`;
+  }
+  if(!filasCristales&&!filaArmazon)filasCristales='<tr><td colspan="4" style="text-align:center;color:#aaa">Sin productos cargados</td></tr>';
+  const css=`*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;font-size:12px;color:#000;padding:20px 24px}.hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:10px;border-bottom:2.5px solid #000}.hdr-l h1{font-size:19px;font-weight:900;letter-spacing:.03em}.hdr-l p{font-size:10.5px;color:#444;margin-top:3px;line-height:1.7}.hdr-r{text-align:right}.hdr-r .tit{font-size:17px;font-weight:900;letter-spacing:.04em}.hdr-r .num{font-size:15px;font-weight:700;color:red;margin-top:2px}.hdr-r .fh{font-size:10px;color:#666;margin-top:3px}table{width:100%;border-collapse:collapse;margin:10px 0}table.cli th{background:#f0f0f0;font-size:10px;font-weight:700;text-transform:uppercase;padding:5px 8px;border:1px solid #ccc;text-align:left}table.cli td{font-size:12px;font-weight:600;padding:6px 8px;border:1px solid #ccc}table.det th{background:#1a1a2e;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:7px 8px;border:1px solid #333;text-align:left}table.det td{font-size:12px;padding:7px 8px;border:1px solid #ddd;vertical-align:top}table.det tr:nth-child(even) td{background:#f9f9f9}.tots{margin-top:14px;padding:12px 16px;background:#f8f8f8;border:1px solid #ddd;border-radius:5px}.tr{display:flex;justify-content:flex-end;align-items:baseline;gap:14px;margin-bottom:4px}.tl{font-size:12px;color:#555;text-align:right;min-width:200px}.tv{font-size:13px;font-weight:700;text-align:right;min-width:90px}.tr.sal{margin-top:8px;padding-top:8px;border-top:2px solid #000}.tr.sal .tl{font-size:14px;font-weight:900;color:#000}.tr.sal .tv{font-size:20px;font-weight:900;color:red}.desc{color:red}.foot{margin-top:20px;text-align:center;padding-top:10px;border-top:1px solid #ccc;font-size:11px;color:#777}@media print{body{padding:10px 14px}}`;
+  const html=`<html><head><meta charset="UTF-8"><style>${css}</style></head><body>
+<div class="hdr"><div class="hdr-l"><h1>ÓPTICA ${suc}</h1><p>RUT: 080255880012<br>RIVERA 617 ESQ. INSTRUCCIONES DEL AÑO 13<br>Tel: 2364 1800 &nbsp;|&nbsp; Cel: 098 871 673<br>opticaromalaspiedras@hotmail.com</p></div><div class="hdr-r"><div class="tit">RECIBO DE SEÑA</div><div class="num">N° ${nRecibo}</div><div class="fh">${fechaHora}</div></div></div>
+<table class="cli"><tr><th>Cliente</th><th>Cédula</th><th>Teléfono</th><th>Dirección</th></tr><tr><td>${cliente}</td><td>${cedula}</td><td>${telefono}</td><td>${direccion}</td></tr></table>
+<table class="det"><thead><tr><th style="width:70px">CANT.</th><th>DESCRIPCIÓN DEL PRODUCTO</th><th style="width:160px">DETALLE/NOTA</th><th style="width:100px;text-align:right">PRECIO</th></tr></thead><tbody>${filasCristales}${filaArmazon}</tbody></table>
+<div class="tots">
+  <div class="tr"><span class="tl">PRECIO TOTAL:</span><span class="tv">$${precio}</span></div>
+  <div class="tr"><span class="tl">SEÑA (${metodoSena}):</span><span class="tv">$${sena}</span></div>
+  ${bps>0?`<div class="tr"><span class="tl desc">DESC. BPS:</span><span class="tv desc">- $${bps.toLocaleString('es-UY')}</span></div>`:''}
+  ${asse>0?`<div class="tr"><span class="tl desc">DESC. ASSE:</span><span class="tv desc">- $${asse.toLocaleString('es-UY')}</span></div>`:''}
+  ${focer>0?`<div class="tr"><span class="tl desc">DESC. FOCER:</span><span class="tv desc">- $${focer.toLocaleString('es-UY')}</span></div>`:''}
+  <div class="tr sal"><span class="tl">SALDO PENDIENTE:</span><span class="tv">$${saldo}</span></div>
+</div>
+<div class="foot">————————————————————————————<br>ÓPTICA ROMA</div>
+</body></html>`;
+  const w=window.open('','_blank','width=820,height=720');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
 }
 
 function nvPresupuesto(){
   const cliente=document.getElementById('nv-cliente').value.trim()||'CLIENTE';
+  const cedula=document.getElementById('nv-cedula').value.trim()||'—';
+  const telefono=document.getElementById('nv-telefono').value.trim()||'—';
+  const direccion=document.getElementById('nv-direccion').value.trim()||'—';
   const suc=(SESSION?.sucursales||'roma').toUpperCase();
-  const c1=NV_CRISTALES[0],arm=NV_ARMAZON;
-  const html=`<html><head><style>body{font-family:Arial,sans-serif;margin:0;padding:16px;color:#000}h1{font-size:18px;font-weight:900}.sep{border:none;border-top:1px dashed #aaa;margin:10px 0}.label{font-size:10px;text-transform:uppercase;color:#777;font-weight:700}.val{font-size:13px;font-weight:700}.precio{font-size:22px;font-weight:900}</style></head><body>
-  <h1>PRESUPUESTO · ÓPTICA ${suc}</h1><div style="font-size:12px;color:#666">Fecha: ${new Date().toLocaleDateString('es-UY')} · Válido 15 días</div><hr class="sep">
-  <div class="label">Cliente</div><div class="val" style="font-size:15px">${cliente}</div><hr class="sep">
-  ${c1?`<div class="label">Cristal</div><div class="val">${c1.tipo} · ${c1.material}${c1.filtro?' · '+c1.filtro:''}</div><div style="color:#888;font-size:12px">${c1.precio}</div>`:''}
-  ${arm?`<div class="label" style="margin-top:8px">Armazón</div><div class="val">${arm.marca||''} ${arm.codigo||''} ${arm.color||''}</div>${arm.precio_venta?`<div style="color:#888;font-size:12px">$${arm.precio_venta}</div>`:''}`:''}
-  <hr class="sep">
-  <div class="label">Total Estimado</div><div class="precio">$${document.getElementById('nv-precio').value||'—'}</div>
-  </body></html>`;
-  const w=window.open('','_blank','width=400,height=500');w.document.write(html);w.document.close();w.print();
+  const precio=document.getElementById('nv-precio').value||'0';
+  const notas=document.getElementById('nv-notas').value.trim();
+  const medico=document.getElementById('nv-medico').value||'';
+  const ahora=new Date();
+  const fechaHora=ahora.toLocaleDateString('es-UY')+' '+String(ahora.getHours()).padStart(2,'0')+':'+String(ahora.getMinutes()).padStart(2,'0');
+  function _pp(s){return parseInt(String(s||'0').replace('$','').replace(/\./g,''))||0;}
+  let filasCristales='';
+  NV_CRISTALES.forEach((c,i)=>{
+    if(!c)return;
+    const pnum=_pp(c.precio);
+    filasCristales+=`<tr><td style="text-align:center;white-space:nowrap">1 par</td><td>Cristal ${i+1}: ${c.tipo} ${c.material}${c.filtro?' · '+c.filtro:''}</td><td style="color:#555">${medico||'—'}</td><td style="text-align:right;font-weight:700">$${pnum.toLocaleString('es-UY')}</td></tr>`;
+  });
+  let filaArmazon='';
+  const armManual=document.getElementById('nv-arm-manual').value.trim();
+  if(NV_ARMAZON){
+    const a=NV_ARMAZON;
+    const parm=a.precio_venta?'$'+parseInt(a.precio_venta).toLocaleString('es-UY'):'—';
+    filaArmazon=`<tr><td style="text-align:center">1</td><td>Armazón 1: ${a.marca||''} (Cod: ${a.codigo||''} ${a.color||''})</td><td style="color:#555">${notas||'—'}</td><td style="text-align:right;font-weight:700">${parm}</td></tr>`;
+  } else if(armManual){
+    filaArmazon=`<tr><td style="text-align:center">1</td><td>Armazón 1: ${armManual}</td><td style="color:#555">${notas||'—'}</td><td style="text-align:right;font-weight:700">—</td></tr>`;
+  }
+  if(!filasCristales&&!filaArmazon)filasCristales='<tr><td colspan="4" style="text-align:center;color:#aaa">Sin productos cargados</td></tr>';
+  const css=`*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;font-size:12px;color:#000;padding:20px 24px}.hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:10px;border-bottom:2.5px solid #000}.hdr-l h1{font-size:19px;font-weight:900;letter-spacing:.03em}.hdr-l p{font-size:10.5px;color:#444;margin-top:3px;line-height:1.7}.hdr-r{text-align:right}.hdr-r .tit{font-size:17px;font-weight:900;letter-spacing:.04em}.hdr-r .fh{font-size:10px;color:#666;margin-top:3px}.valid{font-size:11px;color:#888;font-style:italic;margin-top:4px}table{width:100%;border-collapse:collapse;margin:10px 0}table.cli th{background:#f0f0f0;font-size:10px;font-weight:700;text-transform:uppercase;padding:5px 8px;border:1px solid #ccc;text-align:left}table.cli td{font-size:12px;font-weight:600;padding:6px 8px;border:1px solid #ccc}table.det th{background:#1a1a2e;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:7px 8px;border:1px solid #333;text-align:left}table.det td{font-size:12px;padding:7px 8px;border:1px solid #ddd;vertical-align:top}table.det tr:nth-child(even) td{background:#f9f9f9}.tots{margin-top:14px;padding:12px 16px;background:#f8f8f8;border:1px solid #ddd;border-radius:5px}.tr{display:flex;justify-content:flex-end;align-items:baseline;gap:14px;margin-bottom:4px}.tl{font-size:12px;color:#555;text-align:right;min-width:200px}.tv{font-size:13px;font-weight:700;text-align:right;min-width:90px}.tr.sal{margin-top:8px;padding-top:8px;border-top:2px solid #000}.tr.sal .tl{font-size:14px;font-weight:900;color:#000}.tr.sal .tv{font-size:20px;font-weight:900;color:#111}.foot{margin-top:20px;text-align:center;padding-top:10px;border-top:1px solid #ccc;font-size:11px;color:#777}@media print{body{padding:10px 14px}}`;
+  const html=`<html><head><meta charset="UTF-8"><style>${css}</style></head><body>
+<div class="hdr"><div class="hdr-l"><h1>ÓPTICA ${suc}</h1><p>RUT: 080255880012<br>RIVERA 617 ESQ. INSTRUCCIONES DEL AÑO 13<br>Tel: 2364 1800 &nbsp;|&nbsp; Cel: 098 871 673<br>opticaromalaspiedras@hotmail.com</p></div><div class="hdr-r"><div class="tit">PRESUPUESTO</div><div class="fh">${fechaHora}</div><div class="valid">Válido 15 días</div></div></div>
+<table class="cli"><tr><th>Cliente</th><th>Cédula</th><th>Teléfono</th><th>Dirección</th></tr><tr><td>${cliente}</td><td>${cedula}</td><td>${telefono}</td><td>${direccion}</td></tr></table>
+<table class="det"><thead><tr><th style="width:70px">CANT.</th><th>DESCRIPCIÓN DEL PRODUCTO</th><th style="width:160px">DETALLE/NOTA</th><th style="width:100px;text-align:right">PRECIO</th></tr></thead><tbody>${filasCristales}${filaArmazon}</tbody></table>
+<div class="tots">
+  <div class="tr sal"><span class="tl">PRECIO TOTAL ESTIMADO:</span><span class="tv">$${precio}</span></div>
+</div>
+<div class="foot">————————————————————————————<br>ÓPTICA ROMA</div>
+</body></html>`;
+  const w=window.open('','_blank','width=820,height=720');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
 }
 
+function nv_actualizarBtnEstado(){
+  const v=document.getElementById('nv-estado-pedido')?.value||'pendiente';
+  const btn=document.getElementById('btn-nv-enviar');
+  const labels={pendiente:'\U0001f4be Enviar Pedido',reserva_con_sena:'\U0001f4b0 Guardar Reserva',reserva_sin_sena:'\U0001f4cb Guardar Reserva',listo_para_pedir:'\u2705 Guardar Pedido'};
+  if(btn)btn.textContent=labels[v]||'Enviar Pedido';
+}
 function nvLimpiar(){
-  ['nv-cliente','nv-cedula','nv-telefono','nv-fnac','nv-edad','nv-direccion','nv-email','nv-trabajo','nv-trabajo2','nv-trabajo3','nv-add','nv-dist-od','nv-dist-oi','nv-alt-od','nv-alt-oi','nv-k','nv-a','nv-d','nv-p','nv-k2','nv-a2','nv-d2','nv-p2','nv-precio','nv-sena','nv-saldo','nv-bps','nv-asse','nv-focer','nv-notas','nv-arm-busq','nv-cuotas'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['nv-cliente','nv-cedula','nv-telefono','nv-fnac','nv-edad','nv-direccion','nv-email','nv-trabajo','nv-trabajo2','nv-trabajo3','nv-add','nv-dist-od','nv-dist-oi','nv-alt-od','nv-alt-oi','nv-k','nv-a','nv-d','nv-p','nv-k2','nv-a2','nv-d2','nv-p2','nv-precio','nv-sena','nv-saldo','nv-bps','nv-asse','nv-focer','nv-notas','nv-arm-busq','nv-arm-manual','nv-cuotas'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   ['nv-lej-od-esf','nv-lej-od-cil','nv-lej-od-eje','nv-lej-oi-esf','nv-lej-oi-cil','nv-lej-oi-eje','nv-cer-od-esf','nv-cer-od-cil','nv-cer-od-eje','nv-cer-oi-esf','nv-cer-oi-cil','nv-cer-oi-eje'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
   NV_CRISTALES=[null,null,null];NV_ARMAZON=null;
-  [1,2,3].forEach(n=>{document.getElementById(`nv-crist-sel-${n}`).style.display='none';document.getElementById(`nv-crist-busq-${n}`).value='';});
+  [1,2,3].forEach(n=>{document.getElementById(`nv-crist-sel-${n}`).style.display='none';document.getElementById(`nv-crist-busq-${n}`).value='';const _lcp=document.getElementById(`nv-crist-precio-${n}`);if(_lcp)_lcp.value='';});
   document.getElementById('nv-arm-seleccionado').style.display='none';
   document.getElementById('nv-crist-2').style.display='none';
   document.getElementById('nv-crist-3').style.display='none';
@@ -1538,6 +1664,8 @@ function nvLimpiar(){
   document.getElementById('nv-tarjeta-cuotas-wrap').style.display='none';
   document.getElementById('nv-cuotas-wrap').style.display='none';
   NV_PRECIO_MANUAL=false; // resetear flag al limpiar
+  const _esel=document.getElementById('nv-estado-pedido');if(_esel)_esel.value='pendiente';
+  nv_actualizarBtnEstado();
 }
 
 // ══ SONIDO NOTIF ══
