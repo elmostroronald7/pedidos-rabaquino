@@ -685,6 +685,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
           <button class="btn-venta amber" onclick="nvImprimirRecibo()">🧾 Recibo</button>
           <button class="btn-venta blue" onclick="nvPresupuestoBPS()">📄 Presup. BPS</button>
           <button class="btn-venta" style="background:var(--purple,#7c3aed);color:#fff" onclick="nvPresupuesto()">📜 Presupuesto</button>
+          <button class="btn-venta" style="background:rgba(99,102,241,.15);color:#a5b4fc;border:1px solid rgba(99,102,241,.4)" onclick="nvFichaInterna()">🗂️ Ficha Interna</button>
           <button class="btn-venta secondary" onclick="nvLimpiar()">🧹 Limpiar</button>
         </div>
       </div>
@@ -709,6 +710,24 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 // ══ CONFIG ══
 const SUPABASE_URL = 'https://ghatbxgsqamtucwfdzri.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdoYXRieGdzcWFtdHVjd2ZkenJpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkzMzU2MjEsImV4cCI6MjA5NDkxMTYyMX0.ZKKT9u-GBVJsiAOOOI4B_vlyPCNSZaC8ix-FgI2YYuA';
+// ══ CONFIG POR SUCURSAL ══
+const SUCURSALES_CONFIG = {
+  roma: {
+    nombre: 'ÓPTICA ROMA',
+    direccion: 'RIVERA 617 ESQ. INSTRUCCIONES DEL AÑO 13',
+    telefono: 'Tel: 2364 1800 | Cel: 098 871 673',
+    email: 'opticaromalaspiedras@hotmail.com',
+    rut: '080255880012'
+  },
+  canelones: {
+    nombre: 'ÓPTICA ROMA CANELONES',
+    direccion: 'RODO 319, CANELONES',
+    telefono: 'Tel: 4333 9869',
+    email: '',
+    rut: ''
+  }
+};
+
 
 // ══ CRISTALES CSV EMBEBIDO ══
 const CRISTALES_LISTA = [
@@ -920,7 +939,7 @@ async function cargarPedidos(){
     if(ULTIMO_ID>0&&maxId>ULTIMO_ID){
       const nuevos=data.filter(p=>p.id>ULTIMO_ID&&p.estado==='pendiente'&&!NOTIFIED_IDS.has(String(p.id)));
       if(nuevos.length){
-        playNotif();
+        playNotif(nuevos[0]?.sucursal||'roma');
         showToast(`🔔 ${nuevos.length} pedido${nuevos.length>1?'s':''} nuevo${nuevos.length>1?'s':''}!`,'nuevo');
         document.getElementById('notif-banner').style.display='flex';
         document.getElementById('notif-text').textContent=`🔔 ${nuevos.length} pedido${nuevos.length>1?'s':''} nuevo${nuevos.length>1?'s':''}`;
@@ -1186,20 +1205,55 @@ function renderArmazones(filtro){
   let items=ARMAZONES;
   if(filtro)items=items.filter(a=>(a.marca||'').toLowerCase().includes(filtro)||(a.codigo||'').toLowerCase().includes(filtro)||(a.color||'').toLowerCase().includes(filtro)||(a.material||'').toLowerCase().includes(filtro));
   if(!items.length){list.innerHTML='<div class="empty"><div class="empty-icon">👓</div><h3>Sin resultados</h3></div>';return;}
+  const esRab=SESSION?.sucursales==='todas';
   list.innerHTML=items.map(a=>{
     const st=parseInt(a.stock||'0');
     const foto=a.imagen?imgUrl(a.imagen):'';
+    const srV=parseInt(a.stock_rabaquino||'0');
+    const srCol=srV===0?'var(--red)':srV<5?'var(--amber)':'var(--green)';
+    const srHtml=esRab
+      ?`<span class="stock-val" id="sr-${a.id}" style="color:${srCol};cursor:pointer;text-decoration:underline dotted" title="Click para editar" onclick="editarStockRab(${a.id},${srV})">${srV}</span>`
+      :`<span class="stock-val" style="color:${srCol}">${srV}</span>`;
     return`<div class="stock-card">
       <div class="arm-img-wrap">${foto?`<img src="${foto}" alt="${a.codigo||''}" loading="lazy" onclick="abrirFoto('${foto}')">`:'<span class="arm-img-placeholder">👓</span>'}</div>
       <div class="stock-card-body">
-        <div class="stock-card-header"><span class="stock-marca">${a.marca||'—'}</span><span class="stock-badge ${st>0?'stock-ok':'stock-no'}">${st>0?'Stock: '+st:'AGOTADO'}</span></div>
+        <div class="stock-card-header"><span class="stock-marca">${a.marca||'—'}</span><span class="stock-badge ${st>0?'stock-ok':'stock-no'}">${st>0?'Roma: '+st:'AGOTADO'}</span></div>
         <div class="stock-row"><span class="stock-key">Código</span><span class="stock-val">${a.codigo||'—'}</span></div>
         <div class="stock-row"><span class="stock-key">Color</span><span class="stock-val">${a.color||'—'}</span></div>
         <div class="stock-row"><span class="stock-key">Material</span><span class="stock-val">${a.material||'—'}</span></div>
         ${a.precio_venta?`<div class="stock-row"><span class="stock-key">Precio</span><span class="stock-val" style="color:var(--amber)">$${a.precio_venta}</span></div>`:''}
+        <div class="stock-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--border)"><span class="stock-key">Stock Rabaquino</span>${srHtml}</div>
       </div>
     </div>`;
   }).join('');
+}
+
+async function editarStockRab(id,val){
+  const span=document.getElementById(`sr-${id}`);
+  if(!span)return;
+  const inp=document.createElement('input');
+  inp.type='number';inp.value=val;inp.min=0;
+  inp.style.cssText='width:54px;background:var(--surface);border:1px solid var(--accent);border-radius:5px;color:var(--text);font-family:var(--mono);font-size:12px;padding:2px 5px;outline:none;';
+  span.replaceWith(inp);inp.focus();inp.select();
+  let _ok=false;
+  const save=async()=>{
+    if(_ok)return;_ok=true;
+    const nv=parseInt(inp.value)||0;inp.disabled=true;
+    try{
+      await apiPatch('armazones_stock',id,{stock_rabaquino:nv});
+      const arm=ARMAZONES.find(a=>a.id===id);if(arm)arm.stock_rabaquino=nv;
+      showToast('✅ Stock actualizado');
+    }catch(e){showToast('⚠️ Error al guardar','err');}
+    const ns=document.createElement('span');
+    ns.id=`sr-${id}`;ns.className='stock-val';
+    const col=nv===0?'var(--red)':nv<5?'var(--amber)':'var(--green)';
+    ns.style.cssText=`color:${col};cursor:pointer;text-decoration:underline dotted`;
+    ns.title='Click para editar';ns.textContent=nv;
+    ns.onclick=()=>editarStockRab(id,nv);
+    inp.replaceWith(ns);
+  };
+  inp.onblur=save;
+  inp.onkeydown=e=>{if(e.key==='Enter'){inp.onblur=null;save();}if(e.key==='Escape'){inp.onblur=null;inp.replaceWith(span);}};
 }
 
 // ══ CRISTALES GRILLA ══
@@ -1208,7 +1262,9 @@ async function cargarCristalesStock(){
   list.innerHTML='<div class="empty"><div class="empty-icon">⏳</div><h3>Cargando...</h3></div>';
   try{
     const data=await apiGet('cristales_stock','?order=tipo.asc,subtipo.asc,esf.asc&limit=5000');
-    CRISTALES_STOCK=data;CRIS_TAB_ACTIVO=null;renderCristalesStock();
+    CRISTALES_STOCK=data;CRIS_TAB_ACTIVO=null;
+    console.log('Tipos distintos:', [...new Set(CRISTALES_STOCK.map(c=>c.subtipo||c.tipo))]);
+    renderCristalesStock();
   }catch(e){list.innerHTML='<div class="empty"><div class="empty-icon">⚠️</div><h3>No disponible</h3><p>Se sincroniza al encender la PC</p></div>';}
 }
 function setCrisTab(key){CRIS_TAB_ACTIVO=key;renderCristalesStock();}
@@ -1429,7 +1485,7 @@ function nvPresupuestoBPS(){
   const cedula=document.getElementById('nv-cedula').value.trim()||'—';
   const telefono=document.getElementById('nv-telefono').value.trim()||'—';
   const direccion=document.getElementById('nv-direccion').value.trim()||'—';
-  const suc=(SESSION?.sucursales||'roma').toUpperCase();
+  const _sucKey=(SESSION?.sucursales||'roma').toLowerCase();const _cfg=SUCURSALES_CONFIG[_sucKey]||SUCURSALES_CONFIG.roma;
   const precio=document.getElementById('nv-precio').value||'0';
   const sena=document.getElementById('nv-sena').value||'0';
   const metodoSena=document.getElementById('nv-metodo-sena').value||'—';
@@ -1460,7 +1516,7 @@ function nvPresupuestoBPS(){
   if(!filasCristales&&!filaArmazon)filasCristales='<tr><td colspan="4" style="text-align:center;color:#aaa">Sin productos cargados</td></tr>';
   const css=`*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;font-size:12px;color:#000;padding:20px 24px}.hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:10px;border-bottom:2.5px solid #000}.hdr-l h1{font-size:19px;font-weight:900;letter-spacing:.03em}.hdr-l p{font-size:10.5px;color:#444;margin-top:3px;line-height:1.7}.hdr-r{text-align:right}.hdr-r .tit{font-size:17px;font-weight:900;letter-spacing:.04em}.hdr-r .fh{font-size:10px;color:#666;margin-top:3px}.valid{font-size:11px;color:#888;font-style:italic;margin-top:4px}table{width:100%;border-collapse:collapse;margin:10px 0}table.cli th{background:#f0f0f0;font-size:10px;font-weight:700;text-transform:uppercase;padding:5px 8px;border:1px solid #ccc;text-align:left}table.cli td{font-size:12px;font-weight:600;padding:6px 8px;border:1px solid #ccc}table.det th{background:#1a1a2e;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:7px 8px;border:1px solid #333;text-align:left}table.det td{font-size:12px;padding:7px 8px;border:1px solid #ddd;vertical-align:top}table.det tr:nth-child(even) td{background:#f9f9f9}.tots{margin-top:14px;padding:12px 16px;background:#f8f8f8;border:1px solid #ddd;border-radius:5px}.tr{display:flex;justify-content:flex-end;align-items:baseline;gap:14px;margin-bottom:4px}.tl{font-size:12px;color:#555;text-align:right;min-width:200px}.tv{font-size:13px;font-weight:700;text-align:right;min-width:90px}.tr.sal{margin-top:8px;padding-top:8px;border-top:2px solid #000}.tr.sal .tl{font-size:14px;font-weight:900;color:#000}.tr.sal .tv{font-size:20px;font-weight:900;color:red}.desc{color:red}.foot{margin-top:20px;text-align:center;padding-top:10px;border-top:1px solid #ccc;font-size:11px;color:#777}@media print{body{padding:10px 14px}}`;
   const html=`<html><head><meta charset="UTF-8"><style>${css}</style></head><body>
-<div class="hdr"><div class="hdr-l"><h1>ÓPTICA ${suc}</h1><p>RUT: 080255880012<br>RIVERA 617 ESQ. INSTRUCCIONES DEL AÑO 13<br>Tel: 2364 1800 &nbsp;|&nbsp; Cel: 098 871 673<br>opticaromalaspiedras@hotmail.com</p></div><div class="hdr-r"><div class="tit">PRESUPUESTO BPS</div><div class="fh">${fechaHora}</div><div class="valid">Válido 15 días</div></div></div>
+<div class="hdr"><div class="hdr-l"><h1>${_cfg.nombre}</h1><p>${_cfg.rut?'RUT: '+_cfg.rut+'<br>':''}${_cfg.direccion}<br>${_cfg.telefono}${_cfg.email?'<br>'+_cfg.email:''}</p></div><div class="hdr-r"><div class="tit">PRESUPUESTO BPS</div><div class="fh">${fechaHora}</div><div class="valid">Válido 15 días</div></div></div>
 <table class="cli"><tr><th>Beneficiario</th><th>Cédula</th><th>Teléfono</th><th>Dirección</th></tr><tr><td>${cliente}</td><td>${cedula}</td><td>${telefono}</td><td>${direccion}</td></tr></table>
 <table class="det"><thead><tr><th style="width:70px">CANT.</th><th>DESCRIPCIÓN DEL PRODUCTO</th><th style="width:160px">DETALLE/NOTA</th><th style="width:100px;text-align:right">PRECIO</th></tr></thead><tbody>${filasCristales}${filaArmazon}</tbody></table>
 <div class="tots">
@@ -1470,7 +1526,7 @@ function nvPresupuestoBPS(){
   ${focer>0?`<div class="tr"><span class="tl desc">DESC. FOCER:</span><span class="tv desc">- $${focer.toLocaleString('es-UY')}</span></div>`:''}
   <div class="tr sal"><span class="tl">SALDO PENDIENTE:</span><span class="tv">$${saldo}</span></div>
 </div>
-<div class="foot">————————————————————————————<br>ÓPTICA ROMA</div>
+<div class="foot">————————————————————————————<br>${_cfg.nombre}</div>
 </body></html>`;
   const w=window.open('','_blank','width=820,height=720');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
 }
@@ -1553,7 +1609,7 @@ function nvImprimirRecibo(){
   const cedula=document.getElementById('nv-cedula').value.trim()||'—';
   const telefono=document.getElementById('nv-telefono').value.trim()||'—';
   const direccion=document.getElementById('nv-direccion').value.trim()||'—';
-  const suc=(SESSION?.sucursales||'roma').toUpperCase();
+  const _sucKey=(SESSION?.sucursales||'roma').toLowerCase();const _cfg=SUCURSALES_CONFIG[_sucKey]||SUCURSALES_CONFIG.roma;
   const precio=document.getElementById('nv-precio').value||'0';
   const sena=document.getElementById('nv-sena').value||'0';
   const metodoSena=document.getElementById('nv-metodo-sena').value||'—';
@@ -1585,7 +1641,7 @@ function nvImprimirRecibo(){
   if(!filasCristales&&!filaArmazon)filasCristales='<tr><td colspan="4" style="text-align:center;color:#aaa">Sin productos cargados</td></tr>';
   const css=`*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;font-size:12px;color:#000;padding:20px 24px}.hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:10px;border-bottom:2.5px solid #000}.hdr-l h1{font-size:19px;font-weight:900;letter-spacing:.03em}.hdr-l p{font-size:10.5px;color:#444;margin-top:3px;line-height:1.7}.hdr-r{text-align:right}.hdr-r .tit{font-size:17px;font-weight:900;letter-spacing:.04em}.hdr-r .num{font-size:15px;font-weight:700;color:red;margin-top:2px}.hdr-r .fh{font-size:10px;color:#666;margin-top:3px}table{width:100%;border-collapse:collapse;margin:10px 0}table.cli th{background:#f0f0f0;font-size:10px;font-weight:700;text-transform:uppercase;padding:5px 8px;border:1px solid #ccc;text-align:left}table.cli td{font-size:12px;font-weight:600;padding:6px 8px;border:1px solid #ccc}table.det th{background:#1a1a2e;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:7px 8px;border:1px solid #333;text-align:left}table.det td{font-size:12px;padding:7px 8px;border:1px solid #ddd;vertical-align:top}table.det tr:nth-child(even) td{background:#f9f9f9}.tots{margin-top:14px;padding:12px 16px;background:#f8f8f8;border:1px solid #ddd;border-radius:5px}.tr{display:flex;justify-content:flex-end;align-items:baseline;gap:14px;margin-bottom:4px}.tl{font-size:12px;color:#555;text-align:right;min-width:200px}.tv{font-size:13px;font-weight:700;text-align:right;min-width:90px}.tr.sal{margin-top:8px;padding-top:8px;border-top:2px solid #000}.tr.sal .tl{font-size:14px;font-weight:900;color:#000}.tr.sal .tv{font-size:20px;font-weight:900;color:red}.desc{color:red}.foot{margin-top:20px;text-align:center;padding-top:10px;border-top:1px solid #ccc;font-size:11px;color:#777}@media print{body{padding:10px 14px}}`;
   const html=`<html><head><meta charset="UTF-8"><style>${css}</style></head><body>
-<div class="hdr"><div class="hdr-l"><h1>ÓPTICA ${suc}</h1><p>RUT: 080255880012<br>RIVERA 617 ESQ. INSTRUCCIONES DEL AÑO 13<br>Tel: 2364 1800 &nbsp;|&nbsp; Cel: 098 871 673<br>opticaromalaspiedras@hotmail.com</p></div><div class="hdr-r"><div class="tit">RECIBO DE SEÑA</div><div class="num">N° ${nRecibo}</div><div class="fh">${fechaHora}</div></div></div>
+<div class="hdr"><div class="hdr-l"><h1>${_cfg.nombre}</h1><p>${_cfg.rut?'RUT: '+_cfg.rut+'<br>':''}${_cfg.direccion}<br>${_cfg.telefono}${_cfg.email?'<br>'+_cfg.email:''}</p></div><div class="hdr-r"><div class="tit">RECIBO DE SEÑA</div><div class="num">N° ${nRecibo}</div><div class="fh">${fechaHora}</div></div></div>
 <table class="cli"><tr><th>Cliente</th><th>Cédula</th><th>Teléfono</th><th>Dirección</th></tr><tr><td>${cliente}</td><td>${cedula}</td><td>${telefono}</td><td>${direccion}</td></tr></table>
 <table class="det"><thead><tr><th style="width:70px">CANT.</th><th>DESCRIPCIÓN DEL PRODUCTO</th><th style="width:160px">DETALLE/NOTA</th><th style="width:100px;text-align:right">PRECIO</th></tr></thead><tbody>${filasCristales}${filaArmazon}</tbody></table>
 <div class="tots">
@@ -1596,7 +1652,7 @@ function nvImprimirRecibo(){
   ${focer>0?`<div class="tr"><span class="tl desc">DESC. FOCER:</span><span class="tv desc">- $${focer.toLocaleString('es-UY')}</span></div>`:''}
   <div class="tr sal"><span class="tl">SALDO PENDIENTE:</span><span class="tv">$${saldo}</span></div>
 </div>
-<div class="foot">————————————————————————————<br>ÓPTICA ROMA</div>
+<div class="foot">————————————————————————————<br>${_cfg.nombre}</div>
 </body></html>`;
   const w=window.open('','_blank','width=820,height=720');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
 }
@@ -1606,7 +1662,7 @@ function nvPresupuesto(){
   const cedula=document.getElementById('nv-cedula').value.trim()||'—';
   const telefono=document.getElementById('nv-telefono').value.trim()||'—';
   const direccion=document.getElementById('nv-direccion').value.trim()||'—';
-  const suc=(SESSION?.sucursales||'roma').toUpperCase();
+  const _sucKey=(SESSION?.sucursales||'roma').toLowerCase();const _cfg=SUCURSALES_CONFIG[_sucKey]||SUCURSALES_CONFIG.roma;
   const precio=document.getElementById('nv-precio').value||'0';
   const notas=document.getElementById('nv-notas').value.trim();
   const medico=document.getElementById('nv-medico').value||'';
@@ -1631,21 +1687,104 @@ function nvPresupuesto(){
   if(!filasCristales&&!filaArmazon)filasCristales='<tr><td colspan="4" style="text-align:center;color:#aaa">Sin productos cargados</td></tr>';
   const css=`*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;font-size:12px;color:#000;padding:20px 24px}.hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;padding-bottom:10px;border-bottom:2.5px solid #000}.hdr-l h1{font-size:19px;font-weight:900;letter-spacing:.03em}.hdr-l p{font-size:10.5px;color:#444;margin-top:3px;line-height:1.7}.hdr-r{text-align:right}.hdr-r .tit{font-size:17px;font-weight:900;letter-spacing:.04em}.hdr-r .fh{font-size:10px;color:#666;margin-top:3px}.valid{font-size:11px;color:#888;font-style:italic;margin-top:4px}table{width:100%;border-collapse:collapse;margin:10px 0}table.cli th{background:#f0f0f0;font-size:10px;font-weight:700;text-transform:uppercase;padding:5px 8px;border:1px solid #ccc;text-align:left}table.cli td{font-size:12px;font-weight:600;padding:6px 8px;border:1px solid #ccc}table.det th{background:#1a1a2e;color:#fff;font-size:10px;font-weight:700;text-transform:uppercase;padding:7px 8px;border:1px solid #333;text-align:left}table.det td{font-size:12px;padding:7px 8px;border:1px solid #ddd;vertical-align:top}table.det tr:nth-child(even) td{background:#f9f9f9}.tots{margin-top:14px;padding:12px 16px;background:#f8f8f8;border:1px solid #ddd;border-radius:5px}.tr{display:flex;justify-content:flex-end;align-items:baseline;gap:14px;margin-bottom:4px}.tl{font-size:12px;color:#555;text-align:right;min-width:200px}.tv{font-size:13px;font-weight:700;text-align:right;min-width:90px}.tr.sal{margin-top:8px;padding-top:8px;border-top:2px solid #000}.tr.sal .tl{font-size:14px;font-weight:900;color:#000}.tr.sal .tv{font-size:20px;font-weight:900;color:#111}.foot{margin-top:20px;text-align:center;padding-top:10px;border-top:1px solid #ccc;font-size:11px;color:#777}@media print{body{padding:10px 14px}}`;
   const html=`<html><head><meta charset="UTF-8"><style>${css}</style></head><body>
-<div class="hdr"><div class="hdr-l"><h1>ÓPTICA ${suc}</h1><p>RUT: 080255880012<br>RIVERA 617 ESQ. INSTRUCCIONES DEL AÑO 13<br>Tel: 2364 1800 &nbsp;|&nbsp; Cel: 098 871 673<br>opticaromalaspiedras@hotmail.com</p></div><div class="hdr-r"><div class="tit">PRESUPUESTO</div><div class="fh">${fechaHora}</div><div class="valid">Válido 15 días</div></div></div>
+<div class="hdr"><div class="hdr-l"><h1>${_cfg.nombre}</h1><p>${_cfg.rut?'RUT: '+_cfg.rut+'<br>':''}${_cfg.direccion}<br>${_cfg.telefono}${_cfg.email?'<br>'+_cfg.email:''}</p></div><div class="hdr-r"><div class="tit">PRESUPUESTO</div><div class="fh">${fechaHora}</div><div class="valid">Válido 15 días</div></div></div>
 <table class="cli"><tr><th>Cliente</th><th>Cédula</th><th>Teléfono</th><th>Dirección</th></tr><tr><td>${cliente}</td><td>${cedula}</td><td>${telefono}</td><td>${direccion}</td></tr></table>
 <table class="det"><thead><tr><th style="width:70px">CANT.</th><th>DESCRIPCIÓN DEL PRODUCTO</th><th style="width:160px">DETALLE/NOTA</th><th style="width:100px;text-align:right">PRECIO</th></tr></thead><tbody>${filasCristales}${filaArmazon}</tbody></table>
 <div class="tots">
   <div class="tr sal"><span class="tl">PRECIO TOTAL ESTIMADO:</span><span class="tv">$${precio}</span></div>
 </div>
-<div class="foot">————————————————————————————<br>ÓPTICA ROMA</div>
+<div class="foot">————————————————————————————<br>${_cfg.nombre}</div>
 </body></html>`;
   const w=window.open('','_blank','width=820,height=720');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
+}
+
+function nvFichaInterna(){
+  const cliente=document.getElementById('nv-cliente').value.trim()||'—';
+  const cedula=document.getElementById('nv-cedula').value.trim()||'—';
+  const telefono=document.getElementById('nv-telefono').value.trim()||'—';
+  const precio=document.getElementById('nv-precio').value||'0';
+  const sena=document.getElementById('nv-sena').value||'0';
+  const saldo=document.getElementById('nv-saldo').value||'0';
+  const estado=document.getElementById('nv-estado-pedido')?.value||'pendiente';
+  const estadoLabels={pendiente:'Pendiente',reserva_con_sena:'Reserva c/seña',reserva_sin_sena:'Reserva s/seña',listo_para_pedir:'Listo para pedir'};
+  const estadoTxt=estadoLabels[estado]||estado;
+  const lodEsf=document.getElementById('nv-lej-od-esf').value;
+  const lodCil=document.getElementById('nv-lej-od-cil').value;
+  const lodEje=document.getElementById('nv-lej-od-eje').value;
+  const loiEsf=document.getElementById('nv-lej-oi-esf').value;
+  const loiCil=document.getElementById('nv-lej-oi-cil').value;
+  const loiEje=document.getElementById('nv-lej-oi-eje').value;
+  const addVal=document.getElementById('nv-add').value;
+  function fmtRx(e,c,j){if(!e)return '—';let s=e;if(c&&c!=='0.00')s+=' '+c;if(j)s+=' x'+j+'°';return s;}
+  const rxOD=fmtRx(lodEsf,lodCil,lodEje);
+  const rxOI=fmtRx(loiEsf,loiCil,loiEje);
+  const cristLines=NV_CRISTALES.filter(Boolean);
+  const crisTxt=cristLines.length?cristLines.map((c,i)=>`Cristal ${i+1}: ${c.tipo}${c.material?' · '+c.material:''}${c.filtro?' · '+c.filtro:''}`).join('<br>'):'Sin cristal';
+  const armManual=document.getElementById('nv-arm-manual')?.value.trim()||'';
+  let armTxt='—';
+  if(NV_ARMAZON){const a=NV_ARMAZON;armTxt=(`${a.marca||''} ${a.codigo||''} ${a.color||''}`).trim()||'—';}
+  else if(armManual)armTxt=armManual;
+  const ahora=new Date();
+  const fechaHora=ahora.toLocaleDateString('es-UY')+' '+String(ahora.getHours()).padStart(2,'0')+':'+String(ahora.getMinutes()).padStart(2,'0');
+  const css=`*{margin:0;padding:0;box-sizing:border-box}body{font-family:Arial,sans-serif;font-size:11px;color:#000;background:#fff;padding:12px 14px}
+.ficha{max-width:390px;margin:0 auto;border:2px dashed #bbb;border-radius:7px;padding:12px 14px}
+.titulo{text-align:center;font-size:13px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;border-bottom:2.5px solid #000;padding-bottom:5px;margin-bottom:6px}
+.sub{display:flex;justify-content:center;align-items:center;gap:8px;font-size:10px;color:#555;margin-bottom:8px}
+.etq{background:#222;color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:.05em}
+.tel-box{background:#111;color:#fff;text-align:center;padding:8px 12px;border-radius:6px;margin-bottom:8px}
+.tel-lbl{font-size:9px;letter-spacing:.12em;text-transform:uppercase;opacity:.55;margin-bottom:1px}
+.tel-num{font-size:26px;font-weight:900;letter-spacing:.02em}
+.cli-box{background:#f2f2f2;padding:5px 9px;border-radius:4px;margin-bottom:7px}
+.cli-nom{font-size:12px;font-weight:700}
+.cli-ci{font-size:10px;color:#666;margin-top:1px}
+.sec{margin-bottom:6px}
+.sec-h{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#999;border-bottom:1px solid #e0e0e0;padding-bottom:2px;margin-bottom:4px}
+.row{display:flex;gap:5px;font-size:11px;margin-bottom:2px;align-items:baseline}
+.rl{color:#666;min-width:66px;flex-shrink:0;font-size:10.5px}
+.rv{font-weight:600;flex:1;line-height:1.4}
+.totals{display:flex;border:1.5px solid #111;border-radius:5px;overflow:hidden;margin-bottom:8px}
+.tot{flex:1;padding:5px 7px;text-align:center}
+.tot+.tot{border-left:1px solid #111}
+.tot-l{font-size:8.5px;text-transform:uppercase;color:#777;letter-spacing:.04em}
+.tot-v{font-size:15px;font-weight:900}
+.blanks{border-top:1px dashed #bbb;padding-top:7px}
+.bl-row{display:flex;align-items:center;gap:7px;font-size:11px;margin-bottom:5px}
+.bl-l{min-width:92px;font-weight:700}
+.bl-line{flex:1;border-bottom:1.5px solid #444;height:13px}
+@media print{body{padding:6px 8px}@page{margin:8mm;size:A5 landscape}}`;
+  const html=`<html><head><meta charset="UTF-8"><style>${css}</style></head><body>
+<div class="ficha">
+<div class="titulo">🗂️ Ficha de Pedido Pendiente</div>
+<div class="sub"><span>${fechaHora}</span><span class="etq">${estadoTxt}</span></div>
+<div class="tel-box"><div class="tel-lbl">📱 Teléfono del Cliente</div><div class="tel-num">${telefono}</div></div>
+<div class="cli-box"><div class="cli-nom">${cliente}</div><div class="cli-ci">C.I.: ${cedula}</div></div>
+<div class="sec"><div class="sec-h">Graduación</div>
+<div class="row"><span class="rl">OD Lejos:</span><span class="rv">${rxOD}</span></div>
+<div class="row"><span class="rl">OI Lejos:</span><span class="rv">${rxOI}</span></div>
+${addVal&&addVal!==''?`<div class="row"><span class="rl">ADD:</span><span class="rv">${addVal}</span></div>`:''}
+</div>
+<div class="sec"><div class="sec-h">Producto</div>
+<div class="row"><span class="rl">Cristal:</span><span class="rv">${crisTxt}</span></div>
+<div class="row"><span class="rl">Armazón:</span><span class="rv">${armTxt}</span></div>
+</div>
+<div class="totals">
+<div class="tot"><div class="tot-l">Precio Total</div><div class="tot-v">$${precio}</div></div>
+<div class="tot"><div class="tot-l">Seña</div><div class="tot-v">$${sena}</div></div>
+<div class="tot"><div class="tot-l">Saldo</div><div class="tot-v">$${saldo}</div></div>
+</div>
+<div class="blanks">
+<div class="bl-row"><span class="bl-l">Fecha entrega:</span><span class="bl-line"></span></div>
+<div class="bl-row"><span class="bl-l">Avisado:</span><span class="bl-line"></span></div>
+</div>
+</div>
+</body></html>`;
+  const w=window.open('','_blank','width=460,height=620');w.document.write(html);w.document.close();setTimeout(()=>w.print(),400);
 }
 
 function nv_actualizarBtnEstado(){
   const v=document.getElementById('nv-estado-pedido')?.value||'pendiente';
   const btn=document.getElementById('btn-nv-enviar');
-  const labels={pendiente:'\U0001f4be Enviar Pedido',reserva_con_sena:'\U0001f4b0 Guardar Reserva',reserva_sin_sena:'\U0001f4cb Guardar Reserva',listo_para_pedir:'\u2705 Guardar Pedido'};
+  const labels={pendiente:'📤 Enviar a Rabaquino',reserva_con_sena:'💰 Guardar Reserva con Seña',reserva_sin_sena:'📋 Guardar Reserva sin Seña',listo_para_pedir:'✅ Guardar Listo para Pedir'};
   if(btn)btn.textContent=labels[v]||'Enviar Pedido';
 }
 function nvLimpiar(){
@@ -1669,11 +1808,14 @@ function nvLimpiar(){
 }
 
 // ══ SONIDO NOTIF ══
-function playNotif(){
+function playNotif(suc){
   try{
     const ctx=new(window.AudioContext||window.webkitAudioContext)();
-    // [frecuencia, tiempo, tipo, volumen, ataque, release]
-    [[880,.00,'square',.85,.04,.18],[880,.22,'square',.85,.04,.18],[1100,.44,'square',.90,.04,.22],[1100,.66,'square',.90,.04,.22],[1320,.88,'sawtooth',.95,.03,.28],[1320,1.14,'sawtooth',1.00,.03,.38]].forEach(([freq,t,type,vol,att,rel])=>{
+    // Roma: campanada profesional grave — Canelones: alerta aguda especial
+    const notas=(suc||'').toLowerCase()==='canelones'
+      ? [[880,.00,'sine',.70,.03,.20],[1047,.22,'sine',.80,.03,.18],[1319,.42,'sine',.85,.03,.16],[1047,.62,'sine',.75,.03,.20],[880,.82,'sine',.70,.04,.28]]
+      : [[392,.00,'triangle',.75,.05,.25],[523,.28,'triangle',.80,.05,.22],[659,.54,'triangle',.88,.04,.22],[784,.78,'sine',.92,.04,.32],[784,1.08,'sine',.95,.03,.42]];
+    notas.forEach(([freq,t,type,vol,att,rel])=>{
       const osc=ctx.createOscillator(),gain=ctx.createGain();
       osc.connect(gain);gain.connect(ctx.destination);
       osc.frequency.value=freq;osc.type=type;
