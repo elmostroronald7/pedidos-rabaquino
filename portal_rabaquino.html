@@ -1126,7 +1126,7 @@ function renderCard(p){
         <div class="det-section">
           <div class="det-section-title">🔍 Cristales</div>
           ${cristales}
-          ${p.armazones?`<div style="margin-top:12px"><div class="det-section-title">👓 Armazón</div><span style="font-size:13px;font-family:var(--mono);color:var(--accent2);line-height:1.5;cursor:pointer;text-decoration:underline dotted" onclick="event.stopPropagation();abrirFotoArmazon(${p.id})" title="Click para ver foto del armazón">📷 ${p.armazones}</span></div>`:''}
+          ${p.armazones?`<div style="margin-top:12px"><div class="det-section-title">👓 Armazón</div><div><span style="font-size:13px;font-family:var(--mono);color:var(--accent2);line-height:1.5;cursor:pointer;text-decoration:underline dotted" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones')" title="Click para ver foto">📷 ${p.armazones}</span></div>${p.armazones2?`<div style="margin-top:4px"><span style="font-size:13px;font-family:var(--mono);color:var(--accent2);line-height:1.5;cursor:pointer;text-decoration:underline dotted" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones2')" title="Click para ver foto">📷 ${p.armazones2}</span></div>`:''}${p.armazones3?`<div style="margin-top:4px"><span style="font-size:13px;font-family:var(--mono);color:var(--accent2);line-height:1.5;cursor:pointer;text-decoration:underline dotted" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones3')" title="Click para ver foto">📷 ${p.armazones3}</span></div>`:''}</div>`:''}
           <div style="margin-top:12px">
             <div class="det-section-title">💰 Precio</div>
             <div class="det-row"><span class="det-key">Total</span><span class="det-val amber">${p.precio||'—'}</span></div>
@@ -1349,27 +1349,26 @@ function seleccionarArmazonNV(idx){
 }
 function limpiarArmazonNV(){NV_ARMAZON=null;document.getElementById('nv-arm-seleccionado').style.display='none';nv_autoPrice();}
 
-function abrirFotoArmazon(id){
+function abrirFotoArmazon(id,campo){
+  campo=campo||'armazones';
   const p=PEDIDOS.find(x=>x.id===id);
-  if(!p||!p.armazones)return;
+  if(!p)return;
+  const txt=p[campo];
+  if(!txt)return;
   if(!ARMAZONES.length){showToast('Cargando catálogo, intentá de nuevo en un momento','ok');cargarArmazones();return;}
-  // Buscar por código dentro de paréntesis
-  const match=p.armazones.match(/\(([^)]+)\)/);
   let arm=null;
-  if(match){
-    const inner=match[1].trim();
-    const codigo=inner.split(/\s+/)[0].toUpperCase();
-    arm=ARMAZONES.find(a=>`${a.codigo||''} ${a.color||''}`.trim().toUpperCase()===inner.toUpperCase());
-    if(!arm)arm=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo&&a.imagen);
-  }
-  // Fallback: buscar por marca (texto antes del paréntesis)
-  if(!arm){
-    const marcaRaw=(p.armazones.split('(')[0]||'').trim().toUpperCase();
-    if(marcaRaw)arm=ARMAZONES.find(a=>(a.marca||'').toUpperCase()===marcaRaw&&a.imagen);
-    if(!arm&&marcaRaw)arm=ARMAZONES.find(a=>(a.marca||'').toUpperCase().includes(marcaRaw)&&a.imagen);
+  const m=txt.match(/\(([^)]+)\)/);
+  if(m){
+    const parts=m[1].trim().split(/\s+/);
+    const codigo=parts[0].toUpperCase();
+    const color=(parts[1]||'').toUpperCase();
+    // Búsqueda exacta: código + color
+    if(color)arm=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo&&(a.color||'').toUpperCase()===color);
+    // Fallback: solo por código
+    if(!arm)arm=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo);
   }
   if(arm&&arm.imagen)abrirFoto(imgUrl(arm.imagen));
-  else showToast('Sin foto disponible para este armazón','');
+  else showToast('Sin foto disponible','');
 }
 
 function nvFormaPagoChanged(){
