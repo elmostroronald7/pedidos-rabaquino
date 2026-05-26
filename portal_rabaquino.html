@@ -1042,6 +1042,13 @@ function _armDisplay(txt){
     const marca=txt.split('(')[0].trim();
     return esc(marca)+' <span style="color:var(--amber);font-family:var(--mono);font-weight:700">'+esc(m[1].trim())+'</span>';
   }
+  // Buscar la marca en ARMAZONES para mostrar código+color
+  const marca=txt.trim().toUpperCase();
+  const found=ARMAZONES.find(a=>(a.marca||'').toUpperCase()===marca||(a.marca||'').toUpperCase().startsWith(marca));
+  if(found&&(found.codigo||found.color)){
+    const code=[found.codigo,found.color].filter(Boolean).join(' ');
+    return esc(txt)+' <span style="color:var(--amber);font-family:var(--mono);font-weight:700">('+esc(code)+')</span>';
+  }
   return esc(txt);
 }
 function renderCard(p){
@@ -1051,6 +1058,7 @@ function renderCard(p){
   const nb=getNumeroBoleta(p);
   const suc=(p.sucursal||'roma').toUpperCase();
   const isCanelones=(p.sucursal||'').toLowerCase()==='canelones';
+  const puedeEliminar=SESSION?.rol==='admin'||SESSION?.usuario==='martin';
   const tipo=p.tipo_pedido||'';
 
   const cristales=[
@@ -1166,7 +1174,7 @@ function renderCard(p){
       <div class="det-actions">
         ${esNuevo?`<button class="btn-procesar" onclick="procesar(${p.id},this)">✅ Marcar como procesado</button>`:`<div style="color:var(--green);font-size:12px;display:flex;align-items:center;gap:6px">✅ Procesado ${fp}${nb?` • Boleta ${nb}`:''}</div><button class="btn-desprocesar" onclick="desprocesar(${p.id},this)">↩️ Desprocesar</button>`}
         <button class="btn-imprimir" onclick="imprimirPedido(${p.id})">🖨️ Imprimir</button>
-        ${SESSION?.rol==='admin'?`<button class="btn-eliminar" onclick="eliminarPedido(${p.id},this)">🗑️ Eliminar</button>`:''}
+        ${puedeEliminar?('<button class="btn-eliminar" onclick="eliminarPedido('+p.id+',this)">🗑️ Eliminar</button>'):''}
       </div>
     </div>
   </div>`;
