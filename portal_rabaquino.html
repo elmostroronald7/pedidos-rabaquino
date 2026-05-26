@@ -1166,6 +1166,7 @@ function renderCard(p){
       <div class="det-actions">
         ${esNuevo?`<button class="btn-procesar" onclick="procesar(${p.id},this)">✅ Marcar como procesado</button>`:`<div style="color:var(--green);font-size:12px;display:flex;align-items:center;gap:6px">✅ Procesado ${fp}${nb?` • Boleta ${nb}`:''}</div><button class="btn-desprocesar" onclick="desprocesar(${p.id},this)">↩️ Desprocesar</button>`}
         <button class="btn-imprimir" onclick="imprimirPedido(${p.id})">🖨️ Imprimir</button>
+        ${SESSION?.rol==='admin'?`<button class="btn-eliminar" onclick="eliminarPedido(${p.id},this)">🗑️ Eliminar</button>`:''}
       </div>
     </div>
   </div>`;
