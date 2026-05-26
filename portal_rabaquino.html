@@ -969,6 +969,8 @@ async function cargarPedidos(){
     const pend=PEDIDOS.filter(p=>p.estado==='pendiente');
     if(pend.length){document.getElementById('notif-banner').style.display='flex';document.getElementById('notif-text').textContent=`🔔 ${pend.length} pedido${pend.length>1?'s':''} pendiente${pend.length>1?'s':''} por procesar`;}
     else document.getElementById('notif-banner').style.display='none';
+    // Cargar armazones en background para _armDisplay
+    if(!ARMAZONES.length)cargarArmazones();
   }catch(e){showToast('Error al cargar pedidos','err');}
   finally{btn.classList.remove('spinning');}
 }
@@ -1221,11 +1223,13 @@ async function eliminarPedido(id,btn){
       headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json'},
       body:JSON.stringify({pedido_id:id,usuario_actual:SESSION?.usuario||''})
     });
-    if(!res.ok)throw new Error(await res.text());
+    if(!res.ok){const txt=await res.text();throw new Error('HTTP '+res.status+': '+txt);}
+    const result=await res.json();
+    if(result!==true)throw new Error('La función devolvió false');
     PEDIDOS=PEDIDOS.filter(x=>x.id!==id);
     showToast('🗑️ Pedido eliminado');
     renderPedidos();
-  }catch(e){btn.disabled=false;btn.textContent='🗑️ Eliminar';showToast('Error: '+e.message,'err');}
+  }catch(e){console.error('Eliminar error:',e);btn.disabled=false;btn.textContent='🗑️ Eliminar';showToast('Error: '+e.message,'err');}
 }
 
 // ══ IMPRIMIR ══
@@ -1254,6 +1258,7 @@ async function cargarArmazones(){
     ARMAZONES=data;renderArmazones('');
     const c=document.getElementById('arm-count');
     if(c){c.textContent=`${data.length} armazón${data.length!==1?'es':''} cargados`;c.style.display='block';}
+    renderPedidos(); // Re-renderiza pedidos para mostrar código+color en armazones
   }catch(e){
     if(list)list.innerHTML='<div class="empty"><div class="empty-icon">⚠️</div><h3>No disponible</h3><p>Se sincroniza al encender la PC de la óptica</p></div>';
     const c=document.getElementById('arm-count');
