@@ -1058,7 +1058,7 @@ function renderCard(p){
   const nb=getNumeroBoleta(p);
   const suc=(p.sucursal||'roma').toUpperCase();
   const isCanelones=(p.sucursal||'').toLowerCase()==='canelones';
-  const puedeEliminar=SESSION?.rol==='admin'||SESSION?.usuario==='martin';
+  const puedeEliminar=SESSION?.usuario==='martin'||SESSION?.rol==='admin';
   const tipo=p.tipo_pedido||'';
 
   const cristales=[
@@ -1213,10 +1213,15 @@ async function eliminarPedido(id,btn){
   const p=PEDIDOS.find(x=>x.id===id);
   const info=p?`"${p.cliente||''}" — ${p.fecha_venta||''}`:String(id);
   if(!confirm(`¿Eliminar definitivamente este pedido?\n\n${info}\n\nEsta accion NO se puede deshacer.`))return;
-  if(!confirm('¿Seguro? Se borrara de Supabase para siempre.'))return;
+  if(!confirm('¿Seguro? Se borrara para siempre.'))return;
   btn.disabled=true;btn.textContent='Eliminando...';
   try{
-    await apiDelete('pedidos',id);
+    const res=await fetch(`${SUPABASE_URL}/rest/v1/rpc/eliminar_pedido_martin`,{
+      method:'POST',
+      headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${SUPABASE_KEY}`,'Content-Type':'application/json'},
+      body:JSON.stringify({pedido_id:id,usuario_actual:SESSION?.usuario||''})
+    });
+    if(!res.ok)throw new Error(await res.text());
     PEDIDOS=PEDIDOS.filter(x=>x.id!==id);
     showToast('🗑️ Pedido eliminado');
     renderPedidos();
