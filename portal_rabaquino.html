@@ -1522,7 +1522,7 @@ function abrirFotoArmazon(id,campo){
       const c=(a.codigo||'').toUpperCase();
       const cl=(a.color||'').toUpperCase();
       if(!c||!a.imagen)return false;
-      if(cl&&tuveColor)return parenClean.includes(c+' '+cl);
+      if(cl&&tuveColor)return parenClean.replace(/\s+/g,' ').includes((c+' '+cl).replace(/\s+/g,' '));
       return parenClean.includes(c);
     });
   }
