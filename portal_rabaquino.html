@@ -198,6 +198,12 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .stock-row{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;}
 .stock-key{color:var(--text2);}
 .stock-val{color:var(--text);font-family:var(--mono);}
+.stock-rab-wrap{display:flex;align-items:center;justify-content:space-between;background:rgba(59,130,246,.06);border-top:1px solid var(--border);padding:10px 12px;margin-top:0;}
+.stock-rab-label{font-size:10px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;}
+.stock-rab-val{font-size:22px;font-weight:800;font-family:var(--mono);cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px;transition:opacity .15s;line-height:1;}
+.stock-rab-val:hover{opacity:.7;}
+.stock-rab-val.no-edit{cursor:default;text-decoration:none;}
+.stock-rab-val.no-edit:hover{opacity:1;}
 
 /* CRISTALES GRILLA */
 .cris-layout{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:start;}
@@ -1105,11 +1111,12 @@ function renderCard(p){
   const puedeEliminar=SESSION?.usuario==='martin'||SESSION?.rol==='admin';
   const tipo=['OPTICA','VALE','ENZO','CRAMI','ASSE','OTROS'].includes((p.tipo_pedido||'').toUpperCase())?'':p.tipo_pedido||'';
   const saldoNum=parseFloat(p.saldo);const saldoClass=!p.saldo||isNaN(saldoNum)||saldoNum<=0?'settled':'owing';
+  const armCount=[p.armazones,p.armazones2,p.armazones3].filter(Boolean).length;
 
   const cristales=[
     p.c1_tipo?`<div class="cristal-row"><span class="cristal-badge main">${p.c1_tipo}</span>${p.c1_material?`<span class="cristal-badge">${p.c1_material}</span>`:''} ${p.c1_color?`<span class="cristal-badge">${p.c1_color}</span>`:''} ${p.c1_trat?`<span class="cristal-badge">${p.c1_trat}</span>`:''}</div>`:'',
-    p.c2_tipo?`<div class="cristal-row"><span class="cristal-badge main">${p.c2_tipo}</span>${p.c2_material?`<span class="cristal-badge">${p.c2_material}</span>`:''}</div>`:'',
-    p.c3_tipo?`<div class="cristal-row"><span class="cristal-badge main">${p.c3_tipo}</span></div>`:'',
+    p.c2_tipo?`<div class="cristal-row"><span class="cristal-badge main">${p.c2_tipo}</span>${p.c2_material?`<span class="cristal-badge">${p.c2_material}</span>`:''} ${p.c2_color?`<span class="cristal-badge">${p.c2_color}</span>`:''} ${p.c2_trat?`<span class="cristal-badge">${p.c2_trat}</span>`:''}</div>`:'',
+    p.c3_tipo?`<div class="cristal-row"><span class="cristal-badge main">${p.c3_tipo}</span>${p.c3_material?`<span class="cristal-badge">${p.c3_material}</span>`:''} ${p.c3_color?`<span class="cristal-badge">${p.c3_color}</span>`:''} ${p.c3_trat?`<span class="cristal-badge">${p.c3_trat}</span>`:''}</div>`:'',
   ].filter(Boolean).join('')||'<span style="color:var(--text3);font-size:13px">Sin cristales</span>';
 
   const printCris=[p.c1_tipo?{tipo:p.c1_tipo,tags:[p.c1_material,p.c1_color,p.c1_trat].filter(Boolean)}:null,p.c2_tipo?{tipo:p.c2_tipo,tags:[p.c2_material,p.c2_color,p.c2_trat].filter(Boolean)}:null,p.c3_tipo?{tipo:p.c3_tipo,tags:[p.c3_material,p.c3_color,p.c3_trat].filter(Boolean)}:null].filter(Boolean);
@@ -1124,6 +1131,7 @@ function renderCard(p){
           <span>CI ${p.cedula||'—'}</span><span>·</span><span>${p.telefono||'—'}</span>
           ${tipo?`<span class="pedido-tipo">${tipo}</span>`:''}
           ${p.numero_trabajo?`<span style="color:var(--accent2);font-size:12px;font-family:var(--mono)">N° ${p.numero_trabajo}</span>`:''}${p.numero_trabajo2?`<span style="color:var(--purple);font-size:12px;font-family:var(--mono)">N°2 ${p.numero_trabajo2}</span>`:''}${p.numero_trabajo3?`<span style="color:var(--teal);font-size:12px;font-family:var(--mono)">N°3 ${p.numero_trabajo3}</span>`:''}
+          ${armCount>1?`<span style="color:var(--accent2);font-size:12px;font-family:var(--mono)">👓×${armCount}</span>`:''}
           ${nb?`<span style="color:var(--green);font-size:12px;font-family:var(--mono)">Boleta ${nb}</span>`:''}
           <span class="pedido-fecha-exacta">${fa}</span>
         </div>
@@ -1212,7 +1220,7 @@ function renderCard(p){
             <div class="det-subsection-title">CRISTALES</div>
             ${cristales}
           </div>
-          ${p.armazones?`<div class="det-subsection"><div class="det-subsection-title">ARMAZÓN</div><div class="arm-box"><span class="arm-icon">👓</span><span class="arm-text" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones')" title="Ver foto">${_armDisplay(p.armazones)}</span></div>${p.armazones2?`<div class="arm-box" style="margin-top:4px"><span class="arm-icon">👓</span><span class="arm-text" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones2')" title="Ver foto">${_armDisplay(p.armazones2)}</span></div>`:''}${p.armazones3?`<div class="arm-box" style="margin-top:4px"><span class="arm-icon">👓</span><span class="arm-text" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones3')" title="Ver foto">${_armDisplay(p.armazones3)}</span></div>`:''}</div>`:''}
+          ${armCount?`<div class="det-subsection"><div class="det-subsection-title">ARMAZÓN${armCount>1?' ('+armCount+')':''}</div>${p.armazones?`<div class="arm-box"><span class="arm-icon">👓</span><span class="arm-text" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones')" title="Ver foto">${_armDisplay(p.armazones)}</span></div>`:''}${p.armazones2?`<div class="arm-box" style="margin-top:4px"><span class="arm-icon">👓</span><span class="arm-text" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones2')" title="Ver foto">${_armDisplay(p.armazones2)}</span></div>`:''}${p.armazones3?`<div class="arm-box" style="margin-top:4px"><span class="arm-icon">👓</span><span class="arm-text" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones3')" title="Ver foto">${_armDisplay(p.armazones3)}</span></div>`:''}</div>`:''}
           <div class="det-divider"></div>
           <div class="det-subsection">
             <div class="det-subsection-title">💰 PRECIO</div>
@@ -1307,8 +1315,8 @@ async function cargarArmazones(){
   document.getElementById('arm-count').style.display='none';
   document.getElementById('buscador-arm').value='';
   try{
-    const data=await apiGet('armazones_stock','?order=id.desc&limit=2000');
-    ARMAZONES=data;renderArmazones('');
+    let data=await apiGet('armazones_stock','?order=id.desc&limit=2000');
+    data.sort((a,b)=>b.id - a.id);ARMAZONES=data;renderArmazones('');
     const c=document.getElementById('arm-count');
     if(c){c.textContent=`${data.length} armazón${data.length!==1?'es':''} cargados`;c.style.display='block';}
     renderPedidos(); // Re-renderiza pedidos para mostrar código+color en armazones
@@ -1332,8 +1340,8 @@ function renderArmazones(filtro){
     const srV=parseInt(a.stock_rabaquino||'0');
     const srCol=srV===0?'var(--red)':srV<5?'var(--amber)':'var(--green)';
     const srHtml=esRab
-      ?`<span class="stock-val" id="sr-${a.id}" style="color:${srCol};cursor:pointer;text-decoration:underline dotted" title="Click para editar" onclick="editarStockRab(${a.id},${srV})">${srV}</span>`
-      :`<span class="stock-val" style="color:${srCol}">${srV}</span>`;
+      ?`<span class="stock-rab-val" id="sr-${a.id}" style="color:${srCol}" title="Click para editar" onclick="editarStockRab(${a.id},${srV})">${srV}</span>`
+      :`<span class="stock-rab-val no-edit" style="color:${srCol}">${srV}</span>`;
     return`<div class="stock-card">
       <div class="arm-img-wrap">${foto?`<img src="${foto}" alt="${a.codigo||''}" loading="lazy" onclick="abrirFoto('${foto}')">`:'<span class="arm-img-placeholder">👓</span>'}</div>
       <div class="stock-card-body">
@@ -1342,8 +1350,8 @@ function renderArmazones(filtro){
         <div class="stock-row"><span class="stock-key">Color</span><span class="stock-val">${a.color||'—'}</span></div>
         <div class="stock-row"><span class="stock-key">Material</span><span class="stock-val">${a.material||'—'}</span></div>
         ${a.precio_venta?`<div class="stock-row"><span class="stock-key">Precio</span><span class="stock-val" style="color:var(--amber)">$${a.precio_venta}</span></div>`:''}
-        <div class="stock-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--border)"><span class="stock-key">Stock Rabaquino</span>${srHtml}</div>
       </div>
+      <div class="stock-rab-wrap"><span class="stock-rab-label">Stock Rabaquino</span>${srHtml}</div>
     </div>`;
   }).join('');
 }
@@ -1353,7 +1361,7 @@ async function editarStockRab(id,val){
   if(!span)return;
   const inp=document.createElement('input');
   inp.type='number';inp.value=val;inp.min=0;
-  inp.style.cssText='width:54px;background:var(--surface);border:1px solid var(--accent);border-radius:5px;color:var(--text);font-family:var(--mono);font-size:12px;padding:2px 5px;outline:none;';
+  inp.style.cssText='width:60px;background:var(--surface);border:1px solid var(--accent);border-radius:6px;color:var(--text);font-family:var(--mono);font-size:20px;font-weight:700;padding:2px 6px;outline:none;text-align:center;';
   span.replaceWith(inp);inp.focus();inp.select();
   let _ok=false;
   const save=async()=>{
@@ -1365,9 +1373,9 @@ async function editarStockRab(id,val){
       showToast('✅ Stock actualizado');
     }catch(e){showToast('⚠️ Error al guardar','err');}
     const ns=document.createElement('span');
-    ns.id=`sr-${id}`;ns.className='stock-val';
+    ns.id=`sr-${id}`;ns.className='stock-rab-val';
     const col=nv===0?'var(--red)':nv<5?'var(--amber)':'var(--green)';
-    ns.style.cssText=`color:${col};cursor:pointer;text-decoration:underline dotted`;
+    ns.style.cssText=`color:${col}`;
     ns.title='Click para editar';ns.textContent=nv;
     ns.onclick=()=>editarStockRab(id,nv);
     inp.replaceWith(ns);
@@ -1479,10 +1487,9 @@ function abrirFotoArmazon(id,campo){
   let arm=null;
   const m=txt.match(/\(([^)]+)\)/);
   if(m){
-    const content=m[1].trim();
-    const firstSpace=content.indexOf(' ');
-    const codigo=firstSpace>0?content.slice(0,firstSpace).toUpperCase():content.toUpperCase();
-    const color=firstSpace>0?content.slice(firstSpace+1).toUpperCase():'';
+    const parts=m[1].trim().split(/\s+/);
+    const codigo=parts[0].toUpperCase();
+    const color=parts.slice(1).filter(Boolean).join(' ').toUpperCase();
     if(color)arm=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo&&(a.color||'').toUpperCase()===color);
     if(!arm)arm=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo);
   }
