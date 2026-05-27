@@ -1214,14 +1214,16 @@ function renderCard(p){
               <tr class="grad-oi"><td class="grad-eye">OI</td><td>${p.lej_oi_esf||'—'}</td><td>${p.lej_oi_cil||'—'}</td><td>${p.lej_oi_eje||'—'}</td></tr>
             </tbody>
           </table>
-          <div class="grad-label" style="margin-top:8px">CERCA</div>
+          ${(p.cer_od_esf||p.cer_oi_esf)?`
+          <div class="grad-divider"></div>
+          <div class="grad-label">CERCA</div>
           <table class="grad-table">
             <thead><tr><th></th><th>ESF</th><th>CIL</th><th>EJE</th></tr></thead>
             <tbody>
               <tr class="grad-od"><td class="grad-eye">OD</td><td>${p.cer_od_esf||'—'}</td><td>${p.cer_od_cil||'—'}</td><td>${p.cer_od_eje||'—'}</td></tr>
               <tr class="grad-oi"><td class="grad-eye">OI</td><td>${p.cer_oi_esf||'—'}</td><td>${p.cer_oi_cil||'—'}</td><td>${p.cer_oi_eje||'—'}</td></tr>
             </tbody>
-          </table>
+          </table>`:''}
           ${p.add_val?`<div class="grad-addons"><div class="grad-addon"><span class="grad-addon-label">ADD</span><span class="grad-addon-val">${p.add_val}</span></div></div>`:''}
           <div class="grad-divider"></div>
           <div class="grad-label">MEDIDAS</div>
