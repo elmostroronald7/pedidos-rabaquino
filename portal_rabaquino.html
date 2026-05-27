@@ -1187,8 +1187,20 @@ function renderCard(p){
             </div>
           </div>
           <div class="print-product-list">
-            <div class="print-card"><div class="print-section-title">Cristal</div>${printCrisHtml}</div>
-            <div class="print-card"><div class="print-section-title">Armazón</div><div class="print-frame-box"><div class="print-frame-name">${esc(p.armazones||'Sin armazón')}</div></div></div>
+            <div class="print-card"><div class="print-section-title">Cristales</div>${printCrisHtml}</div>
+            <div class="print-card"><div class="print-section-title">Armazón${armCount>1?' ('+armCount+')':''}</div>
+              ${p.armazones?`<div class="print-frame-box"><div class="print-frame-name">${esc(p.armazones)}</div></div>`:''}
+              ${p.armazones2?`<div class="print-frame-box" style="margin-top:4px"><div class="print-frame-name">${esc(p.armazones2)}</div></div>`:''}
+              ${p.armazones3?`<div class="print-frame-box" style="margin-top:4px"><div class="print-frame-name">${esc(p.armazones3)}</div></div>`:''}
+            </div>
+            <div class="print-card"><div class="print-section-title">Precio</div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">
+                <div class="print-measure-box"><div class="print-measure-label">Total</div><div class="print-measure-value">${p.precio||'—'}</div></div>
+                <div class="print-measure-box"><div class="print-measure-label">Seña</div><div class="print-measure-value">${p.sena||'—'}</div></div>
+                <div class="print-measure-box"><div class="print-measure-label">Saldo</div><div class="print-measure-value">${p.saldo||'—'}</div></div>
+                <div class="print-measure-box"><div class="print-measure-label">Pago</div><div class="print-measure-value">${p.forma_pago||'—'}</div></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1501,14 +1513,14 @@ function abrirFotoArmazon(id,campo){
   const txt=p[campo];
   if(!txt)return;
   if(!ARMAZONES.length){showToast('Cargando catálogo, intentá de nuevo en un momento','ok');cargarArmazones();return;}
-  let arm=null;
+  let arm=null;let tuveColor=false;
   const m=txt.match(/\(([^)]+)\)/);
   if(m){
     const parts=m[1].trim().split(/\s+/);
     const codigo=parts[0].toUpperCase();
     const color=parts.slice(1).filter(Boolean).join(' ').toUpperCase();
+    tuveColor=!!color;
     if(color)arm=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo&&(a.color||'').toUpperCase()===color);
-    if(!arm)arm=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo);
   }
   if(!arm){
     const marcaNorm=(txt.split('(')[0]||txt).trim().toUpperCase();
@@ -1518,7 +1530,7 @@ function abrirFotoArmazon(id,campo){
     }
   }
   if(arm&&arm.imagen)abrirFoto(imgUrl(arm.imagen));
-  else showToast('Sin foto disponible','');
+  else showToast(tuveColor?'Sin foto para ese color':'Sin foto disponible','');
 }
 
 function nvFormaPagoChanged(){
