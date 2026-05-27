@@ -1518,7 +1518,7 @@ function abrirFotoArmazon(id,campo){
   if(m){
     const parts=m[1].trim().split(/\s+/);
     const codigo=parts[0].toUpperCase();
-    const color=parts.slice(1).filter(Boolean).join(' ').toUpperCase();
+    const color=parts.slice(1).filter(Boolean).join(' ').replace(/^[-\s]+/,'').trim().toUpperCase();
     tuveColor=!!color;
     if(color)arm=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo&&(a.color||'').toUpperCase()===color);
   }
