@@ -1042,14 +1042,25 @@ function _armDisplay(txt){
   const m=txt.match(/\(([^)]+)\)/);
   if(m){
     const marca=txt.split('(')[0].trim();
-    return esc(marca)+' <span style="color:var(--amber);font-family:var(--mono);font-weight:700">'+esc(m[1].trim())+'</span>';
+    const raw=m[1].trim();
+    const firstSpace=raw.indexOf(' ');
+    if(firstSpace>0){
+      return esc(marca)+' <span style="color:var(--amber);font-family:var(--mono);font-weight:700">'+esc(raw)+'</span>';
+    }
+    // Solo código, buscar color en ARMAZONES
+    const codigo=raw.toUpperCase();
+    const found=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo&&a.color);
+    if(found)return esc(marca)+' <span style="color:var(--amber);font-family:var(--mono);font-weight:700">'+esc(codigo+' '+found.color)+'</span>';
+    return esc(marca)+' <span style="color:var(--amber);font-family:var(--mono);font-weight:700">'+esc(raw)+'</span>';
   }
-  // Buscar la marca en ARMAZONES para mostrar código+color
-  const marca=txt.trim().toUpperCase();
-  const found=ARMAZONES.find(a=>(a.marca||'').toUpperCase()===marca||(a.marca||'').toUpperCase().startsWith(marca));
+  // Sin paréntesis, buscar en ARMAZONES
+  const key=txt.trim().toUpperCase();
+  let found=ARMAZONES.find(a=>(a.marca||'').toUpperCase()===key);
+  if(!found)found=ARMAZONES.find(a=>(a.marca||'').toUpperCase().startsWith(key));
+  if(!found)found=ARMAZONES.find(a=>key.startsWith((a.marca||'').toUpperCase()));
   if(found&&(found.codigo||found.color)){
     const code=[found.codigo,found.color].filter(Boolean).join(' ');
-    return esc(txt)+' <span style="color:var(--amber);font-family:var(--mono);font-weight:700">('+esc(code)+')</span>';
+    return esc(txt.trim())+' <span style="color:var(--amber);font-family:var(--mono);font-weight:700">('+esc(code)+')</span>';
   }
   return esc(txt);
 }
@@ -1254,7 +1265,7 @@ async function cargarArmazones(){
   document.getElementById('arm-count').style.display='none';
   document.getElementById('buscador-arm').value='';
   try{
-    const data=await apiGet('armazones_stock','?order=marca.asc&limit=2000');
+    const data=await apiGet('armazones_stock','?order=id.desc&limit=2000');
     ARMAZONES=data;renderArmazones('');
     const c=document.getElementById('arm-count');
     if(c){c.textContent=`${data.length} armazón${data.length!==1?'es':''} cargados`;c.style.display='block';}
