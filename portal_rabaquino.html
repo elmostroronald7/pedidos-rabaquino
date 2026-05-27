@@ -1344,8 +1344,8 @@ async function cargarArmazones(){
   document.getElementById('arm-count').style.display='none';
   document.getElementById('buscador-arm').value='';
   try{
-    let data=await apiGet('armazones_stock','?order=id.desc&limit=2000');
-    data.sort((a,b)=>b.id - a.id);ARMAZONES=data;renderArmazones('');
+    let data=await apiGet('armazones_stock','?order=created_at.desc&limit=2000');
+    ARMAZONES=data;renderArmazones('');
     const c=document.getElementById('arm-count');
     if(c){c.textContent=`${data.length} armazón${data.length!==1?'es':''} cargados`;c.style.display='block';}
     renderPedidos(); // Re-renderiza pedidos para mostrar código+color en armazones
