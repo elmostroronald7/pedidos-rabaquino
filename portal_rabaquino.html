@@ -10,7 +10,7 @@
   --bg:#080C12; --surface:#0E1420; --card:#131A27; --border:#1E2A3E; --border2:#2D3F5E;
   --accent:#3B82F6; --accent2:#60A5FA; --green:#10B981; --green-bg:#071F16;
   --amber:#F59E0B; --amber-bg:#1C1507; --red:#EF4444; --red-bg:#1C0707;
-  --purple:#8B5CF6; --purple-bg:#1A0F33; --text:#F1F5F9; --text2:#94A3B8; --text3:#4A5568;
+  --purple:#8B5CF6; --purple-bg:#1A0F33; --teal:#14B8A6; --text:#F1F5F9; --text2:#94A3B8; --text3:#4A5568;
   --mono:'DM Mono',monospace; --sans:'DM Sans',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -1034,7 +1034,7 @@ function renderPedidos(){
   let filtered=PEDIDOS;
   if(FILTRO!=='todos')filtered=filtered.filter(p=>p.estado===FILTRO);
   if(BUSQUEDA){
-    filtered=filtered.filter(p=>{const b=BUSQUEDA;return(p.cliente||'').toLowerCase().includes(b)||(p.cedula||'').toLowerCase().includes(b)||(p.numero_trabajo||'').toLowerCase().includes(b)||(p.c1_tipo||'').toLowerCase().includes(b)||(p.c2_tipo||'').toLowerCase().includes(b)||(p.c3_tipo||'').toLowerCase().includes(b)||(p.armazones||'').toLowerCase().includes(b)||(p.medico||'').toLowerCase().includes(b)||(p.tipo_pedido||'').toLowerCase().includes(b)||(p.sucursal||'').toLowerCase().includes(b);});
+    filtered=filtered.filter(p=>{const b=BUSQUEDA;return(p.cliente||'').toLowerCase().includes(b)||(p.cedula||'').toLowerCase().includes(b)||(p.numero_trabajo||'').toLowerCase().includes(b)||(p.numero_trabajo2||'').toLowerCase().includes(b)||(p.numero_trabajo3||'').toLowerCase().includes(b)||(p.c1_tipo||'').toLowerCase().includes(b)||(p.c2_tipo||'').toLowerCase().includes(b)||(p.c3_tipo||'').toLowerCase().includes(b)||(p.armazones||'').toLowerCase().includes(b)||(p.medico||'').toLowerCase().includes(b)||(p.tipo_pedido||'').toLowerCase().includes(b)||(p.sucursal||'').toLowerCase().includes(b);});
     const t=document.getElementById('titulo-lista');if(t)t.textContent=`Pedidos (${filtered.length} resultados)`;
   }else{const t=document.getElementById('titulo-lista');if(t)t.textContent='Pedidos';}
 
@@ -1103,7 +1103,7 @@ function renderCard(p){
   const suc=(p.sucursal||'roma').toUpperCase();
   const isCanelones=(p.sucursal||'').toLowerCase()==='canelones';
   const puedeEliminar=SESSION?.usuario==='martin'||SESSION?.rol==='admin';
-  const tipo=p.tipo_pedido||'';
+  const tipo=['OPTICA','VALE','ENZO','CRAMI','ASSE','OTROS'].includes((p.tipo_pedido||'').toUpperCase())?(p.c1_tipo?p.c1_tipo.split(' ')[0]:''):p.tipo_pedido||'';
   const saldoNum=parseFloat(p.saldo);const saldoClass=!p.saldo||isNaN(saldoNum)||saldoNum<=0?'settled':'owing';
 
   const cristales=[
@@ -1123,7 +1123,7 @@ function renderCard(p){
         <div class="pedido-meta">
           <span>CI ${p.cedula||'—'}</span><span>·</span><span>${p.telefono||'—'}</span>
           ${tipo?`<span class="pedido-tipo">${tipo}</span>`:''}
-          ${p.numero_trabajo?`<span style="color:var(--accent2);font-size:12px;font-family:var(--mono)">N° ${p.numero_trabajo}</span>`:''}
+          ${p.numero_trabajo?`<span style="color:var(--accent2);font-size:12px;font-family:var(--mono)">N° ${p.numero_trabajo}</span>`:''}${p.numero_trabajo2?`<span style="color:var(--purple);font-size:12px;font-family:var(--mono)">N°2 ${p.numero_trabajo2}</span>`:''}${p.numero_trabajo3?`<span style="color:var(--teal);font-size:12px;font-family:var(--mono)">N°3 ${p.numero_trabajo3}</span>`:''}
           ${nb?`<span style="color:var(--green);font-size:12px;font-family:var(--mono)">Boleta ${nb}</span>`:''}
           <span class="pedido-fecha-exacta">${fa}</span>
         </div>
@@ -1152,7 +1152,7 @@ function renderCard(p){
           <div class="print-summary-card"><div class="print-summary-label">Cliente</div><div class="print-summary-value">${esc(p.cliente||'—')}</div></div>
           <div class="print-summary-card"><div class="print-summary-label">Cédula</div><div class="print-summary-value">${esc(p.cedula||'—')}</div></div>
           <div class="print-summary-card"><div class="print-summary-label">Médico</div><div class="print-summary-value">${esc(p.medico||'—')}</div></div>
-          <div class="print-summary-card"><div class="print-summary-label">N° Trabajo</div><div class="print-summary-value">${esc(p.numero_trabajo||'—')}</div></div>
+          <div class="print-summary-card"><div class="print-summary-label">N° Trabajo</div><div class="print-summary-value">${esc(p.numero_trabajo||'—')}${p.numero_trabajo2?` / ${esc(p.numero_trabajo2)}`:''}${p.numero_trabajo3?` / ${esc(p.numero_trabajo3)}`:''}</div></div>
           <div class="print-summary-card"><div class="print-summary-label">Teléfono</div><div class="print-summary-value">${esc(p.telefono||'—')}</div></div>
           <div class="print-summary-card"><div class="print-summary-label">Sucursal</div><div class="print-summary-value" style="font-weight:900">ÓPTICA ${esc(suc)}</div></div>
         </div>
@@ -1186,6 +1186,8 @@ function renderCard(p){
           <div class="det-row"><span class="det-key">Teléfono</span><span class="det-val">${p.telefono||'—'}</span></div>
           <div class="det-row"><span class="det-key">Médico</span><span class="det-val">${p.medico||'—'}</span></div>
           <div class="det-row"><span class="det-key">N° Trabajo</span><span class="det-val amber">${p.numero_trabajo||'—'}</span></div>
+          ${p.numero_trabajo2?`<div class="det-row"><span class="det-key">N° Trabajo 2</span><span class="det-val amber">${p.numero_trabajo2}</span></div>`:''}
+          ${p.numero_trabajo3?`<div class="det-row"><span class="det-key">N° Trabajo 3</span><span class="det-val amber">${p.numero_trabajo3}</span></div>`:''}
         </div>
         <div class="det-section">
           <div class="det-section-title">👁️ Graduación</div>
