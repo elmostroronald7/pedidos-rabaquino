@@ -1516,11 +1516,15 @@ function abrirFotoArmazon(id,campo){
   let arm=null;let tuveColor=false;
   const m=txt.match(/\(([^)]+)\)/);
   if(m){
-    const parts=m[1].trim().split(/\s+/);
-    const codigo=parts[0].toUpperCase();
-    const color=parts.slice(1).filter(Boolean).join(' ').replace(/^[-\s]+/,'').trim().toUpperCase();
-    tuveColor=!!color;
-    if(color)arm=ARMAZONES.find(a=>(a.codigo||'').toUpperCase()===codigo&&(a.color||'').toUpperCase()===color);
+    const parenClean=m[1].replace(/-\s*/g,' ').replace(/\s+/g,' ').trim().toUpperCase();
+    tuveColor=!!m[1].match(/[-]/);
+    arm=ARMAZONES.find(a=>{
+      const c=(a.codigo||'').toUpperCase();
+      const cl=(a.color||'').toUpperCase();
+      if(!c||!a.imagen)return false;
+      if(cl&&tuveColor)return parenClean.includes(c+' '+cl);
+      return parenClean.includes(c);
+    });
   }
   if(!arm){
     const marcaNorm=(txt.split('(')[0]||txt).trim().toUpperCase();
