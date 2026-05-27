@@ -1103,7 +1103,7 @@ function renderCard(p){
   const suc=(p.sucursal||'roma').toUpperCase();
   const isCanelones=(p.sucursal||'').toLowerCase()==='canelones';
   const puedeEliminar=SESSION?.usuario==='martin'||SESSION?.rol==='admin';
-  const tipo=['OPTICA','VALE','ENZO','CRAMI','ASSE','OTROS'].includes((p.tipo_pedido||'').toUpperCase())?(p.c1_tipo?p.c1_tipo.split(' ')[0]:''):p.tipo_pedido||'';
+  const tipo=['OPTICA','VALE','ENZO','CRAMI','ASSE','OTROS'].includes((p.tipo_pedido||'').toUpperCase())?'':p.tipo_pedido||'';
   const saldoNum=parseFloat(p.saldo);const saldoClass=!p.saldo||isNaN(saldoNum)||saldoNum<=0?'settled':'owing';
 
   const cristales=[
