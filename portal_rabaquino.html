@@ -1173,6 +1173,13 @@ function renderCard(p){
                 <tr><td class="print-grad-eye">OI</td><td>${p.lej_oi_esf||'—'}</td><td>${p.lej_oi_cil||'—'}</td><td>${p.lej_oi_eje||'—'}</td></tr>
               </tbody>
             </table>
+            <div class="print-section-title" style="margin-top:10px">Graduación Cerca</div>
+            <table class="print-grad-table"><thead><tr><th></th><th>ESF</th><th>CIL</th><th>EJE</th></tr></thead>
+              <tbody>
+                <tr><td class="print-grad-eye">OD</td><td>${p.cer_od_esf||'—'}</td><td>${p.cer_od_cil||'—'}</td><td>${p.cer_od_eje||'—'}</td></tr>
+                <tr><td class="print-grad-eye">OI</td><td>${p.cer_oi_esf||'—'}</td><td>${p.cer_oi_cil||'—'}</td><td>${p.cer_oi_eje||'—'}</td></tr>
+              </tbody>
+            </table>
             <div class="print-measures">
               <div class="print-measure-box"><div class="print-measure-label">ADD</div><div class="print-measure-value">${p.add_val||'—'}</div></div>
               <div class="print-measure-box"><div class="print-measure-label">Dist OD/OI</div><div class="print-measure-value">${p.dist_od||'—'} / ${p.dist_oi||'—'}</div></div>
@@ -1205,6 +1212,14 @@ function renderCard(p){
             <tbody>
               <tr class="grad-od"><td class="grad-eye">OD</td><td>${p.lej_od_esf||'—'}</td><td>${p.lej_od_cil||'—'}</td><td>${p.lej_od_eje||'—'}</td></tr>
               <tr class="grad-oi"><td class="grad-eye">OI</td><td>${p.lej_oi_esf||'—'}</td><td>${p.lej_oi_cil||'—'}</td><td>${p.lej_oi_eje||'—'}</td></tr>
+            </tbody>
+          </table>
+          <div class="grad-label" style="margin-top:8px">CERCA</div>
+          <table class="grad-table">
+            <thead><tr><th></th><th>ESF</th><th>CIL</th><th>EJE</th></tr></thead>
+            <tbody>
+              <tr class="grad-od"><td class="grad-eye">OD</td><td>${p.cer_od_esf||'—'}</td><td>${p.cer_od_cil||'—'}</td><td>${p.cer_od_eje||'—'}</td></tr>
+              <tr class="grad-oi"><td class="grad-eye">OI</td><td>${p.cer_oi_esf||'—'}</td><td>${p.cer_oi_cil||'—'}</td><td>${p.cer_oi_eje||'—'}</td></tr>
             </tbody>
           </table>
           ${p.add_val?`<div class="grad-addons"><div class="grad-addon"><span class="grad-addon-label">ADD</span><span class="grad-addon-val">${p.add_val}</span></div></div>`:''}
