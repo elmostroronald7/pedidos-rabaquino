@@ -57,11 +57,12 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .main{padding:28px 32px;max-width:1400px;margin:0 auto;}
 
 /* STATS */
-.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px;}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 22px;display:flex;align-items:center;gap:14px;}
-.stat-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
-.stat-num{font-size:24px;font-weight:700;font-family:var(--mono);line-height:1;}
-.stat-label{font-size:12px;color:var(--text2);margin-top:4px;}
+.stats-bar{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.06);transition:box-shadow .2s,border-color .2s;}
+.stat-card:hover{box-shadow:0 3px 10px rgba(0,0,0,.1);border-color:var(--accent2);}
+.stat-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
+.stat-num{font-size:22px;font-weight:700;font-family:var(--mono);line-height:1.1;}
+.stat-label{font-size:11px;color:var(--text2);margin-top:3px;letter-spacing:.02em;}
 
 /* NAV */
 .nav-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
@@ -123,34 +124,62 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .pedido-card.open .pedido-arrow{transform:rotate(180deg);}
 .pedido-detalle{display:none;border-top:1px solid var(--border);padding:22px;}
 .pedido-card.open .pedido-detalle{display:block;}
-.det-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:18px;}
-.det-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px 16px;}
-.det-section-title{font-size:11px;font-weight:700;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
-.det-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;gap:8px;}
-.det-key{font-size:12px;color:var(--text2);white-space:nowrap;flex-shrink:0;}
+.det-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px;}
+.det-section{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;}
+.det-section::before{content:'';position:absolute;top:14px;left:0;width:3px;height:18px;border-radius:0 3px 3px 0;background:var(--accent);}
+.det-section-title{font-size:10px;font-weight:800;color:var(--accent2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.det-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;gap:8px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+.det-row:last-child{border-bottom:none;}
+.det-key{font-size:11px;color:var(--text2);white-space:nowrap;flex-shrink:0;}
 .det-val{font-size:13px;font-family:var(--mono);color:var(--text);text-align:right;word-break:break-all;}
 .det-val.highlight{color:var(--accent2);font-weight:600;}
-.det-val.green{color:var(--green);}
 .det-val.amber{color:var(--amber);}
-.grad-table{width:100%;border-collapse:collapse;}
-.grad-table th{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;padding:4px 6px;text-align:center;border-bottom:1px solid var(--border);}
-.grad-table td{font-size:13px;font-family:var(--mono);color:var(--text);padding:5px 6px;text-align:center;}
-.cristal-row{display:flex;gap:6px;margin-bottom:5px;flex-wrap:wrap;}
-.cristal-badge{background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:2px 7px;font-size:12px;font-family:var(--mono);color:var(--text2);}
-.cristal-badge.main{color:var(--text);border-color:var(--accent);}
-.det-actions{display:flex;gap:10px;padding-top:14px;border-top:1px solid var(--border);flex-wrap:wrap;}
-.btn-procesar{background:var(--green);color:#fff;border:none;border-radius:10px;padding:10px 22px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:opacity .2s;}
-.btn-procesar:hover{opacity:.88;}
-.btn-procesar:disabled{opacity:.4;cursor:not-allowed;}
-.btn-desprocesar{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber);border-radius:10px;padding:10px 18px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:opacity .2s;}
-.btn-desprocesar:hover{opacity:.8;}
-.btn-imprimir{background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:10px;padding:10px 22px;font-family:var(--sans);font-size:13px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:7px;transition:border-color .2s;}
-.btn-imprimir:hover{border-color:var(--accent);color:var(--accent);}
-.btn-eliminar{background:var(--red-bg);color:var(--red);border:1px solid var(--red);border-radius:10px;padding:10px 18px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:7px;transition:opacity .2s;}
-.btn-eliminar:hover{opacity:.8;}
-.btn-eliminar:disabled{opacity:.4;cursor:not-allowed;}
-.arm-foto-btn{display:inline-flex;align-items:center;gap:5px;background:var(--surface);border:1px solid var(--accent);color:var(--accent2);border-radius:7px;padding:4px 9px;font-size:12px;cursor:pointer;margin-top:5px;transition:background .2s;}
-.arm-foto-btn:hover{background:rgba(59,130,246,.12);}
+.det-val.green{color:var(--green);}
+.grad-label{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+.grad-table{width:100%;border-collapse:collapse;margin-top:2px;}
+.grad-table thead th{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:5px 8px;text-align:center;border-bottom:1px solid var(--border);font-weight:600;}
+.grad-table tbody tr{border-bottom:1px solid rgba(255,255,255,.04);}
+.grad-table tbody tr:last-child{border-bottom:none;}
+.grad-table td{font-size:13px;font-family:var(--mono);color:var(--text);padding:6px 8px;text-align:center;font-weight:500;}
+.grad-od td:first-child{color:var(--accent2);font-weight:700;}
+.grad-oi td:first-child{color:var(--purple);font-weight:700;}
+.grad-addons{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.grad-addon{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:6px;padding:3px 10px;display:flex;align-items:center;gap:6px;}
+.grad-addon-label{font-size:9px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.06em;}
+.grad-addon-val{font-size:13px;font-family:var(--mono);color:var(--green);font-weight:600;}
+.grad-divider{height:1px;background:var(--border);margin:10px 0;}
+.det-subsection{margin-top:10px;}
+.det-subsection:first-child{margin-top:0;}
+.det-subsection-title{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px;}
+.cristal-row{display:flex;gap:5px;margin-bottom:4px;flex-wrap:wrap;}
+.cristal-badge{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.18);border-radius:6px;padding:2px 8px;font-size:11px;font-family:var(--mono);color:var(--text2);}
+.cristal-badge.main{color:var(--accent2);border-color:var(--accent);background:rgba(59,130,246,.12);font-weight:600;}
+.arm-box{display:flex;align-items:center;gap:8px;background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.12);border-radius:8px;padding:6px 10px;}
+.arm-icon{font-size:16px;flex-shrink:0;}
+.arm-text{cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px;color:var(--accent2);font-size:13px;font-family:var(--mono);}
+.arm-text:hover{color:var(--accent);}
+.det-divider{height:1px;background:var(--border);margin:12px 0;}
+.price-card{display:flex;flex-direction:column;gap:3px;}
+.price-item{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,.03);}
+.price-item:last-child{border-bottom:none;}
+.price-item.total{padding:6px 0;border-bottom:1px solid var(--border);margin-bottom:2px;}
+.price-label{font-size:11px;color:var(--text2);}
+.price-number{font-size:14px;font-family:var(--mono);color:var(--text);font-weight:600;}
+.price-item.total .price-label{font-size:12px;font-weight:700;color:var(--text);}
+.price-item.total .price-number{font-size:18px;color:var(--amber);font-weight:700;}
+.price-number.settled{color:var(--green);}
+.price-number.owing{color:var(--red);}
+.det-actions{display:flex;gap:10px;padding-top:16px;border-top:1px solid var(--border);flex-wrap:wrap;align-items:center;}
+.btn-procesar{background:linear-gradient(135deg,var(--green),#059669);color:#fff;border:none;border-radius:10px;padding:10px 24px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:opacity .2s,transform .15s;box-shadow:0 2px 8px rgba(16,185,129,.25);}
+.btn-procesar:hover{opacity:.9;transform:translateY(-1px);}
+.btn-procesar:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.btn-desprocesar{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid var(--amber);border-radius:10px;padding:10px 18px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .2s;}
+.btn-desprocesar:hover{background:rgba(245,158,11,.18);}
+.btn-imprimir{background:rgba(59,130,246,.08);color:var(--accent2);border:1px solid rgba(59,130,246,.2);border-radius:10px;padding:10px 20px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .2s,border-color .2s;}
+.btn-imprimir:hover{background:rgba(59,130,246,.15);border-color:var(--accent);}
+.btn-eliminar{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.25);border-radius:10px;padding:10px 18px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:background .2s;}
+.btn-eliminar:hover{background:rgba(239,68,68,.18);}
+.proc-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:8px;padding:8px 14px;font-size:12px;color:var(--green);font-weight:600;}
 
 /* ARMAZONES */
 .stock-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
@@ -371,10 +400,11 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 
   <div class="main">
     <div class="stats-bar" id="stats-bar">
-      <div class="stat-card"><div class="stat-icon" style="background:rgba(59,130,246,.15)">📦</div><div><div class="stat-num" id="st-total">—</div><div class="stat-label">Total pedidos</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:rgba(139,92,246,.15)">📅</div><div><div class="stat-num" id="st-mes">—</div><div class="stat-label">Este mes</div></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:rgba(245,158,11,.15)">⏳</div><div><div class="stat-num" id="st-pendientes">—</div><div class="stat-label">Pendientes</div></div></div>
       <div class="stat-card"><div class="stat-icon" style="background:rgba(16,185,129,.15)">✅</div><div><div class="stat-num" id="st-procesados">—</div><div class="stat-label">Procesados hoy</div></div></div>
-      <div class="stat-card"><div class="stat-icon" style="background:rgba(59,130,246,.15)">🏪</div><div><div class="stat-num" id="st-sucursales">—</div><div class="stat-label">Sucursales</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:rgba(249,115,22,.15)">🏪</div><div><div class="stat-num" id="st-sucursales">—</div><div class="stat-label">Sucursales</div></div></div>
+      <div class="stat-card"><div class="stat-icon" style="background:rgba(59,130,246,.15)">📦</div><div><div class="stat-num" id="st-total">—</div><div class="stat-label">Total</div></div></div>
     </div>
 
     <div id="notif-banner" class="notif-banner" style="display:none">
@@ -385,7 +415,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
     <div class="nav-row" id="nav-row">
       <button class="nav-btn active" onclick="setVista('pedidos',this)">📦 Pedidos</button>
       <button class="nav-btn" onclick="setVista('armazones',this)">👓 Armazones</button>
-      <button class="nav-btn" onclick="setVista('cristales',this)">🔍 Cristales</button>
       <button class="nav-btn active-purple" id="btn-nueva-venta" style="display:none" onclick="setVista('nueva-venta',this)">➕ Nueva Venta</button>
     </div>
 
@@ -914,8 +943,6 @@ async function doLogin(){
       document.getElementById('btn-nueva-venta').style.display='block';
       document.getElementById('nv-sucursal-label').textContent=`Sucursal: ${suc.toUpperCase()}`;
       document.getElementById('topbar-title').textContent=`Portal Óptica ${suc.charAt(0).toUpperCase()+suc.slice(1)}`;
-      // Ocultar botón Cristales para sucursales que no son 'todas'
-      document.querySelectorAll('#nav-row .nav-btn').forEach(b=>{if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes("'cristales'"))b.style.display='none';});
     }
     if(Notification&&Notification.permission==='default')Notification.requestPermission();
     cargarPedidos();
@@ -931,12 +958,11 @@ function setVista(vista,btn){
   VISTA_ACTUAL=vista;
   document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active','active-purple'));
   if(btn){btn.classList.add(vista==='nueva-venta'?'active-purple':'active');}
-  ['pedidos','armazones','cristales','nueva-venta'].forEach(v=>{
+  ['pedidos','armazones','nueva-venta'].forEach(v=>{
     const el=document.getElementById(`vista-${v}`);
     if(el)el.style.display=v===vista?'block':'none';
   });
   if(vista==='armazones'&&!ARMAZONES.length)cargarArmazones();
-  if(vista==='cristales'&&!CRISTALES_STOCK.length)cargarCristalesStock();
   if(vista==='nueva-venta'&&!ARMAZONES.length)cargarArmazones();
 }
 
@@ -979,10 +1005,15 @@ function startPolling(){POLL_INTERVAL=setInterval(cargarPedidos,30000);}
 // ══ STATS ══
 function actualizarStats(){
   const hoy=getDateKey(new Date().toISOString());
-  document.getElementById('st-total').textContent=PEDIDOS.length;
+  const ahora=new Date();
+  document.getElementById('st-mes').textContent=PEDIDOS.filter(p=>{
+    const d=parseFecha(p.fecha_subida);
+    return d&&d.getFullYear()===ahora.getFullYear()&&d.getMonth()===ahora.getMonth();
+  }).length;
   document.getElementById('st-pendientes').textContent=PEDIDOS.filter(p=>p.estado==='pendiente').length;
   document.getElementById('st-procesados').textContent=PEDIDOS.filter(p=>p.estado==='procesado'&&getDateKey(p.fecha_procesado)===hoy).length;
   document.getElementById('st-sucursales').textContent=[...new Set(PEDIDOS.map(p=>p.sucursal))].length||'—';
+  document.getElementById('st-total').textContent=PEDIDOS.length;
 }
 
 // ══ FILTRO ══
@@ -1073,6 +1104,7 @@ function renderCard(p){
   const isCanelones=(p.sucursal||'').toLowerCase()==='canelones';
   const puedeEliminar=SESSION?.usuario==='martin'||SESSION?.rol==='admin';
   const tipo=p.tipo_pedido||'';
+  const saldoNum=parseFloat(p.saldo);const saldoClass=!p.saldo||isNaN(saldoNum)||saldoNum<=0?'settled':'owing';
 
   const cristales=[
     p.c1_tipo?`<div class="cristal-row"><span class="cristal-badge main">${p.c1_tipo}</span>${p.c1_material?`<span class="cristal-badge">${p.c1_material}</span>`:''} ${p.c1_color?`<span class="cristal-badge">${p.c1_color}</span>`:''} ${p.c1_trat?`<span class="cristal-badge">${p.c1_trat}</span>`:''}</div>`:'',
@@ -1157,36 +1189,44 @@ function renderCard(p){
         </div>
         <div class="det-section">
           <div class="det-section-title">👁️ Graduación</div>
-          <div style="font-size:10px;color:var(--text3);margin-bottom:4px">LEJOS</div>
-          <table class="grad-table"><thead><tr><th></th><th>ESF</th><th>CIL</th><th>EJE</th></tr></thead>
+          <div class="grad-label">LEJOS</div>
+          <table class="grad-table">
+            <thead><tr><th></th><th>ESF</th><th>CIL</th><th>EJE</th></tr></thead>
             <tbody>
-              <tr><td style="color:var(--text2);font-size:10px;padding:2px 6px">OD</td><td>${p.lej_od_esf||'—'}</td><td>${p.lej_od_cil||'—'}</td><td>${p.lej_od_eje||'—'}</td></tr>
-              <tr><td style="color:var(--text2);font-size:10px;padding:2px 6px">OI</td><td>${p.lej_oi_esf||'—'}</td><td>${p.lej_oi_cil||'—'}</td><td>${p.lej_oi_eje||'—'}</td></tr>
+              <tr class="grad-od"><td class="grad-eye">OD</td><td>${p.lej_od_esf||'—'}</td><td>${p.lej_od_cil||'—'}</td><td>${p.lej_od_eje||'—'}</td></tr>
+              <tr class="grad-oi"><td class="grad-eye">OI</td><td>${p.lej_oi_esf||'—'}</td><td>${p.lej_oi_cil||'—'}</td><td>${p.lej_oi_eje||'—'}</td></tr>
             </tbody>
           </table>
-          ${p.add_val?`<div class="det-row" style="margin-top:6px"><span class="det-key">ADD</span><span class="det-val green">${p.add_val}</span></div>`:''}
-          <div style="margin-top:8px;font-size:10px;color:var(--text3);margin-bottom:4px">MEDIDAS</div>
+          ${p.add_val?`<div class="grad-addons"><div class="grad-addon"><span class="grad-addon-label">ADD</span><span class="grad-addon-val">${p.add_val}</span></div></div>`:''}
+          <div class="grad-divider"></div>
+          <div class="grad-label">MEDIDAS</div>
           <div class="det-row"><span class="det-key">Dist OD/OI</span><span class="det-val">${p.dist_od||'—'} / ${p.dist_oi||'—'}</span></div>
           <div class="det-row"><span class="det-key">Alt OD/OI</span><span class="det-val">${p.alt_od||'—'} / ${p.alt_oi||'—'}</span></div>
           <div class="det-row"><span class="det-key">K·A·D·P</span><span class="det-val">${[p.k,p.a,p.d,p.p].map(v=>v||'—').join(' · ')}</span></div>
         </div>
         <div class="det-section">
-          <div class="det-section-title">🔍 Cristales</div>
-          ${cristales}
-          ${p.armazones?`<div style="margin-top:12px"><div class="det-section-title">👓 Armazón</div><div><span style="font-size:13px;font-family:var(--mono);color:var(--accent2);line-height:1.5;cursor:pointer;text-decoration:underline dotted" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones')" title="Click para ver foto">📷 ${_armDisplay(p.armazones)}</span></div>${p.armazones2?`<div style="margin-top:4px"><span style="font-size:13px;font-family:var(--mono);color:var(--accent2);line-height:1.5;cursor:pointer;text-decoration:underline dotted" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones2')" title="Click para ver foto">📷 ${_armDisplay(p.armazones2)}</span></div>`:''}${p.armazones3?`<div style="margin-top:4px"><span style="font-size:13px;font-family:var(--mono);color:var(--accent2);line-height:1.5;cursor:pointer;text-decoration:underline dotted" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones3')" title="Click para ver foto">📷 ${_armDisplay(p.armazones3)}</span></div>`:''}</div>`:''}
-          <div style="margin-top:12px">
-            <div class="det-section-title">💰 Precio</div>
-            <div class="det-row"><span class="det-key">Total</span><span class="det-val amber">${p.precio||'—'}</span></div>
-            <div class="det-row"><span class="det-key">Seña</span><span class="det-val">${p.sena||'—'}</span></div>
-            <div class="det-row"><span class="det-key">Saldo</span><span class="det-val">${p.saldo||'—'}</span></div>
-            <div class="det-row"><span class="det-key">Pago</span><span class="det-val">${p.forma_pago||'—'}</span></div>
+          <div class="det-section-title">🔍 Producto</div>
+          <div class="det-subsection">
+            <div class="det-subsection-title">CRISTALES</div>
+            ${cristales}
+          </div>
+          ${p.armazones?`<div class="det-subsection"><div class="det-subsection-title">ARMAZÓN</div><div class="arm-box"><span class="arm-icon">👓</span><span class="arm-text" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones')" title="Ver foto">${_armDisplay(p.armazones)}</span></div>${p.armazones2?`<div class="arm-box" style="margin-top:4px"><span class="arm-icon">👓</span><span class="arm-text" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones2')" title="Ver foto">${_armDisplay(p.armazones2)}</span></div>`:''}${p.armazones3?`<div class="arm-box" style="margin-top:4px"><span class="arm-icon">👓</span><span class="arm-text" onclick="event.stopPropagation();abrirFotoArmazon(${p.id},'armazones3')" title="Ver foto">${_armDisplay(p.armazones3)}</span></div>`:''}</div>`:''}
+          <div class="det-divider"></div>
+          <div class="det-subsection">
+            <div class="det-subsection-title">💰 PRECIO</div>
+            <div class="price-card">
+              <div class="price-item total"><span class="price-label">Total</span><span class="price-number">${p.precio||'—'}</span></div>
+              <div class="price-item"><span class="price-label">Seña</span><span class="price-number">${p.sena||'—'}</span></div>
+              <div class="price-item"><span class="price-label">Saldo</span><span class="price-number ${saldoClass}">${p.saldo||'—'}</span></div>
+              <div class="price-item"><span class="price-label">Pago</span><span class="price-number">${p.forma_pago||'—'}</span></div>
+            </div>
           </div>
         </div>
       </div>
 
       <div class="det-actions">
-        ${esNuevo?`<button class="btn-procesar" onclick="procesar(${p.id},this)">✅ Marcar como procesado</button>`:`<div style="color:var(--green);font-size:12px;display:flex;align-items:center;gap:6px">✅ Procesado ${fp}${nb?` • Boleta ${nb}`:''}</div><button class="btn-desprocesar" onclick="desprocesar(${p.id},this)">↩️ Desprocesar</button>`}
-        <button class="btn-imprimir" onclick="imprimirPedido(${p.id})">🖨️ Imprimir</button>
+        ${esNuevo?`<button class="btn-procesar" onclick="procesar(${p.id},this)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Marcar como procesado</button>`:`<div class="proc-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Procesado ${fp}${nb?` · Boleta ${nb}`:''}</div><button class="btn-desprocesar" onclick="desprocesar(${p.id},this)">↩️ Desprocesar</button>`}
+        <button class="btn-imprimir" onclick="imprimirPedido(${p.id})"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><path d="M6 14h12v8H6z"/></svg> Imprimir</button>
         ${puedeEliminar?('<button class="btn-eliminar" onclick="eliminarPedido('+p.id+',this)">🗑️ Eliminar</button>'):''}
       </div>
     </div>
