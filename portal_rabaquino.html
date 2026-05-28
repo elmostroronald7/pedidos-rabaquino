@@ -1516,7 +1516,7 @@ function abrirFotoArmazon(id,campo){
   let arm=null;let tuveColor=false;
   const m=txt.match(/\(([^)]+)\)/);
   if(m){
-    const parenClean=m[1].replace(/-\s*/g,' ').replace(/\s+/g,' ').trim().toUpperCase();
+    const parenClean=m[1].replace(/\s+-\s+/g,' ').replace(/\s+/g,' ').trim().toUpperCase();
     tuveColor=!!m[1].match(/[-]/);
     arm=ARMAZONES.find(a=>{
       const c=(a.codigo||'').toUpperCase();
